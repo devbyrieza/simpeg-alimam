@@ -444,14 +444,13 @@ export default function PendataanPage() {
                   </Field>
                 </div>
 
-                <Field label="Unit Kerja" required error={errors.unit_kerja?.message}>
+                <Field label="Unit Kerja / Penempatan" required error={errors.unit_kerja?.message}>
                   <select {...register("unit_kerja")} className={selectClass}>
                     <option value="">Pilih Unit Kerja</option>
                     <option value="MTS">MTs (Madrasah Tsanawiyah)</option>
                     <option value="IL">I'dad Lughawi (IL)</option>
-                    <option value="MA">MA (Madrasah Aliyah) / Persiapan</option>
-                    <option value="ASRAMA">Kepengasuhan (Asrama Putra)</option>
-                    <option value="MANAJEMEN">Manajemen Pusat / Yayasan</option>
+                    <option value="MA">MA (Madrasah Aliyah)</option>
+                    <option value="LEMBAGA">Lembaga / Kepesantrenan (Umum)</option>
                     <option value="LAINNYA">Lainnya</option>
                   </select>
                 </Field>
