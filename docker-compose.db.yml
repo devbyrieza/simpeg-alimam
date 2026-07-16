@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  postgres_alimam:
+    image: postgres:15-alpine
+    container_name: ppdb_postgres_alimam
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: nhzYTBmfqk8RUhOoYHmvkbzoN2OhN
+      POSTGRES_DB: ppdb_alimam
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_alimam_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_alimam_data:
+    driver: local

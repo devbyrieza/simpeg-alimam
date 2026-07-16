@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+    <meta charset="utf-8">
+    <title>Draf Surat Pengumuman Al Imam</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.5;
+        }
+        .header-table {
+            width: 100%;
+            border-bottom: 4px solid #000;
+            margin-bottom: 2px;
+            border-collapse: collapse;
+        }
+        .header-line {
+            height: 1px;
+            background: #000;
+            margin-bottom: 30px;
+            border-top: 1px solid #000;
+        }
+        .logo-cell {
+            width: 80px;
+            border-right: 1px solid #ccc;
+            padding-right: 15px;
+            text-align: center;
+        }
+        .info-cell {
+            padding-left: 20px;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .title h3 {
+            text-decoration: underline;
+            margin-bottom: 5px;
+        }
+        .student-table {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .status-box {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .status-label {
+            font-size: 20pt;
+            font-weight: 900;
+            color: #15803d;
+            border: 2px solid #15803d;
+            padding: 10px 30px;
+            display: inline-block;
+        }
+        .signature {
+            margin-top: 50px;
+            float: right;
+            width: 250px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table class="header-table">
+        <tr>
+            <td class="logo-cell">
+                <img src="https://pesantren-alimam.com/images/kop-surat.png" width="80">
+            </td>
+            <td class="info-cell">
+                <div style="font-size: 10pt; font-weight: bold; color: #666; text-transform: uppercase;">Pesantren Al Imam Managed by Al Andalus</div>
+                <div style="font-size: 20pt; font-weight: 900; color: #7c2d12;">PANITIA PENERIMAAN SANTRI BARU</div>
+                <div style="font-size: 14pt; font-weight: bold;">PESANTREN AL ANDALUS AL IMAM</div>
+                <div style="font-size: 11pt; font-weight: bold;">Tahun Ajaran 2026-2027</div>
+                <div style="font-size: 8pt; color: #555;">Jl. Pelabuhan II KM 18 Kampung Pupunjul, RT.01/RW.02, Cikembar, Kab. Sukabumi, Jawa Barat 43157</div>
+            </td>
+        </tr>
+    </table>
+    <div class="header-line"></div>
+
+    <div class="title">
+        <h3>SURAT KETERANGAN HASIL SELEKSI</h3>
+        <div>Nomor: [Nomor_Pendaftaran]/SKL-PPDB/2026</div>
+    </div>
+
+    <p>Berdasarkan hasil seleksi Penerimaan Santri Baru (PPDB) Tahun Ajaran 2026-2027, dengan ini Panitia menyatakan bahwa:</p>
+
+    <table class="student-table">
+        <tr>
+            <td width="40%"><b>Nomor Pendaftaran</b></td>
+            <td>: [NOMOR_PENDAFTARAN]</td>
+        </tr>
+        <tr>
+            <td><b>Nama Lengkap</b></td>
+            <td>: [NAMA_LENGKAP_SANTRI]</td>
+        </tr>
+        <tr>
+            <td><b>Jenjang Pendidikan</b></td>
+            <td>: [JENJANG]</td>
+        </tr>
+    </table>
+
+    <div class="status-box">
+        <p>DINYATAKAN:</p>
+        <div class="status-label">LULUS / DITERIMA</div>
+    </div>
+
+    <p style="text-align: justify;">Selamat bergabung menjadi keluarga besar Pesantren Al Andalus Al Imam. Selanjutnya, dimohon kepada Orang Tua/Wali Santri untuk segera melakukan proses <b>Daftar Ulang</b> paling lambat sepekan setelah pengumuman ini diterbitkan.</p>
+
+    <div class="signature">
+        <p>Kab. Sukabumi, 15 Mei 2026</p>
+        <p>Mudir,</p>
+        <br><br><br>
+        <p><u><b>Wahab Rajasam, M.Pd</b></u></p>
+    </div>
+</body>
+</html>

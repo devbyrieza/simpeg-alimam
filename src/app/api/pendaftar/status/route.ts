@@ -1,0 +1,193 @@
+/**
+ * GET /api/pendaftar/status
+ * Mengambil status pendaftaran untuk layout dashboard
+ * Query: pendaftar_id (dari session)
+ */
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export async function GET(request: NextRequest) {
+  try {
+    // Auth Check
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get("app_session");
+    if (!sessionCookie) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const session = JSON.parse(sessionCookie.value);
+
+    const { searchParams } = new URL(request.url);
+    let pendaftarIdRaw = searchParams.get("pendaftar_id");
+
+    if (!pendaftarIdRaw) {
+      if (session.role === "pendaftar") {
+        pendaftarIdRaw = session.id;
+      } else {
+        return NextResponse.json(
+          { error: "pendaftar_id is required" },
+          { status: 400 },
+        );
+      }
+    }
+
+    const pendaftarId = pendaftarIdRaw as string;
+
+    // If role is pendaftar, ensure they only access their own data
+    if (session.role === "pendaftar" && session.id !== pendaftarId) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const data = await prisma.pendaftar.findUnique({
+      where: { id: pendaftarId },
+      select: {
+        id: true,
+        nama_lengkap: true,
+        nomor_pendaftaran: true,
+        status_pendaftaran: true,
+        tipe_pendaftaran: true,
+        data_lengkap: true,
+        updated_at: true,
+        pembayaran: {
+          where: { status_pembayaran: "verified" },
+          take: 1,
+        },
+        pengumuman: {
+          select: {
+            status_kelulusan: true,
+            catatan: true,
+            surat_keputusan_url: true,
+          },
+        },
+        jenis_kelamin: true,
+        ukuran_seragam_baju: true,
+        ukuran_seragam_celana: true,
+        ukuran_seragam_almamater: true,
+      },
+    });
+
+    if (!data) {
+      return NextResponse.json(
+        { error: "Failed to fetch status" },
+        { status: 404 },
+      );
+    }
+
+    // AUTO-FIX: Sync status_pendaftaran if payment is verified
+    let currentStatus = data.status_pendaftaran || "draft";
+    const { getStatusIndex } = await import("@/lib/access-control");
+
+    if (
+      data.pembayaran.length > 0 &&
+      getStatusIndex(currentStatus) < getStatusIndex("verified")
+    ) {
+      console.log(
+        `[AutoFix] Upgrading ${data.nomor_pendaftaran} status to verified (payment found)`,
+      );
+      await prisma.pendaftar.update({
+        where: { id: pendaftarId },
+        data: { status_pendaftaran: "verified" },
+      });
+      currentStatus = "verified";
+    }
+
+    // Check if slots are available and pendaftar hasn't booked yet
+    const rawSessions = await prisma.examSession.findMany({
+      where: { is_active: true, start_time: { gte: new Date() } },
+      include: { 
+        creator: { select: { jenis_kelamin: true } },
+        _count: { select: { bookings: true } } 
+      },
+    });
+
+    const jkPendaftar = data.jenis_kelamin?.toUpperCase() || "";
+    const isPendaftarPutra = jkPendaftar === "L" || jkPendaftar === "LAKI-LAKI" || jkPendaftar.includes("PUTRA");
+
+    const sessions = rawSessions.filter(s => {
+      const creatorJk = s.creator?.jenis_kelamin?.toUpperCase() || "";
+      if (!creatorJk) return true;
+      const isCreatorPutra = creatorJk === "L" || creatorJk === "LAKI-LAKI" || creatorJk.includes("PUTRA");
+      return isCreatorPutra === isPendaftarPutra;
+    });
+    const totalAvailableSlots = sessions.reduce(
+      (acc, s) => acc + Math.max(0, s.quota - s._count.bookings),
+      0,
+    );
+
+    const existingBooking = await prisma.jadwalUjian.findFirst({
+      where: { pendaftar_id: pendaftarId },
+    });
+
+    const schedules_available = totalAvailableSlots > 0 && !existingBooking;
+
+    // select nilai_ujian status
+    const dataWithNilai = await prisma.pendaftar.findUnique({
+      where: { id: pendaftarId },
+      include: {
+        nilai_ujian: true,
+      },
+    });
+
+    const nilai = dataWithNilai?.nilai_ujian[0];
+
+    // 1. Check if they have done any online test (Grup A)
+    const hasOnlineTest = dataWithNilai?.nilai_ujian?.some(
+      (n) =>
+        n.score_akademik != null ||
+        n.score_kepribadian != null ||
+        n.score_kesiapan != null ||
+        n.detail_akademik != null ||
+        n.detail_kepribadian != null ||
+        n.detail_kesiapan != null,
+    );
+
+    // 2. Check if they have booked any schedule (Grup B)
+    const hasBooking = await prisma.jadwalUjian.count({
+      where: { pendaftar_id: pendaftarId },
+    });
+
+    if (
+      currentStatus === "docs_verified" &&
+      (hasOnlineTest || hasBooking > 0)
+    ) {
+      console.log(
+        `[AutoFix] Upgrading ${data.nomor_pendaftaran} status to selection (tests/booking found)`,
+      );
+      await prisma.pendaftar.update({
+        where: { id: pendaftarId },
+        data: { status_pendaftaran: "selection" },
+      });
+      currentStatus = "selection";
+    }
+
+    // status_proses = status_pendaftaran (kompatibel dengan access-control)
+    return NextResponse.json({
+      id: data.id,
+      nama_lengkap: data.nama_lengkap,
+      nomor_pendaftaran: data.nomor_pendaftaran,
+      status_proses: currentStatus,
+      tipe_pendaftaran: data.tipe_pendaftaran,
+      updated_at: data.updated_at,
+      schedules_available: schedules_available,
+      ukuran_seragam_baju: data.ukuran_seragam_baju,
+      ukuran_seragam_celana: data.ukuran_seragam_celana,
+      ukuran_seragam_almamater: data.ukuran_seragam_almamater,
+      data_lengkap: (data as any).data_lengkap,
+      pengumuman: data.pengumuman,
+      hasil_kelulusan: {
+        status: (nilai as any)?.status_kelulusan || null,
+        catatan: (nilai as any)?.catatan_kelulusan || null,
+      },
+    });
+  } catch (error) {
+    console.error("Error in status API:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}

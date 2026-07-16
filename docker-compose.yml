@@ -1,0 +1,36 @@
+# ========================================
+# DOCKER COMPOSE PRODUCTION - AL-IMAM
+# ========================================
+version: '3.8'
+
+services:
+  app-alimam:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://pesantren-alimam.com}
+        NEXTAUTH_URL: ${NEXTAUTH_URL:-https://pesantren-alimam.com}
+        NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-supersecretkeyalimam2024}
+    container_name: pp-alimam-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-https://pesantren-alimam.com}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-supersecretkeyalimam2024}
+      FAGI_WA_KEY: ${FAGI_WA_KEY}
+    networks:
+      - coolify
+    volumes:
+      - storage_alimam_data:/app/public/storage
+      - storage_alimam_data:/app/storage_data
+
+volumes:
+  storage_alimam_data:
+
+networks:
+  coolify:
+    external: true

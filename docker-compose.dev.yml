@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database for Local Development
+  postgres_dev:
+    image: postgres:15-alpine
+    container_name: ppdb_postgres_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin_ulul
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: postgres
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_ululalbaab_data:/var/lib/postgresql/data
+
+  # MySQL Database for Legacy App Migration (Ulul Albaab)
+  mysql_legacy:
+    image: mysql:8.0
+    container_name: ppdb_mysql_legacy_dev
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password123
+      MYSQL_DATABASE: ppdb_laravel_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_legacy_data:/var/lib/mysql
+
+volumes:
+  postgres_ululalbaab_data:
+    driver: local
+  mysql_legacy_data:
+    driver: local
