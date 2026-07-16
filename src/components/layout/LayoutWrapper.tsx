@@ -24,7 +24,8 @@ export default function LayoutWrapper({
   const hideNavbarFooter =
     pathname.startsWith("/login") ||
     pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/daftar");
+    pathname.startsWith("/daftar") ||
+    pathname.startsWith("/pendataan");
 
   return (
     <div className="relative min-h-screen flex flex-col font-sans">
