@@ -14,19 +14,19 @@ import Image from "next/image";
 
 const formSchema = z.object({
   nama_lengkap: z.string().min(3, "Nama lengkap harus diisi (minimal 3 karakter)"),
-  nik: z.string().optional(),
+  nik: z.string().length(16, "NIK harus 16 digit").regex(/^\d+$/, "NIK harus berupa angka"),
   jenis_kelamin: z.string().min(1, "Jenis kelamin harus dipilih"),
-  tempat_lahir: z.string().optional(),
-  tanggal_lahir: z.string().optional(),
+  tempat_lahir: z.string().min(2, "Tempat lahir harus diisi"),
+  tanggal_lahir: z.string().min(1, "Tanggal lahir harus diisi"),
   no_hp: z.string().min(10, "No WA/HP tidak valid (minimal 10 digit)"),
   email: z.string().email("Format email tidak valid").or(z.literal("")).optional(),
-  alamat: z.string().optional(),
-  kategori_pegawai: z.string().default("PEGAWAI_UMUM"),
-  unit_kerja: z.string().optional(),
-  jabatan: z.string().optional(),
+  alamat: z.string().min(10, "Alamat harus diisi dengan lengkap"),
+  kategori_pegawai: z.string().min(1, "Kategori pegawai harus dipilih"),
+  unit_kerja: z.string().min(1, "Unit kerja harus dipilih"),
+  jabatan: z.string().min(2, "Posisi/jabatan harus diisi"),
   mata_pelajaran: z.string().optional(),
-  pendidikan_terakhir: z.string().optional(),
-  status_pernikahan: z.string().optional(),
+  pendidikan_terakhir: z.string().min(1, "Pendidikan terakhir harus dipilih"),
+  status_pernikahan: z.string().min(1, "Status pernikahan harus dipilih"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -241,7 +241,7 @@ export default function PendataanPage() {
               {/* Foto Upload */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Foto / Pas Foto <span className="text-slate-400 font-normal">(untuk absensi)</span>
+                  Foto / Pas Foto <span className="text-red-500">*</span> <span className="text-slate-400 font-normal text-xs">(untuk sistem absensi wajah)</span>
                 </label>
                 <div className="flex items-start gap-6">
                   <div
@@ -291,8 +291,8 @@ export default function PendataanPage() {
                   </Field>
                 </div>
 
-                <Field label="NIK (No. KTP)" error={errors.nik?.message}>
-                  <input {...register("nik")} className={inputClass} placeholder="16 digit NIK" maxLength={16} />
+                <Field label="NIK (No. KTP)" required error={errors.nik?.message}>
+                  <input {...register("nik")} className={inputClass} placeholder="16 digit NIK" maxLength={16} inputMode="numeric" />
                 </Field>
 
                 <Field label="Jenis Kelamin" required error={errors.jenis_kelamin?.message}>
@@ -303,15 +303,15 @@ export default function PendataanPage() {
                   </select>
                 </Field>
 
-                <Field label="Tempat Lahir" error={errors.tempat_lahir?.message}>
+                <Field label="Tempat Lahir" required error={errors.tempat_lahir?.message}>
                   <input {...register("tempat_lahir")} className={inputClass} placeholder="Kota kelahiran" />
                 </Field>
 
-                <Field label="Tanggal Lahir" error={errors.tanggal_lahir?.message}>
+                <Field label="Tanggal Lahir" required error={errors.tanggal_lahir?.message}>
                   <input type="date" {...register("tanggal_lahir")} className={inputClass} />
                 </Field>
 
-                <Field label="Status Pernikahan" error={errors.status_pernikahan?.message}>
+                <Field label="Status Pernikahan" required error={errors.status_pernikahan?.message}>
                   <select {...register("status_pernikahan")} className={selectClass}>
                     <option value="">Pilih Status</option>
                     <option value="BELUM_MENIKAH">Belum Menikah</option>
@@ -320,7 +320,7 @@ export default function PendataanPage() {
                   </select>
                 </Field>
 
-                <Field label="Pendidikan Terakhir" error={errors.pendidikan_terakhir?.message}>
+                <Field label="Pendidikan Terakhir" required error={errors.pendidikan_terakhir?.message}>
                   <select {...register("pendidikan_terakhir")} className={selectClass}>
                     <option value="">Pilih Pendidikan</option>
                     <option value="SMA_SMK">SMA / SMK / Sederajat</option>
@@ -354,8 +354,8 @@ export default function PendataanPage() {
                   <input type="email" {...register("email")} className={inputClass} placeholder="nama@email.com" />
                 </Field>
                 <div className="col-span-1 md:col-span-2">
-                  <Field label="Alamat Domisili" error={errors.alamat?.message}>
-                    <textarea {...register("alamat")} rows={3} className={inputClass + " resize-none"} placeholder="Alamat tempat tinggal saat ini (lengkap)" />
+                  <Field label="Alamat Domisili" required error={errors.alamat?.message}>
+                    <textarea {...register("alamat")} rows={3} className={inputClass + " resize-none"} placeholder="Alamat tempat tinggal saat ini (lengkap termasuk RT/RW, Desa/Kelurahan, Kecamatan)" />
                   </Field>
                 </div>
               </div>
@@ -381,7 +381,7 @@ export default function PendataanPage() {
                   </select>
                 </Field>
 
-                <Field label="Unit Kerja" error={errors.unit_kerja?.message}>
+                <Field label="Unit Kerja" required error={errors.unit_kerja?.message}>
                   <select {...register("unit_kerja")} className={selectClass}>
                     <option value="">Pilih Unit Kerja</option>
                     <option value="SDIT">SDIT</option>
@@ -395,7 +395,7 @@ export default function PendataanPage() {
                 </Field>
 
                 <div className="col-span-1 md:col-span-2">
-                  <Field label="Posisi / Jabatan" error={errors.jabatan?.message}>
+                  <Field label="Posisi / Jabatan" required error={errors.jabatan?.message}>
                     <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Guru Matematika, Staf Keuangan, Wali Kelas VIII, dll." />
                   </Field>
                 </div>
