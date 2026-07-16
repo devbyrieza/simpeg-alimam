@@ -13,9 +13,9 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 const KATEGORI_OPTIONS = [
-  { value: "GURU", label: "Guru", desc: "Mengajar santri di kelas, halaqah, maupun kajian" },
-  { value: "MUSYRIF", label: "Musyrif", desc: "Mendampingi & membina santri di asrama" },
-  { value: "STAF", label: "Staf", desc: "Administrasi, kebersihan, keamanan, IT, dll" },
+  { value: "GURU", label: "Guru", desc: "Mengajar santri di kelas & kajian, kadang mendampingi halaqah" },
+  { value: "MUSYRIF", label: "Musyrif", desc: "Mengampu halaqah & membina santri di asrama" },
+  { value: "STAF", label: "Staf", desc: "Administrasi, keamanan, IT, kebersihan, dll" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Tim konsumsi & dapur pesantren" },
 ];
 
@@ -454,8 +454,8 @@ export default function PendataanPage() {
                   </select>
                 </Field>
 
-                <Field label="Jabatan Struktural" hint="Opsional — ketik jika memiliki jabatan" error={errors.jabatan?.message}>
-                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kepala IT, Bendahara, Kepala Sapras..." />
+                <Field label="Amanah / Jabatan" hint="Opsional — isi jika mendapat amanah memimpin bidang tertentu" error={errors.jabatan?.message}>
+                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kepala Kepengasuhan, Kepala Kurikulum, Bendahara, Kepala IT..." />
                 </Field>
 
                 {isGuruOrMusyrif && (
