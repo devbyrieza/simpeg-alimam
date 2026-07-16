@@ -13,8 +13,8 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 const KATEGORI_OPTIONS = [
-  { value: "GURU", label: "Guru", desc: "Mengajar santri di kelas & kajian, sesekali membantu halaqah" },
-  { value: "MUSYRIF", label: "Musyrif", desc: "Memimpin halaqah & membina santri di asrama" },
+  { value: "GURU", label: "Guru", desc: "Mengajar santri di kelas & kajian" },
+  { value: "MUSYRIF", label: "Musyrif", desc: "Membina & mendampingi santri di asrama" },
   { value: "STAF", label: "Staf", desc: "Administrasi, keamanan, IT, kebersihan, dll" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Tim konsumsi & dapur pesantren" },
 ];
