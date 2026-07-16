@@ -16,8 +16,10 @@ const pegawaiSchema = z.object({
   kategori_pegawai: z.string().default("PEGAWAI_UMUM"),
   unit_kerja: z.string().optional().nullable(),
   jabatan: z.string().optional().nullable(),
+  mata_pelajaran: z.string().optional().nullable(),
   pendidikan_terakhir: z.string().optional().nullable(),
   status_pernikahan: z.string().optional().nullable(),
+  foto_url: z.string().optional().nullable(),
 });
 
 export async function POST(req: NextRequest) {
@@ -38,8 +40,10 @@ export async function POST(req: NextRequest) {
         kategori_pegawai: validatedData.kategori_pegawai,
         unit_kerja: validatedData.unit_kerja || null,
         jabatan: validatedData.jabatan || null,
+        mata_pelajaran: validatedData.mata_pelajaran || null,
         pendidikan_terakhir: validatedData.pendidikan_terakhir || null,
         status_pernikahan: validatedData.status_pernikahan || null,
+        foto_url: validatedData.foto_url || null,
       },
     });
 

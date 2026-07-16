@@ -855,8 +855,10 @@ model Pegawai {
   kategori_pegawai    String    @default("PEGAWAI_UMUM") // ASATIDZ, PEGAWAI_UMUM, MUSYRIF
   unit_kerja          String?
   jabatan             String?
+  mata_pelajaran      String?
   pendidikan_terakhir String?
   status_pernikahan   String?
+  foto_url            String?
   created_at          DateTime  @default(now()) @db.Timestamptz(6)
   updated_at          DateTime  @default(now()) @db.Timestamptz(6)
 
