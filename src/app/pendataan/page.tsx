@@ -363,7 +363,7 @@ export default function PendataanPage() {
                 </Field>
 
                 <Field label="Tempat Lahir" required hint="Tulis persis sesuai yang tertera di KTP" error={errors.tempat_lahir?.message}>
-                  <input {...register("tempat_lahir")} className={inputClass} placeholder="Contoh: Negeri Batin, Bandung, Jakarta, dll." />
+                  <input {...register("tempat_lahir")} className={inputClass} placeholder="Contoh: Jakarta, Bandung, Surabaya, dll." />
                 </Field>
 
                 <Field label="Tanggal Lahir" required error={errors.tanggal_lahir?.message}>
