@@ -89,23 +89,26 @@ export default function PendataanPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary-100 rounded-full blur-[120px] opacity-50 pointer-events-none" />
+      
+      <div className="max-w-3xl mx-auto relative z-10">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-black text-slate-900 mb-3 tracking-tight">Pendataan Asatidz & Pegawai</h1>
-          <p className="text-slate-600 text-lg">Silakan isi formulir di bawah ini dengan lengkap dan benar.</p>
+          <h1 className="text-3xl font-black bg-gradient-to-br from-slate-900 to-slate-700 bg-clip-text text-transparent mb-3 tracking-tight">Pendataan Asatidz & Pegawai</h1>
+          <p className="text-slate-600 text-lg font-medium">Silakan isi formulir di bawah ini dengan lengkap dan benar.</p>
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-slate-100"
+          className="bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-2xl shadow-primary-900/5 overflow-hidden border border-white"
         >
           {/* Header Banners */}
-          <div className="bg-primary-900 px-8 py-6 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary-800 rounded-full opacity-50 blur-3xl" />
-            <h2 className="text-2xl font-bold text-white relative z-10 tracking-tight">Formulir Data Diri</h2>
-            <p className="text-white/80 mt-1.5 relative z-10 text-sm font-medium">Digunakan untuk database Absensi dan SIAKAD.</p>
+          <div className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-950 px-8 py-8 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white rounded-full opacity-10 blur-3xl" />
+            <h2 className="text-3xl font-bold text-white relative z-10 tracking-tight">Formulir Data Diri</h2>
+            <p className="text-white/80 mt-2 relative z-10 text-sm font-medium">Digunakan untuk database Absensi dan SIAKAD.</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-8">
