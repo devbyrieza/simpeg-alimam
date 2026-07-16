@@ -45,7 +45,7 @@ const DIVISI_OPTIONS = [
   "Kedisiplinan",
   "Sarana & Prasarana",
   "Dapur & Konsumsi",
-  "IT & Teknologi Informasi",
+  "IT",
   "Media & Dokumentasi",
   "Lainnya",
 ];
