@@ -13,9 +13,9 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 const KATEGORI_OPTIONS = [
-  { value: "GURU", label: "Guru / Asatidz", desc: "Mengajar santri di kelas maupun halaqah" },
-  { value: "MUSYRIF", label: "Musyrif / Pengasuh", desc: "Mendampingi & membina santri di asrama" },
-  { value: "STAF", label: "Staf / Karyawan", desc: "Administrasi, kebersihan, keamanan, dll" },
+  { value: "GURU", label: "Guru", desc: "Mengajar santri di kelas, halaqah, maupun kajian" },
+  { value: "MUSYRIF", label: "Musyrif", desc: "Mendampingi & membina santri di asrama" },
+  { value: "STAF", label: "Staf", desc: "Administrasi, kebersihan, keamanan, IT, dll" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Tim konsumsi & dapur pesantren" },
 ];
 
@@ -27,10 +27,9 @@ const formSchema = z.object({
   tanggal_lahir: z.string().min(1, "Tanggal lahir harus diisi"),
   no_hp: z.string().min(10, "No WA/HP tidak valid (minimal 10 digit)"),
   email: z.string().email("Format email tidak valid").or(z.literal("")).optional(),
-  alamat: z.string().min(10, "Alamat harus diisi dengan lengkap"),
+  alamat: z.string().optional(),
   kategori_pegawai: z.array(z.string()).min(1, "Pilih minimal 1 kategori"),
   divisi: z.string().optional(),
-  unit_kerja: z.string().min(1, "Unit kerja harus dipilih"),
   jabatan: z.string().optional(),
   mata_pelajaran: z.string().optional(),
   pendidikan_terakhir: z.string().min(1, "Pendidikan terakhir harus dipilih"),
@@ -39,16 +38,18 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+// Divisi diurutkan dari yang paling sentral dan berpengaruh di kepesantrenan
 const DIVISI_OPTIONS = [
-  "IT / Teknologi Informasi",
-  "Media & Dokumentasi",
-  "Keuangan / Finance",
   "Kepengasuhan",
   "Kurikulum & Akademik",
   "Kedisiplinan",
-  "Humas & Kesekretariatan",
+  "Keuangan & Bendahara",
   "Sarana & Prasarana",
+  "Dapur & Konsumsi",
   "Kesehatan",
+  "IT & Teknologi Informasi",
+  "Media & Dokumentasi",
+  "Humas & Kesekretariatan",
   "Lainnya",
 ];
 
@@ -211,13 +212,13 @@ export default function PendataanPage() {
         <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 rounded-full mb-4">
             <BookOpen className="w-4 h-4 text-primary-600" />
-            <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">E-Office · Pesantren Al-Andalus Al-Imam</span>
+            <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">E-Office · Pesantren Al-Imam Al-Islami</span>
           </div>
           <h1 className="text-4xl font-black bg-gradient-to-br from-slate-900 via-primary-900 to-slate-700 bg-clip-text text-transparent mb-3 tracking-tight">
-            Pendataan Asatidz & Pegawai
+            Pendataan Civitas Pesantren
           </h1>
           <p className="text-slate-500 text-base font-medium">
-            Mohon isi formulir dengan lengkap dan jujur untuk keperluan database resmi pesantren.
+            Formulir resmi untuk seluruh Civitas Pesantren Al-Imam Al-Islami — Guru, Musyrif, Staf, maupun Ibu Dapur.
           </p>
         </motion.div>
 
@@ -380,8 +381,8 @@ export default function PendataanPage() {
                   <Phone className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-slate-800">Kontak & Alamat</h3>
-                  <p className="text-xs text-slate-400">Informasi kontak yang dapat dihubungi</p>
+                  <h3 className="text-base font-bold text-slate-800">Informasi Kontak</h3>
+                  <p className="text-xs text-slate-400">Nomor yang aktif dan dapat dihubungi</p>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -392,8 +393,8 @@ export default function PendataanPage() {
                   <input type="email" {...register("email")} className={inputClass} placeholder="nama@email.com" />
                 </Field>
                 <div className="col-span-1 md:col-span-2">
-                  <Field label="Alamat Domisili" required error={errors.alamat?.message}>
-                    <textarea {...register("alamat")} rows={3} className={inputClass + " resize-none"} placeholder="Alamat tempat tinggal saat ini (lengkap termasuk RT/RW, Desa/Kelurahan, Kecamatan)" />
+                  <Field label="Alamat Asal / Domisili" hint="Opsional — kosongkan jika tinggal di asrama/rumah dinas pesantren" error={errors.alamat?.message}>
+                    <textarea {...register("alamat")} rows={2} className={inputClass + " resize-none"} placeholder="Isi jika tidak tinggal di lingkungan pesantren..." />
                   </Field>
                 </div>
               </div>
@@ -406,8 +407,8 @@ export default function PendataanPage() {
                   <Briefcase className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-slate-800">Jabatan & Penempatan</h3>
-                  <p className="text-xs text-slate-400">Posisi dan unit kerja di pesantren</p>
+                  <h3 className="text-base font-bold text-slate-800">Kategori & Jabatan</h3>
+                  <p className="text-xs text-slate-400">Posisi dan peran di Pesantren Al-Imam</p>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -444,35 +445,22 @@ export default function PendataanPage() {
                   </Field>
                 </div>
 
-                <Field label="Unit Kerja / Penempatan" required error={errors.unit_kerja?.message}>
-                  <select {...register("unit_kerja")} className={selectClass}>
-                    <option value="">Pilih Unit Kerja</option>
-                    <option value="MTS">MTs (Madrasah Tsanawiyah)</option>
-                    <option value="IL">I'dad Lughawi (IL)</option>
-                    <option value="MA">MA (Madrasah Aliyah)</option>
-                    <option value="LEMBAGA">Lembaga / Kepesantrenan (Umum)</option>
-                    <option value="LAINNYA">Lainnya</option>
-                  </select>
-                </Field>
-
-                <Field label="Divisi" error={errors.divisi?.message}>
+                <Field label="Divisi" hint="Pilih jika tergabung dalam divisi tertentu" error={errors.divisi?.message}>
                   <select {...register("divisi")} className={selectClass}>
-                    <option value="">Pilih Divisi (Jika Ada)</option>
+                    <option value="">Tidak Ada / Belum Ditentukan</option>
                     {DIVISI_OPTIONS.map((div) => (
                       <option key={div} value={div}>{div}</option>
                     ))}
                   </select>
                 </Field>
 
-                <div className="col-span-1 md:col-span-2">
-                  <Field label="Posisi / Jabatan Struktural" hint="Opsional, ketik jabatan jika ada" error={errors.jabatan?.message}>
-                    <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kepala IT, Bendahara, Wali Kelas, dll." />
-                  </Field>
-                </div>
+                <Field label="Jabatan Struktural" hint="Opsional — ketik jika memiliki jabatan" error={errors.jabatan?.message}>
+                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kepala IT, Bendahara, Kepala Sapras..." />
+                </Field>
 
                 {isGuruOrMusyrif && (
                   <div className="col-span-1 md:col-span-2">
-                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus untuk Asatidz / Musyrif" error={errors.mata_pelajaran?.message}>
+                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus Guru & Musyrif" error={errors.mata_pelajaran?.message}>
                       <input {...register("mata_pelajaran")} className={inputClass} placeholder="Contoh: Tahfidz Al-Qur'an, Matematika, Bahasa Arab, dll." />
                     </Field>
                   </div>
