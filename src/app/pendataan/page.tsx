@@ -104,8 +104,8 @@ export default function PendataanPage() {
           {/* Header Banners */}
           <div className="bg-primary-900 px-8 py-6 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary-800 rounded-full opacity-50 blur-3xl" />
-            <h2 className="text-xl font-semibold relative z-10">Formulir Data Diri</h2>
-            <p className="text-primary-200 mt-1 relative z-10 text-sm">Digunakan untuk database Absensi dan SIAKAD.</p>
+            <h2 className="text-2xl font-bold text-white relative z-10 tracking-tight">Formulir Data Diri</h2>
+            <p className="text-white/80 mt-1.5 relative z-10 text-sm font-medium">Digunakan untuk database Absensi dan SIAKAD.</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-8">
