@@ -447,12 +447,11 @@ export default function PendataanPage() {
                 <Field label="Unit Kerja" required error={errors.unit_kerja?.message}>
                   <select {...register("unit_kerja")} className={selectClass}>
                     <option value="">Pilih Unit Kerja</option>
-                    <option value="SDIT">SDIT</option>
-                    <option value="SMPIT">SMPIT</option>
-                    <option value="SMAIT">SMAIT</option>
-                    <option value="PONDOK_PUTRA">Pondok Putra</option>
-                    <option value="PONDOK_PUTRI">Pondok Putri</option>
-                    <option value="YAYASAN">Yayasan Pusat</option>
+                    <option value="MTS">MTs (Madrasah Tsanawiyah)</option>
+                    <option value="IL">I'dad Lughawi (IL)</option>
+                    <option value="MA">MA (Madrasah Aliyah) / Persiapan</option>
+                    <option value="ASRAMA">Kepengasuhan (Asrama Putra)</option>
+                    <option value="MANAJEMEN">Manajemen Pusat / Yayasan</option>
                     <option value="LAINNYA">Lainnya</option>
                   </select>
                 </Field>
