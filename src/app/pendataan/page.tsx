@@ -53,6 +53,20 @@ const DIVISI_OPTIONS = [
   "Lainnya",
 ];
 
+// Auto-normalizer: format nama beserta gelar akademik
+// Hasil: "Rieza Eka Tomara, S.Kom" atau "Ahmad Fulan, Lc., M.A."
+function normalizeName(input: string): string {
+  if (!input) return input;
+  let result = input.trim();
+  // Pindahkan spasi sebelum koma: "Nama , Gelar" → "Nama, Gelar"
+  result = result.replace(/\s+,/g, ",");
+  // Pastikan tepat satu spasi setelah setiap koma: "Nama,Gelar" → "Nama, Gelar"
+  result = result.replace(/,\s*/g, ", ");
+  // Buang spasi di akhir
+  result = result.trimEnd();
+  return result;
+}
+
 // Reusable field wrapper
 function Field({ label, required, hint, error, children }: {
   label: string; required?: boolean; hint?: string; error?: string; children: React.ReactNode;
