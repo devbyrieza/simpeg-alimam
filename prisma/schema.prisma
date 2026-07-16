@@ -854,6 +854,7 @@ model Pegawai {
   alamat              String?
   kategori_pegawai    String    @default("PEGAWAI_UMUM") // ASATIDZ, PEGAWAI_UMUM, MUSYRIF
   unit_kerja          String?
+  divisi              String?
   jabatan             String?
   mata_pelajaran      String?
   pendidikan_terakhir String?

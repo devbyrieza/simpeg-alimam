@@ -12,6 +12,13 @@ import {
 import toast from "react-hot-toast";
 import Image from "next/image";
 
+const KATEGORI_OPTIONS = [
+  { value: "GURU", label: "Guru / Asatidz", desc: "Mengajar santri di kelas maupun halaqah" },
+  { value: "MUSYRIF", label: "Musyrif / Pengasuh", desc: "Mendampingi & membina santri di asrama" },
+  { value: "STAF", label: "Staf / Karyawan", desc: "Administrasi, kebersihan, keamanan, dll" },
+  { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Tim konsumsi & dapur pesantren" },
+];
+
 const formSchema = z.object({
   nama_lengkap: z.string().min(3, "Nama lengkap harus diisi (minimal 3 karakter)"),
   nik: z.string().length(16, "NIK harus 16 digit").regex(/^\d+$/, "NIK harus berupa angka"),
@@ -21,15 +28,29 @@ const formSchema = z.object({
   no_hp: z.string().min(10, "No WA/HP tidak valid (minimal 10 digit)"),
   email: z.string().email("Format email tidak valid").or(z.literal("")).optional(),
   alamat: z.string().min(10, "Alamat harus diisi dengan lengkap"),
-  kategori_pegawai: z.string().min(1, "Kategori pegawai harus dipilih"),
+  kategori_pegawai: z.array(z.string()).min(1, "Pilih minimal 1 kategori"),
+  divisi: z.string().optional(),
   unit_kerja: z.string().min(1, "Unit kerja harus dipilih"),
-  jabatan: z.string().min(2, "Posisi/jabatan harus diisi"),
+  jabatan: z.string().optional(),
   mata_pelajaran: z.string().optional(),
   pendidikan_terakhir: z.string().min(1, "Pendidikan terakhir harus dipilih"),
   status_pernikahan: z.string().min(1, "Status pernikahan harus dipilih"),
 });
 
 type FormData = z.infer<typeof formSchema>;
+
+const DIVISI_OPTIONS = [
+  "IT / Teknologi Informasi",
+  "Media & Dokumentasi",
+  "Keuangan / Finance",
+  "Kepengasuhan",
+  "Kurikulum & Akademik",
+  "Kedisiplinan",
+  "Humas & Kesekretariatan",
+  "Sarana & Prasarana",
+  "Kesehatan",
+  "Lainnya",
+];
 
 // Reusable field wrapper
 function Field({ label, required, hint, error, children }: {
@@ -70,12 +91,21 @@ export default function PendataanPage() {
   const [fotoFile, setFotoFile] = useState<File | null>(null);
   const fotoInputRef = useRef<HTMLInputElement>(null);
 
-  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors }, reset, watch, setValue, getValues } = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: { kategori_pegawai: "PEGAWAI_UMUM" },
+    defaultValues: { kategori_pegawai: [] },
   });
 
-  const kategori = watch("kategori_pegawai");
+  const selectedKategori: string[] = watch("kategori_pegawai") || [];
+  const isGuruOrMusyrif = selectedKategori.includes("GURU") || selectedKategori.includes("MUSYRIF");
+
+  const toggleKategori = (value: string) => {
+    const current = getValues("kategori_pegawai") || [];
+    const updated = current.includes(value)
+      ? current.filter((v: string) => v !== value)
+      : [...current, value];
+    setValue("kategori_pegawai", updated, { shouldValidate: true });
+  };
 
   const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -90,7 +120,6 @@ export default function PendataanPage() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      // Upload foto first if exists
       let foto_url: string | null = null;
       if (fotoFile) {
         const fd = new FormData();
@@ -102,10 +131,19 @@ export default function PendataanPage() {
         }
       }
 
+      // Convert array to comma-separated string for storage
+      const submitData = {
+        ...data,
+        kategori_pegawai: Array.isArray(data.kategori_pegawai)
+          ? data.kategori_pegawai.join(",")
+          : data.kategori_pegawai,
+        foto_url,
+      };
+
       const response = await fetch("/api/pendataan/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, foto_url }),
+        body: JSON.stringify(submitData),
       });
 
       const result = await response.json();
@@ -373,13 +411,38 @@ export default function PendataanPage() {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <Field label="Kategori Pegawai" required error={errors.kategori_pegawai?.message}>
-                  <select {...register("kategori_pegawai")} className={selectClass}>
-                    <option value="PEGAWAI_UMUM">Pegawai Umum / Staf</option>
-                    <option value="ASATIDZ">Asatidz / Guru</option>
-                    <option value="MUSYRIF">Musyrif / Pembina Asrama</option>
-                  </select>
-                </Field>
+                <div className="col-span-1 md:col-span-2">
+                  <Field label="Kategori Pegawai (Bisa pilih lebih dari satu)" required error={errors.kategori_pegawai?.message}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                      {KATEGORI_OPTIONS.map((cat) => {
+                        const isSelected = selectedKategori.includes(cat.value);
+                        return (
+                          <div
+                            key={cat.value}
+                            onClick={() => toggleKategori(cat.value)}
+                            className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                              isSelected
+                                ? "bg-primary-50 border-primary-500 shadow-sm shadow-primary-500/20"
+                                : "bg-white border-slate-200 hover:border-primary-300 hover:bg-slate-50"
+                            }`}
+                          >
+                            <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5 transition-all ${
+                              isSelected ? "bg-primary-600 text-white" : "bg-slate-100 border border-slate-300"
+                            }`}>
+                              {isSelected && <CheckCircle className="w-3.5 h-3.5" />}
+                            </div>
+                            <div>
+                              <p className={`text-sm font-bold ${isSelected ? "text-primary-900" : "text-slate-700"}`}>
+                                {cat.label}
+                              </p>
+                              <p className="text-xs text-slate-500 mt-0.5">{cat.desc}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </Field>
+                </div>
 
                 <Field label="Unit Kerja" required error={errors.unit_kerja?.message}>
                   <select {...register("unit_kerja")} className={selectClass}>
@@ -394,13 +457,22 @@ export default function PendataanPage() {
                   </select>
                 </Field>
 
+                <Field label="Divisi" error={errors.divisi?.message}>
+                  <select {...register("divisi")} className={selectClass}>
+                    <option value="">Pilih Divisi (Jika Ada)</option>
+                    {DIVISI_OPTIONS.map((div) => (
+                      <option key={div} value={div}>{div}</option>
+                    ))}
+                  </select>
+                </Field>
+
                 <div className="col-span-1 md:col-span-2">
-                  <Field label="Posisi / Jabatan" required error={errors.jabatan?.message}>
-                    <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Guru Matematika, Staf Keuangan, Wali Kelas VIII, dll." />
+                  <Field label="Posisi / Jabatan Struktural" hint="Opsional, ketik jabatan jika ada" error={errors.jabatan?.message}>
+                    <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kepala IT, Bendahara, Wali Kelas, dll." />
                   </Field>
                 </div>
 
-                {(kategori === "ASATIDZ" || kategori === "MUSYRIF") && (
+                {isGuruOrMusyrif && (
                   <div className="col-span-1 md:col-span-2">
                     <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus untuk Asatidz / Musyrif" error={errors.mata_pelajaran?.message}>
                       <input {...register("mata_pelajaran")} className={inputClass} placeholder="Contoh: Tahfidz Al-Qur'an, Matematika, Bahasa Arab, dll." />
