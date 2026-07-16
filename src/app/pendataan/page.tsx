@@ -43,13 +43,10 @@ const DIVISI_OPTIONS = [
   "Kepengasuhan",
   "Kurikulum & Akademik",
   "Kedisiplinan",
-  "Keuangan & Bendahara",
   "Sarana & Prasarana",
   "Dapur & Konsumsi",
-  "Kesehatan",
   "IT & Teknologi Informasi",
   "Media & Dokumentasi",
-  "Humas & Kesekretariatan",
   "Lainnya",
 ];
 
