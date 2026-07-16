@@ -325,8 +325,17 @@ export default function PendataanPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="col-span-1 md:col-span-2">
-                  <Field label="Nama Lengkap" required hint="Tuliskan beserta gelar akademik jika ada (contoh: Ahmad Fulan, Lc., M.A.)" error={errors.nama_lengkap?.message}>
-                    <input {...register("nama_lengkap")} className={inputClass} placeholder="Masukkan nama lengkap" />
+                  <Field label="Nama Lengkap" required error={errors.nama_lengkap?.message}>
+                    <div className="mb-2 flex items-start gap-2.5 px-3.5 py-2.5 bg-amber-50 border border-amber-200 rounded-xl">
+                      <GraduationCap className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+                      <p className="text-xs text-amber-800 leading-relaxed">
+                        <span className="font-bold">Bagi yang memiliki gelar akademik</span>, mohon sertakan bersama nama lengkap.{" "}
+                        <span className="text-amber-600 font-medium">Contoh: Ahmad Fulan, Lc., M.A.</span>
+                        <br />
+                        <span className="text-amber-600/80 font-normal">Bagi yang belum memiliki gelar, cukup tuliskan nama lengkap saja.</span>
+                      </p>
+                    </div>
+                    <input {...register("nama_lengkap")} className={inputClass} placeholder="Masukkan nama lengkap (beserta gelar jika ada)" />
                   </Field>
                 </div>
 
