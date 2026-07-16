@@ -139,13 +139,13 @@ export default function AdminPegawaiPage() {
                       {pegawai.nama_lengkap}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={\`px-3 py-1 rounded-full text-xs font-semibold \${
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         pegawai.kategori_pegawai === 'ASATIDZ' 
                           ? 'bg-blue-100 text-blue-700'
                           : pegawai.kategori_pegawai === 'MUSYRIF'
                           ? 'bg-purple-100 text-purple-700'
                           : 'bg-emerald-100 text-emerald-700'
-                      }\`}>
+                      }`}>
                         {pegawai.kategori_pegawai.replace('_', ' ')}
                       </span>
                     </td>
