@@ -21,43 +21,11 @@ export default function LayoutWrapper({
   const pathname = usePathname();
   useScrollRestoration();
 
-  const hideNavbarFooter =
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/daftar") ||
-    pathname.startsWith("/pendataan");
-
   return (
     <div className="relative min-h-screen flex flex-col font-sans">
-      {/* ✅ SCROLL PROGRESS BAR — fixed at very top */}
-      {!hideNavbarFooter && <ScrollProgressBar height={3} />}
-
-      {/* ✅ NAVBAR */}
-      {!hideNavbarFooter && <Navbar />}
-
-      {/* ✅ MAIN CONTENT */}
-      <main className={hideNavbarFooter ? "flex-1" : "flex-1 pt-20 md:pt-24"}>
-        {!hideNavbarFooter && <UrgencyBar />}
-        {hideNavbarFooter ? (
-          children
-        ) : (
-          <PageTransition>{children}</PageTransition>
-        )}
+      <main className="flex-1">
+        <PageTransition>{children}</PageTransition>
       </main>
-
-      {/* ✅ FOOTER */}
-      {!hideNavbarFooter && <Footer />}
-
-      {/* ✅ FLOATING WIDGETS */}
-      {!hideNavbarFooter && (
-        <>
-          {/* <TawkToScript /> */}
-          <ChatSystem />
-          <ScrollToTop />
-          <FloatingWhatsApp />
-          <LiveActivityToast />
-        </>
-      )}
     </div>
   );
 }
