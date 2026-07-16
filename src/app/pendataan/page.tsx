@@ -41,7 +41,7 @@ type FormData = z.infer<typeof formSchema>;
 // Divisi diurutkan dari yang paling sentral dan berpengaruh di kepesantrenan
 const DIVISI_OPTIONS = [
   "Kepengasuhan",
-  "Kurikulum & Akademik",
+  "Kurikulum",
   "Kedisiplinan",
   "Sarana & Prasarana",
   "Dapur & Konsumsi",
@@ -274,7 +274,7 @@ export default function PendataanPage() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-10">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-4 sm:p-8 space-y-10">
 
             {/* ── SECTION 1: Identitas ── */}
             <section>
@@ -491,8 +491,8 @@ export default function PendataanPage() {
             {/* Submit */}
             <div className="pt-4 border-t border-slate-100">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="text-xs text-slate-400 flex items-center gap-1.5">
-                  <span>🔒</span>
+                <p className="text-xs text-slate-400 flex items-center gap-1.5 text-center sm:text-left">
+                  <span className="text-slate-400">🔒</span>
                   Data antum aman dan terlindungi oleh sistem E-Office
                 </p>
                 <motion.button
@@ -500,7 +500,8 @@ export default function PendataanPage() {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-primary-900 to-primary-800 hover:from-primary-800 hover:to-primary-700 text-white rounded-2xl font-bold text-base transition-all shadow-xl shadow-primary-900/25 flex items-center justify-center gap-2.5 disabled:opacity-60"
+                  style={{ backgroundColor: "#3b0a0a" }}
+                  className="w-full sm:w-auto px-8 py-4 text-white rounded-2xl font-bold text-base transition-all shadow-xl flex items-center justify-center gap-2.5 disabled:opacity-60 hover:opacity-90"
                 >
                   {isSubmitting ? (
                     <><Loader2 className="w-5 h-5 animate-spin" /> Menyimpan Data...</>
