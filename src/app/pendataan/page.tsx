@@ -15,7 +15,7 @@ import Image from "next/image";
 const KATEGORI_OPTIONS = [
   { value: "GURU", label: "Guru", desc: "Mengajar santri di kelas & kajian" },
   { value: "MUSYRIF", label: "Musyrif", desc: "Membina & mendampingi santri di asrama" },
-  { value: "STAF", label: "Staf", desc: "TU, Keuangan, Sapras, IT, Keamanan, Kebersihan, dll" },
+  { value: "STAF", label: "Staf", desc: "Keuangan, Sapras, IT, Media, dll" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Tim konsumsi & dapur pesantren" },
 ];
 
