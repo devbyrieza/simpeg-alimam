@@ -58,7 +58,7 @@ export default function LoginPage() {
         >
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-xl shadow-primary-900/10 rounded-3xl mb-6 border border-slate-100">
             <Image
-              src="/logo.png"
+              src="/images/logo-alimam.png"
               alt="Logo Al-Imam"
               width={56}
               height={56}

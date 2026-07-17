@@ -9,7 +9,7 @@ export const BRANDING = {
     process.env.NEXT_PUBLIC_SCHOOL_NETWORK || "Perpaduan Kurikulum Nasional dan Khas Andalus",
   primaryColor: process.env.NEXT_PUBLIC_PRIMARY_COLOR || "#800000", // Default Maroon
   secondaryColor: process.env.NEXT_PUBLIC_SECONDARY_COLOR || "#FDF5E6", // Default Cream
-  logoPath: process.env.NEXT_PUBLIC_LOGO_PATH || "/images/logo.png",
+  logoPath: process.env.NEXT_PUBLIC_LOGO_PATH || "/images/logo-alimam.png",
   faviconPath: process.env.NEXT_PUBLIC_FAVICON_PATH || "/favicon.ico",
   websiteUrl:
     process.env.NEXT_PUBLIC_WEBSITE_URL || "https://ppdb.pesantren-alimam.com",
