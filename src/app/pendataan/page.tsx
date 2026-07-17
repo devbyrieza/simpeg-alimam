@@ -107,6 +107,27 @@ export default function PendataanPage() {
     defaultValues: { kategori_pegawai: [] },
   });
 
+  // Load draft from localStorage on mount
+  useEffect(() => {
+    const draft = localStorage.getItem("eoffice_pendataan_draft");
+    if (draft) {
+      try {
+        const parsed = JSON.parse(draft);
+        reset(parsed);
+      } catch (e) {
+        console.error("Failed to parse draft", e);
+      }
+    }
+  }, [reset]);
+
+  // Save to localStorage when form values change
+  useEffect(() => {
+    const subscription = watch((value) => {
+      localStorage.setItem("eoffice_pendataan_draft", JSON.stringify(value));
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   const selectedKategori: string[] = watch("kategori_pegawai") || [];
   const isGuruOrMusyrif = selectedKategori.includes("GURU") || selectedKategori.includes("MUSYRIF");
 
@@ -189,6 +210,7 @@ export default function PendataanPage() {
 
       const result = await response.json();
       if (response.ok) {
+        localStorage.removeItem("eoffice_pendataan_draft");
         setIsSuccess(true);
       } else {
         toast.error(result.message || "Gagal menyimpan data.");
