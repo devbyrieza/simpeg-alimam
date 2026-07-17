@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile, access, mkdir } from "fs/promises";
 import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 
 export const config = {
   api: {
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const ext = path.extname(file.name);
-    const fileName = `${uuidv4()}${ext}`;
+    const fileName = `${crypto.randomUUID()}${ext}`;
     
     // Save to public/uploads directory
     const uploadDir = path.join(process.cwd(), "public", "uploads");
