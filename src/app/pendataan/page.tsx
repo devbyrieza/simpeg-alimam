@@ -225,7 +225,7 @@ export default function PendataanPage() {
             <BookOpen className="w-4 h-4 text-primary-600" />
             <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">E-Office · Pesantren Al-Imam Al-Islami</span>
           </div>
-          <h1 className="text-4xl font-black bg-gradient-to-br from-slate-900 via-primary-900 to-slate-700 bg-clip-text text-transparent mb-3 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-3 tracking-tight">
             Pendataan Civitas Pesantren
           </h1>
           <p className="text-slate-500 text-base font-medium">
@@ -241,18 +241,18 @@ export default function PendataanPage() {
           className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-slate-900/8 overflow-hidden border border-white"
         >
           {/* Card Header */}
-          <div className="bg-gradient-to-r from-primary-950 via-primary-900 to-primary-800 px-8 py-7 relative overflow-hidden">
+          <div className="px-5 sm:px-8 py-6 sm:py-7 relative overflow-hidden" style={{ backgroundColor: "#3b0a0a" }}>
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
-            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-            <h2 className="text-2xl font-bold text-white relative z-10">Formulir Data Diri</h2>
-            <p className="text-white/60 mt-1.5 text-sm relative z-10">
+            <div className="absolute bottom-0 left-0 w-full h-px bg-white/20" />
+            <h2 className="text-xl sm:text-2xl font-bold text-white relative z-10">Formulir Data Diri</h2>
+            <p className="text-white/80 mt-1.5 text-xs sm:text-sm relative z-10 leading-relaxed">
               Digunakan untuk database Absensi dan SIAKAD · Semua data dijaga kerahasiaannya
             </p>
           </div>
 
           {/* Progress Steps */}
-          <div className="px-8 pt-6 pb-2">
-            <div className="flex items-center gap-2">
+          <div className="px-4 sm:px-8 pt-6 pb-2 overflow-x-auto hide-scrollbar">
+            <div className="flex items-center gap-1 sm:gap-2 min-w-max sm:min-w-0">
               {SECTIONS.map((section, idx) => {
                 const Icon = section.icon;
                 const isActive = idx === activeSection;
