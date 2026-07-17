@@ -543,7 +543,7 @@ export default function PendataanPage() {
                   {isSubmitting ? (
                     <><Loader2 className="w-5 h-5 animate-spin" /> Menyimpan Data...</>
                   ) : (
-                    <><CheckCircle className="w-5 h-5" /> Kirim & Simpan Data</>
+                    <><CheckCircle className="w-5 h-5" /> Simpan Data Diri</>
                   )}
                 </motion.button>
               </div>

@@ -9,6 +9,7 @@ import LayoutWrapper from "@/components/layout/LayoutWrapper";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import ProgressBarProvider from "@/components/providers/ProgressBarProvider";
+import { Toaster } from "react-hot-toast";
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // FONT CONFIGURATIONS - Harisenin & Watzap Style
@@ -157,6 +158,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ProgressBarProvider>
+          <Toaster position="top-center" toastOptions={{ duration: 4000, style: { borderRadius: '16px', padding: '16px', fontWeight: 600 } }} />
         <SmoothScrollProvider>
           <ThemeProvider
             attribute="class"
