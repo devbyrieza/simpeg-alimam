@@ -475,7 +475,7 @@ export default function PendataanPage() {
                 </Field>
 
                 <Field label="Amanah / Jabatan" hint="Opsional — isi jika mendapat amanah memimpin bidang tertentu" error={errors.jabatan?.message}>
-                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kepala Kepengasuhan, Kepala Kurikulum, Bendahara, Kepala IT..." />
+                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kasi Kepengasuhan, Kasi Kurikulum, Kasi IT, Bendahara..." />
                 </Field>
 
                 {isGuruOrMusyrif && (
