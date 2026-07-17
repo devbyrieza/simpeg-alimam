@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -92,7 +92,6 @@ const SECTIONS = [
   { id: "identitas", label: "Data Diri", icon: User },
   { id: "kontak", label: "Kontak", icon: Phone },
   { id: "jabatan", label: "Jabatan", icon: Briefcase },
-  { id: "pendidikan", label: "Lainnya", icon: GraduationCap },
 ];
 
 export default function PendataanPage() {
@@ -127,6 +126,36 @@ export default function PendataanPage() {
     const reader = new FileReader();
     reader.onload = (ev) => setFotoPreview(ev.target?.result as string);
     reader.readAsDataURL(file);
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = SECTIONS.findIndex(s => s.id === entry.target.id);
+            if (index !== -1) setActiveSection(index);
+          }
+        });
+      },
+      { rootMargin: "-20% 0px -60% 0px" } // trigger when section crosses the upper half of viewport
+    );
+
+    SECTIONS.forEach((section) => {
+      const el = document.getElementById(section.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = (id: string, idx: number) => {
+    setActiveSection(idx);
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
   };
 
   const onSubmit = async (data: FormData) => {
@@ -169,6 +198,10 @@ export default function PendataanPage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const onError = () => {
+    toast.error("Masih ada data wajib yang belum diisi (bertanda bintang merah). Cek kembali form antum.");
   };
 
   // SUCCESS STATE
@@ -259,12 +292,16 @@ export default function PendataanPage() {
                 const isDone = idx < activeSection;
                 return (
                   <div key={section.id} className="flex items-center gap-2 flex-1">
-                    <div className={`flex items-center gap-2 px-3 py-2 rounded-xl transition-all text-xs font-bold flex-1 justify-center
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection(section.id, idx)}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-xl transition-all text-xs font-bold flex-1 justify-center
                       ${isActive ? "bg-primary-900 text-white shadow-md shadow-primary-900/20" : 
-                        isDone ? "bg-green-50 text-green-700 border border-green-200" : "bg-slate-50 text-slate-400 border border-slate-200"}`}>
+                        isDone ? "bg-green-50 text-green-700 border border-green-200 hover:bg-green-100" : "bg-slate-50 text-slate-400 border border-slate-200 hover:bg-slate-100"}`}
+                    >
                       <Icon className="w-3.5 h-3.5" />
                       <span className="hidden sm:inline">{section.label}</span>
-                    </div>
+                    </button>
                     {idx < SECTIONS.length - 1 && (
                       <ChevronRight className={`w-4 h-4 shrink-0 ${isDone ? "text-green-400" : "text-slate-300"}`} />
                     )}
@@ -274,10 +311,10 @@ export default function PendataanPage() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="p-4 sm:p-8 space-y-10">
+          <form onSubmit={handleSubmit(onSubmit, onError)} className="p-4 sm:p-8 space-y-10">
 
             {/* ── SECTION 1: Identitas ── */}
-            <section>
+            <section id="identitas">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
                 <div className="w-9 h-9 bg-primary-900 rounded-xl flex items-center justify-center">
                   <User className="w-4 h-4 text-white" />
@@ -395,7 +432,7 @@ export default function PendataanPage() {
             </section>
 
             {/* ── SECTION 2: Kontak ── */}
-            <section>
+            <section id="kontak">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
                 <div className="w-9 h-9 bg-primary-900 rounded-xl flex items-center justify-center">
                   <Phone className="w-4 h-4 text-white" />
@@ -421,7 +458,7 @@ export default function PendataanPage() {
             </section>
 
             {/* ── SECTION 3: Jabatan ── */}
-            <section>
+            <section id="jabatan">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
                 <div className="w-9 h-9 bg-primary-900 rounded-xl flex items-center justify-center">
                   <Briefcase className="w-4 h-4 text-white" />
