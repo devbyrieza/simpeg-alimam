@@ -52,13 +52,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, data: newPegawai }, { status: 201 });
   } catch (error: any) {
     console.error("Error submitting pendataan:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ success: false, errors: error.errors }, { status: 400 });
+    if (error instanceof z.ZodError || error?.name === 'ZodError') {
+      return NextResponse.json({ success: false, errors: error.errors || error.issues }, { status: 400 });
     }
     // Handle unique NIK error if needed
     if (error.code === 'P2002') {
       return NextResponse.json({ success: false, message: "NIK atau No HP sudah terdaftar." }, { status: 400 });
     }
-    return NextResponse.json({ success: false, message: "Terjadi kesalahan pada server." }, { status: 500 });
+    return NextResponse.json({ success: false, message: "Terjadi kesalahan pada server.", errorDetail: error instanceof Error ? error.message : String(error), stack: error instanceof Error ? error.stack : null }, { status: 500 });
   }
 }
