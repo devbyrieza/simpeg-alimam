@@ -262,7 +262,7 @@ export default function PendataanPage() {
             Pendataan Civitas Pesantren
           </h1>
           <p className="text-slate-500 text-base font-medium">
-            Formulir resmi untuk seluruh Civitas Pesantren Al-Imam Al-Islami — Guru, Musyrif, Staf, maupun Ibu Dapur.
+            Formulir resmi untuk segenap Asatidz dan seluruh Civitas Pesantren Al-Imam Al-Islami.
           </p>
         </motion.div>
 
