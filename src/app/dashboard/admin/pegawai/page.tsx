@@ -130,7 +130,6 @@ export default function AdminPegawaiPage() {
                 <th className="px-6 py-4 whitespace-nowrap">No</th>
                 <th className="px-6 py-4 whitespace-nowrap">Nama Lengkap</th>
                 <th className="px-6 py-4 whitespace-nowrap">Kategori</th>
-                <th className="px-6 py-4 whitespace-nowrap">Unit Kerja</th>
                 <th className="px-6 py-4 whitespace-nowrap">Jabatan</th>
                 <th className="px-6 py-4 whitespace-nowrap">Kontak</th>
                 <th className="px-6 py-4 whitespace-nowrap text-center">Aksi</th>
@@ -139,13 +138,13 @@ export default function AdminPegawaiPage() {
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                     Memuat data...
                   </td>
                 </tr>
               ) : filteredData.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                     <ShieldAlert className="w-8 h-8 mx-auto mb-3 text-slate-400" />
                     Belum ada data pegawai.
                   </td>
@@ -168,7 +167,6 @@ export default function AdminPegawaiPage() {
                         {pegawai.kategori_pegawai.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{pegawai.unit_kerja || "-"}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{pegawai.jabatan || "-"}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{pegawai.no_hp || "-"}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
@@ -212,8 +210,8 @@ export default function AdminPegawaiPage() {
                 <div className="flex items-center gap-3">
                   <FileText className="w-6 h-6 text-white/80" />
                   <div>
-                    <h2 className="text-xl font-bold">Detail Profil Civitas</h2>
-                    <p className="text-xs text-white/70">Informasi lengkap data kepegawaian</p>
+                    <h2 className="text-xl font-bold text-white">Detail Profil Civitas</h2>
+                    <p className="text-xs text-white/80">Informasi lengkap data kepegawaian</p>
                   </div>
                 </div>
                 <button
