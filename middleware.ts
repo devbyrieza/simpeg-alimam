@@ -13,6 +13,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/api/pendataan") ||
     pathname.startsWith("/api/pegawai") ||
     pathname.startsWith("/images") ||
+    pathname.startsWith("/uploads") ||
     pathname === "/"
   ) {
     // Jika sudah login dan mencoba akses /login, redirect ke dashboard
