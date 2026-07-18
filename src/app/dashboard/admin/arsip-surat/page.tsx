@@ -86,7 +86,7 @@ export default function ArsipSuratPage() {
         <div>
           <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
             <Mail className="w-6 h-6 text-primary-600" />
-            E-Office: Arsip Surat Keluar
+            Office: Arsip Surat Keluar
           </h1>
           <p className="text-slate-500 mt-1">
             Kelola penomoran dan arsip digital surat pesantren secara terpusat.

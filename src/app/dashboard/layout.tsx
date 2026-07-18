@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <ScrollText className="w-5 h-5 text-primary-950" />
             </div>
             <div>
-              <p className="font-black text-sm leading-tight text-white">E-Office</p>
+              <p className="font-black text-sm leading-tight text-white">Office</p>
               <p className="text-gold-200 text-xs font-medium">Al-Imam Al-Islami</p>
             </div>
           </div>

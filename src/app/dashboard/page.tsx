@@ -25,7 +25,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-black text-slate-900">Dashboard E-Office</h1>
+        <h1 className="text-2xl font-black text-slate-900">Dashboard Office</h1>
         <p className="text-slate-500 mt-1">Sistem informasi arsip surat menyurat Pesantren Al-Imam Al-Islami.</p>
       </div>
 
