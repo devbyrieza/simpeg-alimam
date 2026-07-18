@@ -22,8 +22,11 @@ export async function POST(req: NextRequest) {
     const ext = path.extname(file.name);
     const fileName = `${crypto.randomUUID()}${ext}`;
     
-    // Save to public/uploads directory
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    // Save to persistent storage_data directory
+    const uploadDir = process.env.NODE_ENV === "production"
+      ? "/app/storage_data/uploads"
+      : path.join(process.cwd(), "storage_data", "uploads");
+      
     try {
       await access(uploadDir);
     } catch {
@@ -32,7 +35,7 @@ export async function POST(req: NextRequest) {
     
     await writeFile(path.join(uploadDir, fileName), buffer);
 
-    return NextResponse.json({ success: true, url: `/uploads/${fileName}` });
+    return NextResponse.json({ success: true, url: `/api/uploads/${fileName}` });
   } catch (error) {
     console.error("Error uploading file:", error);
     return NextResponse.json({ success: false, error: "Gagal mengunggah file" }, { status: 500 });
