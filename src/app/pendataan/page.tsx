@@ -30,6 +30,7 @@ const formSchema = z.object({
   alamat: z.string().optional(),
   kategori_pegawai: z.array(z.string()).min(1, "Pilih minimal 1 kategori"),
   divisi: z.string().optional(),
+  divisiLainnya: z.string().optional(),
   jabatan: z.string().optional(),
   mata_pelajaran: z.string().optional(),
   pendidikan_terakhir: z.string().min(1, "Pendidikan terakhir harus dipilih"),
@@ -130,6 +131,7 @@ export default function PendataanPage() {
 
   const selectedKategori: string[] = watch("kategori_pegawai") || [];
   const isGuruOrMusyrif = selectedKategori.includes("GURU") || selectedKategori.includes("MUSYRIF");
+  const selectedDivisi = watch("divisi") || "";
 
   const toggleKategori = (value: string) => {
     const current = getValues("kategori_pegawai") || [];
@@ -193,14 +195,28 @@ export default function PendataanPage() {
         }
       }
 
+      // Combine "Lainnya" input with divisi if applicable
+      let finalDivisi = data.divisi;
+      if (data.divisi === "Lainnya") {
+        if (data.divisiLainnya && data.divisiLainnya.trim() !== "") {
+          finalDivisi = data.divisiLainnya.trim();
+        } else {
+          finalDivisi = "Lainnya";
+        }
+      }
+
       // Convert array to comma-separated string for storage
       const submitData = {
         ...data,
+        divisi: finalDivisi,
         kategori_pegawai: Array.isArray(data.kategori_pegawai)
           ? data.kategori_pegawai.join(",")
           : data.kategori_pegawai,
         foto_url,
       };
+
+      // Delete temporary field so backend Zod schema doesn't reject it
+      delete (submitData as any).divisiLainnya;
 
       const response = await fetch("/api/pendataan/submit", {
         method: "POST",
@@ -532,6 +548,26 @@ export default function PendataanPage() {
                     ))}
                   </select>
                 </Field>
+
+                <AnimatePresence>
+                  {selectedDivisi === "Lainnya" && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                      animate={{ opacity: 1, height: "auto", marginTop: 8 }}
+                      exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <Field label="Nama Divisi Lainnya" hint="Tulis nama divisi Anda jika tidak ada di pilihan di atas (tidak wajib)" error={errors.divisiLainnya?.message}>
+                        <input
+                          type="text"
+                          {...register("divisiLainnya")}
+                          className={inputClass}
+                          placeholder="Contoh: Kesehatan, Kebersihan, Keamanan, dll."
+                        />
+                      </Field>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <Field label="Amanah / Jabatan" hint="Opsional — isi jika mendapat amanah memimpin bidang tertentu" error={errors.jabatan?.message}>
                   <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kasi Kepengasuhan, Kasi Kurikulum, Kasi IT, Bendahara..." />
