@@ -36,7 +36,8 @@ export async function GET(
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     });
-  } catch (error) {
-    return NextResponse.json({ error: "File tidak ditemukan" }, { status: 404 });
+  } catch (error: any) {
+    console.error("Error serving file:", error);
+    return NextResponse.json({ error: "File tidak ditemukan", details: error?.message }, { status: 404 });
   }
 }
