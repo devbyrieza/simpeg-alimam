@@ -13,8 +13,8 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 const KATEGORI_OPTIONS = [
-  { value: "GURU", label: "Guru", desc: "Mengajar santri di kelas & kajian" },
-  { value: "MUSYRIF", label: "Musyrif", desc: "Membina & mendampingi santri di asrama" },
+  { value: "GURU", label: "Guru / Pengajar", desc: "Mengajar santri di kelas & kajian" },
+  { value: "MUSYRIF", label: "Musyrif / Pengasuh", desc: "Membina & mendampingi santri di asrama" },
   { value: "STAF", label: "Staf", desc: "Keuangan, Sapras, IT, Media, dll" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Tim konsumsi & dapur pesantren" },
 ];
@@ -79,7 +79,8 @@ function Field({ label, required, hint, error, children }: {
       {error && (
         <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
           className="text-red-500 text-xs font-medium flex items-center gap-1">
-          <span>⚠</span> {error}
+          <X className="w-3.5 h-3.5" />
+          {error}
         </motion.p>
       )}
     </div>
@@ -130,7 +131,7 @@ export default function PendataanPage() {
   }, [watch]);
 
   const selectedKategori: string[] = watch("kategori_pegawai") || [];
-  const isGuruOrMusyrif = selectedKategori.includes("GURU") || selectedKategori.includes("MUSYRIF");
+  const isGuru = selectedKategori.includes("GURU");
   const selectedDivisi = watch("divisi") || "";
 
   const toggleKategori = (value: string) => {
@@ -577,9 +578,9 @@ export default function PendataanPage() {
                   <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kasi Kepengasuhan, Kasi Kurikulum, Kasi IT, Bendahara..." />
                 </Field>
 
-                {isGuruOrMusyrif && (
+                {isGuru && (
                   <div className="col-span-1 md:col-span-2">
-                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus Guru & Musyrif" error={errors.mata_pelajaran?.message}>
+                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus Guru / Pengajar (Kosongkan jika tidak mengajar)" error={errors.mata_pelajaran?.message}>
                       <input {...register("mata_pelajaran")} className={inputClass} placeholder="Contoh: Tahfidz Al-Qur'an, Matematika, Bahasa Arab, dll." />
                     </Field>
                   </div>
