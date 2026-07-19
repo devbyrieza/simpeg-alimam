@@ -192,6 +192,9 @@ export default function PendataanPage() {
         if (uploadRes.ok) {
           const uploadData = await uploadRes.json();
           foto_url = uploadData.url;
+        } else {
+          const errorText = await uploadRes.text().catch(() => "Unknown error");
+          throw new Error(`Gagal mengunggah foto (${uploadRes.status}): ${errorText.substring(0, 50)}`);
         }
       }
 
@@ -224,15 +227,16 @@ export default function PendataanPage() {
         body: JSON.stringify(submitData),
       });
 
-      const result = await response.json();
       if (response.ok) {
         localStorage.removeItem("eoffice_pendataan_draft");
         setIsSuccess(true);
       } else {
-        toast.error(result.message || "Gagal menyimpan data.");
+        const result = await response.json().catch(() => ({ message: "Gagal menyimpan data ke database (Internal Server Error)" }));
+        toast.error(result.message || `Gagal menyimpan data (${response.status})`);
       }
-    } catch {
-      toast.error("Terjadi kesalahan jaringan.");
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      toast.error(err?.message || "Terjadi kesalahan jaringan saat mengirim data.");
     } finally {
       setIsSubmitting(false);
     }
