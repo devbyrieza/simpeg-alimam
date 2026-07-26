@@ -31,6 +31,9 @@ export default function AdminPegawaiPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPegawai, setSelectedPegawai] = useState<PegawaiData | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editForm, setEditForm] = useState({ kategori_pegawai: "", jabatan: "", unit_kerja: "", divisi: "" });
 
   useEffect(() => {
     fetchPegawai();
@@ -55,6 +58,33 @@ export default function AdminPegawaiPage() {
     p.kategori_pegawai.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (p.unit_kerja && p.unit_kerja.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  const handleSaveEdit = async () => {
+    if (!selectedPegawai) return;
+    setSaving(true);
+    try {
+      const res = await fetch("/api/admin/pegawai", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: selectedPegawai.id,
+          ...editForm
+        })
+      });
+      if (res.ok) {
+        setIsEditing(false);
+        fetchPegawai();
+        setSelectedPegawai({ ...selectedPegawai, ...editForm });
+      } else {
+        alert("Gagal menyimpan perubahan");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Terjadi kesalahan jaringan");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(
@@ -151,7 +181,7 @@ export default function AdminPegawaiPage() {
                 </tr>
               ) : (
                 filteredData.map((pegawai, index) => (
-                  <tr key={pegawai.id} className="hover:bg-slate-50/80 transition-colors cursor-pointer" onClick={() => setSelectedPegawai(pegawai)}>
+                  <tr key={pegawai.id} className="hover:bg-slate-50/80 transition-colors cursor-pointer" onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "" }); }}>
                     <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium text-slate-800">
                       {pegawai.nama_lengkap}
@@ -171,7 +201,7 @@ export default function AdminPegawaiPage() {
                     <td className="px-6 py-4 whitespace-nowrap">{pegawai.no_hp || "-"}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
                       <button
-                        onClick={() => setSelectedPegawai(pegawai)}
+                        onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "" }); }}
                         className="px-3.5 py-1.5 bg-primary-50 hover:bg-primary-100 text-primary-900 border border-primary-100 rounded-xl text-xs font-bold transition-all"
                       >
                         Lihat Detail
@@ -246,13 +276,60 @@ export default function AdminPegawaiPage() {
                     <h3 className="text-2xl font-black text-slate-800 tracking-tight leading-tight">
                       {selectedPegawai.nama_lengkap}
                     </h3>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 border border-primary-100 text-primary-900 rounded-full text-xs font-bold uppercase tracking-wider">
-                      <Award className="w-3.5 h-3.5" />
-                      {selectedPegawai.kategori_pegawai.replace("_", " ")}
-                    </div>
-                    <p className="text-slate-500 text-sm font-medium">
-                      {selectedPegawai.jabatan || "Staf"} · {selectedPegawai.divisi || "Umum"}
-                    </p>
+                    {!isEditing ? (
+                      <>
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 border border-primary-100 text-primary-900 rounded-full text-xs font-bold uppercase tracking-wider">
+                          <Award className="w-3.5 h-3.5" />
+                          {selectedPegawai.kategori_pegawai.replace("_", " ")}
+                        </div>
+                        <p className="text-slate-500 text-sm font-medium">
+                          {selectedPegawai.jabatan || "Staf"} · {selectedPegawai.divisi || "Umum"}
+                        </p>
+                      </>
+                    ) : (
+                      <div className="space-y-3 mt-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div>
+                          <label className="text-xs font-bold text-slate-500 uppercase">Kategori Pegawai (Bisa lebih dari 1, pisahkan dengan koma)</label>
+                          <input 
+                            type="text" 
+                            value={editForm.kategori_pegawai}
+                            onChange={(e) => setEditForm({...editForm, kategori_pegawai: e.target.value.toUpperCase()})}
+                            placeholder="Contoh: GURU,MUSYRIF"
+                            className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs font-bold text-slate-500 uppercase">Jabatan</label>
+                          <input 
+                            type="text" 
+                            value={editForm.jabatan}
+                            onChange={(e) => setEditForm({...editForm, jabatan: e.target.value})}
+                            placeholder="Contoh: Kasi IT, Musyrif"
+                            className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-xs font-bold text-slate-500 uppercase">Divisi</label>
+                            <input 
+                              type="text" 
+                              value={editForm.divisi}
+                              onChange={(e) => setEditForm({...editForm, divisi: e.target.value})}
+                              className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-xs font-bold text-slate-500 uppercase">Unit Kerja</label>
+                            <input 
+                              type="text" 
+                              value={editForm.unit_kerja}
+                              onChange={(e) => setEditForm({...editForm, unit_kerja: e.target.value})}
+                              className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -335,13 +412,40 @@ export default function AdminPegawaiPage() {
               </div>
 
               {/* Footer */}
-              <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-end shrink-0">
-                <button
-                  onClick={() => setSelectedPegawai(null)}
-                  className="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-all"
-                >
-                  Tutup
-                </button>
+              <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-between shrink-0 items-center">
+                {isEditing ? (
+                  <>
+                    <button
+                      onClick={() => setIsEditing(false)}
+                      disabled={saving}
+                      className="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-all disabled:opacity-50"
+                    >
+                      Batal
+                    </button>
+                    <button
+                      onClick={handleSaveEdit}
+                      disabled={saving}
+                      className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-all shadow-md disabled:opacity-50"
+                    >
+                      {saving ? "Menyimpan..." : "Simpan Perubahan"}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="px-6 py-2.5 bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold rounded-xl transition-all"
+                    >
+                      Edit Kategori / Posisi
+                    </button>
+                    <button
+                      onClick={() => setSelectedPegawai(null)}
+                      className="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-all"
+                    >
+                      Tutup
+                    </button>
+                  </>
+                )}
               </div>
             </motion.div>
           </div>
