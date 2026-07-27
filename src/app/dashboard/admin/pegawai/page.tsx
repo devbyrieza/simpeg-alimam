@@ -26,6 +26,18 @@ interface PegawaiData {
   foto_url: string | null;
 }
 
+const formatName = (str: string) => {
+  if (!str) return "-";
+  return str.split(' ').map(word => {
+    // Jika semua huruf kapital (RAMDAN) atau semua huruf kecil (wahyudi), kita format menjadi Title Case
+    if (word === word.toUpperCase() || word === word.toLowerCase()) {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+    // Jika sudah ada campuran huruf besar/kecil (misal: S.Pd., Lc.), biarkan saja
+    return word;
+  }).join(' ');
+};
+
 export default function AdminPegawaiPage() {
   const [data, setData] = useState<PegawaiData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -90,7 +102,7 @@ export default function AdminPegawaiPage() {
     const ws = XLSX.utils.json_to_sheet(
       filteredData.map((d, index) => ({
         No: index + 1,
-        "Nama Lengkap": d.nama_lengkap,
+        "Nama Lengkap": formatName(d.nama_lengkap),
         NIK: d.nik || "-",
         "Jenis Kelamin": d.jenis_kelamin === "LAKI_LAKI" ? "Laki-laki" : "Perempuan",
         "Tempat Lahir": d.tempat_lahir || "-",
@@ -157,12 +169,12 @@ export default function AdminPegawaiPage() {
           <table className="w-full text-left text-sm text-slate-600">
             <thead className="bg-slate-50 text-slate-800 font-semibold border-b border-slate-200">
               <tr>
-                <th className="px-6 py-4 whitespace-nowrap">No</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nama Lengkap</th>
-                <th className="px-6 py-4 whitespace-nowrap">Kategori</th>
-                <th className="px-6 py-4 whitespace-nowrap">Jabatan</th>
-                <th className="px-6 py-4 whitespace-nowrap">Kontak</th>
-                <th className="px-6 py-4 whitespace-nowrap text-center">Aksi</th>
+                <th className="px-4 py-3 whitespace-nowrap w-16 text-center">No</th>
+                <th className="px-4 py-3 whitespace-nowrap">Nama Lengkap</th>
+                <th className="px-4 py-3 whitespace-nowrap">Kategori</th>
+                <th className="px-4 py-3 whitespace-nowrap">Jabatan</th>
+                <th className="px-4 py-3 whitespace-nowrap">Kontak</th>
+                <th className="px-4 py-3 whitespace-nowrap text-center">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -181,30 +193,36 @@ export default function AdminPegawaiPage() {
                 </tr>
               ) : (
                 filteredData.map((pegawai, index) => (
-                  <tr key={pegawai.id} className="hover:bg-slate-50/80 transition-colors cursor-pointer" onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "" }); }}>
-                    <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
-                    <td className="px-6 py-4 whitespace-nowrap font-medium text-slate-800">
-                      {pegawai.nama_lengkap}
+                  <tr key={pegawai.id} className="hover:bg-primary-50/50 transition-colors cursor-pointer group" onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "" }); }}>
+                    <td className="px-4 py-3 whitespace-nowrap text-center text-slate-400 font-medium">{index + 1}</td>
+                    <td className="px-4 py-3 whitespace-nowrap font-bold text-slate-800 group-hover:text-primary-700 transition-colors">
+                      {formatName(pegawai.nama_lengkap)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        pegawai.kategori_pegawai.includes('GURU') 
-                          ? 'bg-blue-100 text-blue-700'
-                          : pegawai.kategori_pegawai.includes('MUSYRIF')
-                          ? 'bg-purple-100 text-purple-700'
-                          : 'bg-emerald-100 text-emerald-700'
-                      }`}>
-                        {pegawai.kategori_pegawai.replace('_', ' ')}
-                      </span>
+                    <td className="px-4 py-3">
+                      <div className="flex flex-wrap gap-1.5">
+                        {pegawai.kategori_pegawai.split(',').map((kat, i) => (
+                          <span key={i} className={`px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider uppercase ${
+                            kat.trim().toUpperCase().includes('GURU') 
+                              ? 'bg-blue-50 text-blue-600 border border-blue-200'
+                              : kat.trim().toUpperCase().includes('MUSYRIF')
+                              ? 'bg-purple-50 text-purple-600 border border-purple-200'
+                              : kat.trim().toUpperCase().includes('STAF')
+                              ? 'bg-emerald-50 text-emerald-600 border border-emerald-200'
+                              : 'bg-slate-100 text-slate-600 border border-slate-200'
+                          }`}>
+                            {kat.trim().replace('_', ' ')}
+                          </span>
+                        ))}
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{pegawai.jabatan || "-"}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{pegawai.no_hp || "-"}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
+                    <td className="px-4 py-3 whitespace-nowrap text-slate-500">{pegawai.jabatan || "-"}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-slate-500">{pegawai.no_hp || "-"}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "" }); }}
-                        className="px-3.5 py-1.5 bg-primary-50 hover:bg-primary-100 text-primary-900 border border-primary-100 rounded-xl text-xs font-bold transition-all"
+                        className="px-3 py-1.5 bg-white hover:bg-primary-50 text-primary-600 border border-slate-200 hover:border-primary-200 rounded-lg text-xs font-bold transition-all shadow-sm"
                       >
-                        Lihat Detail
+                        Lihat Profil
                       </button>
                     </td>
                   </tr>
@@ -274,7 +292,7 @@ export default function AdminPegawaiPage() {
                   {/* Top Details */}
                   <div className="flex-1 text-center md:text-left space-y-2">
                     <h3 className="text-2xl font-black text-slate-800 tracking-tight leading-tight">
-                      {selectedPegawai.nama_lengkap}
+                      {formatName(selectedPegawai.nama_lengkap)}
                     </h3>
                     {!isEditing ? (
                       <>
