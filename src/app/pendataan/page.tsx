@@ -307,7 +307,7 @@ export default function PendataanPage() {
         <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 rounded-full mb-4">
             <BookOpen className="w-4 h-4 text-primary-600" />
-            <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">Office · Pesantren Al-Imam Al-Islami</span>
+            <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">SIMPEG · Pesantren Al-Imam Al-Islami</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-3 tracking-tight">
             Pendataan Civitas Pesantren
@@ -601,7 +601,7 @@ export default function PendataanPage() {
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-xs text-slate-400 flex items-center gap-1.5 text-center sm:text-left">
                   <span className="text-slate-400">🔒</span>
-                  Data antum aman dan terlindungi oleh sistem Office
+                  Data antum aman dan terlindungi oleh sistem SIMPEG
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.02, y: -1 }}
@@ -623,7 +623,7 @@ export default function PendataanPage() {
         </motion.div>
 
         <p className="text-center text-xs text-slate-400 mt-8">
-          © 2026 Pesantren Al-Andalus Al-Imam · Sistem Office v1.0
+          © 2026 Pesantren Al-Andalus Al-Imam · Sistem SIMPEG v1.0
         </p>
       </div>
     </div>
