@@ -6,7 +6,7 @@ export async function GET() {
     console.log('Mulai update database...');
 
     // 1. Muhammad Iqbal
-    await prisma.profile.updateMany({
+    await prisma.pegawai.updateMany({
       where: { nama_lengkap: { contains: 'Muhammad Iqbal' } },
       data: {
         nama_lengkap: 'Muhammad Iqbal, S.Pd.',
@@ -15,7 +15,7 @@ export async function GET() {
     });
 
     // 2. Maulidin Bachtiar
-    await prisma.profile.updateMany({
+    await prisma.pegawai.updateMany({
       where: { nama_lengkap: { contains: 'Maulidin Bachtiar' } },
       data: {
         jabatan: 'Bendahara dan Kasi Keuangan'
@@ -23,7 +23,7 @@ export async function GET() {
     });
 
     // 3. Abdil Aziz
-    await prisma.profile.updateMany({
+    await prisma.pegawai.updateMany({
       where: { nama_lengkap: { contains: 'Abdil Aziz' } },
       data: {
         nama_lengkap: 'Abdil Aziz, S.Pd., B.A.',
@@ -32,7 +32,7 @@ export async function GET() {
     });
 
     // 4. Wahyudi Pranata
-    await prisma.profile.updateMany({
+    await prisma.pegawai.updateMany({
       where: { nama_lengkap: { contains: 'Wahyudi Pranata' } },
       data: {
         nama_lengkap: 'Wahyudi Pranata, Lc'
