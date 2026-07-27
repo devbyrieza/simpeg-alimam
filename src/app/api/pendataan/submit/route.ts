@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
+import { formatNamaGelar } from "@/lib/utils/format";
 
 const prisma = new PrismaClient();
 
@@ -30,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const newPegawai = await prisma.pegawai.create({
       data: {
-        nama_lengkap: validatedData.nama_lengkap,
+        nama_lengkap: formatNamaGelar(validatedData.nama_lengkap),
         nik: validatedData.nik || null,
         jenis_kelamin: validatedData.jenis_kelamin || null,
         tempat_lahir: validatedData.tempat_lahir || null,
