@@ -39,6 +39,14 @@ export async function GET() {
       }
     });
 
+    // 5. Rieza Eka Tomara (Update Kategori)
+    await prisma.pegawai.updateMany({
+      where: { nama_lengkap: { contains: 'Rieza Eka Tomara' } },
+      data: {
+        kategori_pegawai: 'STAF,GURU'
+      }
+    });
+
     return NextResponse.json({ success: true, message: "Database berhasil diupdate" });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
