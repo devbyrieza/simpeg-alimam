@@ -28,7 +28,14 @@ export async function GET() {
       return NextResponse.json({ success: true, message: "Akun admin berhasil dibuat!", email, password });
     }
 
-    return NextResponse.json({ success: true, message: "Akun admin sudah ada sebelumnya.", email });
+    // Jika sudah ada, reset passwordnya ke AdminAlimam2026! agar admin bisa login
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await prisma.profile.update({
+      where: { email },
+      data: { password_hash: hashedPassword }
+    });
+
+    return NextResponse.json({ success: true, message: "Password admin berhasil di-reset ke default!", email, password });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
