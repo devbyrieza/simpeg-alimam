@@ -13,7 +13,7 @@ export const BRANDING = {
   faviconPath: process.env.NEXT_PUBLIC_FAVICON_PATH || "/favicon.ico",
   websiteUrl:
     process.env.NEXT_PUBLIC_WEBSITE_URL || "https://ppdb.pesantren-alimam.com",
-  dashboardTitle: process.env.NEXT_PUBLIC_DASHBOARD_TITLE || "Panel Admin PPDB",
+  dashboardTitle: process.env.NEXT_PUBLIC_DASHBOARD_TITLE || "SIMPEG (Sistem Informasi Manajemen Kepegawaian)",
   address:
     process.env.NEXT_PUBLIC_ADDRESS ||
     "Jl. Pelabuhan II KM 18 Kampung Pupunjul, RT./RW/RW.01, 02, Cikembar, Kec. Cikembar, Kabupaten Sukabumi, Jawa Barat 43157",

@@ -35,10 +35,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(BRANDING.websiteUrl),
 
   title: {
-    default: `${BRANDING.schoolName} | PPDB 2026/2027`,
+    default: `${BRANDING.schoolName} | SIMPEG`,
     template: `%s | ${BRANDING.schoolName}`,
   },
-  description: `Pendaftaran Santri Baru ${BRANDING.schoolName}. Pendidikan berbasis Al-Qur'an dan As-Sunnah sesuai pemahaman salafush shalih.`,
+  description: `Sistem Informasi Manajemen Kepegawaian (SIMPEG) ${BRANDING.schoolName}.`,
   keywords: [
     BRANDING.schoolName,
     "pesantren sukabumi",
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: `${BRANDING.schoolName} | PPDB 2026/2027`,
+    title: `${BRANDING.schoolName} | SIMPEG`,
     description:
-      "Pendidikan berbasis Al-Qur'an dan As-Sunnah sesuai pemahaman salafush shalih. Daftar sekarang untuk tahun ajaran 2026/2027.",
+      `Sistem Informasi Manajemen Kepegawaian (SIMPEG) ${BRANDING.schoolName}.`,
     url: BRANDING.websiteUrl,
     siteName: BRANDING.schoolName,
     images: [
@@ -97,9 +97,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: `${BRANDING.schoolName} | PPDB 2026/2027`,
+    title: `${BRANDING.schoolName} | SIMPEG`,
     description:
-      "Pendidikan berbasis Al-Qur'an dan As-Sunnah sesuai pemahaman salafush shalih.",
+      `Sistem Informasi Manajemen Kepegawaian (SIMPEG) ${BRANDING.schoolName}.`,
     images: ["/twitter-image.jpg"],
     creator: "@alandalus_ppdb",
   },

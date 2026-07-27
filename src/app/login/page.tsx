@@ -67,7 +67,7 @@ export default function LoginPage() {
             />
           </div>
           <h1 className="text-3xl font-black bg-gradient-to-br from-slate-900 via-primary-900 to-slate-700 bg-clip-text text-transparent mb-2 tracking-tight">
-            Office
+            SIMPEG
           </h1>
           <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">
             Pesantren Al-Imam Al-Islami
@@ -164,7 +164,7 @@ export default function LoginPage() {
               {isLoading ? (
                 <><Loader2 className="w-5 h-5 animate-spin" /><span>Memproses...</span></>
               ) : (
-                <><ShieldCheck className="w-5 h-5" /><span>Masuk ke Office</span></>
+                <><ShieldCheck className="w-5 h-5" /><span>Masuk ke SIMPEG</span></>
               )}
             </motion.button>
           </form>
@@ -178,7 +178,7 @@ export default function LoginPage() {
         </motion.div>
 
         <p className="text-center text-xs text-slate-400 mt-8 font-medium">
-          © 2026 Pesantren Al-Imam Al-Islami · Office v1.0
+          © 2026 Pesantren Al-Imam Al-Islami · SIMPEG v1.0
         </p>
       </div>
     </main>
