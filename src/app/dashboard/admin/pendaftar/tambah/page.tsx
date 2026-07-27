@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2, Info, UserPlus } from "lucide-react";
 import Swal from "sweetalert2";
 
-export default function AdminTambahPendaftar() {
+function AdminTambahPendaftarContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialType = searchParams.get("type") === "PINDAHAN" ? "PINDAHAN" : "BARU";
@@ -225,5 +225,13 @@ export default function AdminTambahPendaftar() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function AdminTambahPendaftar() {
+  return (
+    <Suspense fallback={<div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-primary-600" /></div>}>
+      <AdminTambahPendaftarContent />
+    </Suspense>
   );
 }
