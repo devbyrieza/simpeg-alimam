@@ -282,7 +282,7 @@ export default function PendataanPage() {
           </p>
           <div className="p-4 bg-primary-50 rounded-2xl border border-primary-100 mb-6">
             <p className="text-sm text-primary-700 font-semibold">
-              Data antum akan digunakan untuk sistem Absensi & SIAKAD Pesantren Al-Andalus Al-Imam.
+              Data antum akan digunakan untuk sistem Absensi & Sistem Akademik (SIKAP) Pesantren Al-Imam.
             </p>
           </div>
           <button
@@ -330,7 +330,7 @@ export default function PendataanPage() {
             <div className="absolute bottom-0 left-0 w-full h-px bg-white/20" />
             <h2 className="text-xl sm:text-2xl font-bold text-white relative z-10">Formulir Data Diri</h2>
             <p className="text-white/80 mt-1.5 text-xs sm:text-sm relative z-10 leading-relaxed">
-              Digunakan untuk database Absensi dan SIAKAD · Semua data dijaga kerahasiaannya
+              Digunakan untuk database Absensi & Sistem Akademik (SIKAP) · Semua data dijaga kerahasiaannya
             </p>
           </div>
 
