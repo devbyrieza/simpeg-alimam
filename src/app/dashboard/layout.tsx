@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { 
   FileText, Mail, LogOut, LayoutDashboard, 
-  PlusCircle, ChevronRight, ScrollText
+  PlusCircle, ChevronRight, ScrollText, Users
 } from "lucide-react";
 
 interface DashboardLayoutProps {
@@ -66,6 +66,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="pt-4 pb-2">
             <p className="text-gold-500/50 text-xs font-bold uppercase tracking-wider px-3">HRD / Kepegawaian</p>
           </div>
+          <Link
+            href="/dashboard/admin/pegawai"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-white/10 hover:text-gold-100 transition-all group"
+          >
+            <Users className="w-4 h-4 group-hover:text-gold-400 transition-colors" />
+            <span className="text-sm font-medium">Data Pegawai</span>
+          </Link>
           <Link
             href="/pendataan"
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-white/10 hover:text-gold-100 transition-all group"
