@@ -68,6 +68,7 @@ model TahunAjaran {
   pengajuan_beasiswa        PengajuanBeasiswa[]
   pengumuman                Pengumuman[]
   reservasi                 ReservasiPSB[]
+  kalender                  KalenderAkademik[]
 
   @@map("tahun_ajaran")
 }
@@ -864,4 +865,25 @@ model Pegawai {
   updated_at          DateTime  @default(now()) @db.Timestamptz(6)
 
   @@map("pegawai")
+}
+
+// ─── SIAKAD & E-OFFICE: KALENDER AKADEMIK ───────────────────────────────────
+
+model KalenderAkademik {
+  id              String      @id @default(uuid()) @db.Uuid
+  tahun_ajaran_id String      @db.Uuid
+  nama_kegiatan   String
+  tanggal_mulai   DateTime    @db.Date
+  tanggal_selesai DateTime    @db.Date
+  kategori        String      @default("AKADEMIK") // "AKADEMIK", "LIBUR", "PSB", "ASRAMA", "KEUANGAN", dll
+  deskripsi       String?     @db.Text
+  is_libur        Boolean     @default(false)
+  warna_label     String?     @default("blue")
+  created_at      DateTime    @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime    @default(now()) @db.Timestamptz(6)
+
+  tahun_ajaran    TahunAjaran @relation(fields: [tahun_ajaran_id], references: [id], onDelete: Cascade)
+
+  @@index([tanggal_mulai, tanggal_selesai])
+  @@map("kalender_akademik")
 }
