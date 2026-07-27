@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Plus, Search, FileText, Download, CheckCircle, Loader2 } from "lucide-react";
+import { Plus, Search, FileText, Download, CheckCircle, Loader2, Printer } from "lucide-react";
 import Swal from "sweetalert2";
 
 interface Surat {
@@ -142,9 +142,13 @@ export default function DaftarSuratPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button className="text-slate-400 hover:text-gold-600 transition-colors p-2" title="Unduh">
-                        <Download className="w-5 h-5" />
-                      </button>
+                      <Link 
+                        href={`/admin/surat/${surat.id}/cetak`}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-gold-500 hover:text-white text-slate-600 rounded-lg text-sm font-bold transition-all" 
+                        title="Cetak & Download PDF"
+                      >
+                        <Printer className="w-4 h-4" /> Cetak
+                      </Link>
                     </td>
                   </tr>
                 ))

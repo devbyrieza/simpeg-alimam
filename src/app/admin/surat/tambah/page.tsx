@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Building2, Calendar, FileText, Type, Users } from "lucide-react";
+import { ArrowLeft, Save, Building2, Calendar, FileText, Type, Users, LayoutTemplate } from "lucide-react";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import RichTextEditor from "@/components/ui/RichTextEditor";
 
 type FormValues = {
   jenis_surat: string;
@@ -34,11 +35,19 @@ const DIVISI_OPTIONS = [
   { value: "PSB", label: "Panitia PSB (PSB)" },
 ];
 
+const TEMPLATES: Record<string, string> = {
+  UND: `<p><i>Assalamu'alaikum Warahmatullahi Wabarakatuh,</i></p><br/><p>Mengharap dengan hormat kehadiran Bapak/Ibu/Sdr pada:</p><br/><p style="margin-left:20px;">Hari, Tanggal : [Hari, Tanggal]</p><p style="margin-left:20px;">Waktu         : [Waktu] WIB s.d Selesai</p><p style="margin-left:20px;">Tempat        : [Tempat]</p><p style="margin-left:20px;">Acara         : [Nama Acara]</p><br/><p>Demikian undangan ini kami sampaikan, atas perhatian dan kehadirannya kami ucapkan <i>Jazakumullahu Khairan</i>.</p><br/><p><i>Wassalamu'alaikum Warahmatullahi Wabarakatuh</i></p>`,
+  PMB: `<p><i>Assalamu'alaikum Warahmatullahi Wabarakatuh,</i></p><br/><p>Segala puji bagi Allah Rabb semesta alam. Shalawat dan salam semoga tercurah kepada Nabi Muhammad Shallallahu 'Alaihi Wasallam.</p><p>Sehubungan dengan [Topik Pemberitahuan], maka melalui surat ini kami beritahukan kepada Bapak/Ibu Wali Santri bahwa:</p><ol><li>[Poin 1]</li><li>[Poin 2]</li></ol><br/><p>Demikian pemberitahuan ini kami sampaikan agar menjadi maklum adanya. Atas perhatian dan kerjasamanya kami ucapkan <i>Jazakumullahu Khairan</i>.</p><br/><p><i>Wassalamu'alaikum Warahmatullahi Wabarakatuh</i></p>`,
+  SK: `<p style="text-align: center;"><b>BISMILLAHIRRAHMANIRRAHIM</b></p><br/><p><b>MENIMBANG:</b></p><ol><li>Bahwa dalam rangka meningkatkan [Tujuan], perlu menetapkan [Subjek Keputusan].</li><li>Bahwa nama-nama yang tercantum dianggap cakap dan mampu untuk melaksanakan tugas tersebut.</li></ol><br/><p><b>MENGINGAT:</b></p><ol><li>AD/ART Yayasan Al-Imam.</li><li>Program Kerja Pesantren Al-Imam Al-Islami.</li></ol><br/><p style="text-align: center;"><b>MEMUTUSKAN</b></p><br/><p><b>MENETAPKAN:</b></p><p><b>Pertama:</b> Mengangkat Saudara [Nama] sebagai [Jabatan].</p><p><b>Kedua:</b> Surat Keputusan ini berlaku sejak tanggal ditetapkan sampai dengan [Tanggal Berakhir].</p><p><b>Ketiga:</b> Apabila terdapat kekeliruan dalam keputusan ini, akan diperbaiki sebagaimana mestinya.</p>`,
+  KET: `<p>Yang bertanda tangan di bawah ini:</p><br/><p style="margin-left:20px;">Nama     : [Nama Penandatangan]</p><p style="margin-left:20px;">Jabatan  : [Jabatan Penandatangan]</p><br/><p>Dengan ini menerangkan bahwa:</p><br/><p style="margin-left:20px;">Nama     : [Nama Subjek]</p><p style="margin-left:20px;">Nomor Induk : [NIS/NIK]</p><br/><p>Adalah benar merupakan [Status: misal Santri/Pegawai Aktif] di Pesantren Al-Imam Al-Islami pada tahun ajaran berjalan. Surat keterangan ini dibuat untuk keperluan [Keperluan].</p><br/><p>Demikian surat keterangan ini dibuat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.</p>`,
+  ST: `<p><b>MEMBERIKAN TUGAS KEPADA:</b></p><br/><ol><li>Nama: [Nama Lengkap]<br>Jabatan: [Jabatan]</li></ol><br/><p><b>UNTUK:</b></p><br/><ol><li>Melaksanakan tugas [Deskripsi Tugas] pada tanggal [Tanggal Pelaksanaan] bertempat di [Tempat Pelaksanaan].</li><li>Melaporkan hasil pelaksanaan tugas kepada Pimpinan Pesantren.</li></ol><br/><p>Demikian surat tugas ini dibuat agar dilaksanakan dengan penuh tanggung jawab dan rasa amanah. <i>Barakallahu fiikum.</i></p>`
+};
+
 export default function TambahSuratPage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
 
-  const { register, handleSubmit, watch, reset, setValue } = useForm<FormValues>({
+  const { register, handleSubmit, watch, reset, control, setValue } = useForm<FormValues>({
     defaultValues: {
       jenis_surat: "UND",
       kode_divisi: "TU",
@@ -65,11 +74,31 @@ export default function TambahSuratPage() {
 
   // AUTOSAVE: Save to localStorage when form changes
   useEffect(() => {
-    // Only save if there's actually some content to prevent saving empty drafts
-    if (formValues.judul || formValues.perihal) {
+    if (formValues.judul || formValues.perihal || formValues.isi_singkat) {
       localStorage.setItem("eoffice_surat_draft", JSON.stringify(formValues));
     }
   }, [formValues]);
+
+  const loadTemplate = () => {
+    const template = TEMPLATES[formValues.jenis_surat];
+    if (template) {
+      if (formValues.isi_singkat && formValues.isi_singkat.length > 20) {
+        Swal.fire({
+          title: "Timpa Isi Surat?",
+          text: "Isi surat yang sudah ada akan dihapus dan diganti dengan template. Lanjutkan?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#c9983a",
+        }).then((res) => {
+          if (res.isConfirmed) setValue("isi_singkat", template);
+        });
+      } else {
+        setValue("isi_singkat", template);
+      }
+    } else {
+      Swal.fire({ icon: "info", title: "Template Belum Tersedia", text: "Silakan ketik manual." });
+    }
+  };
 
   const onSubmit = async (data: FormValues) => {
     setSaving(true);
@@ -108,7 +137,7 @@ export default function TambahSuratPage() {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-8">
+    <div className="p-8 max-w-5xl mx-auto space-y-8">
       <div className="flex items-center gap-4">
         <Link 
           href="/admin/surat"
@@ -118,7 +147,7 @@ export default function TambahSuratPage() {
         </Link>
         <div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Buat Surat Baru</h1>
-          <p className="text-slate-500 mt-1">Nomor surat akan di-generate otomatis saat disimpan.</p>
+          <p className="text-slate-500 mt-1">Smart Letter Generator - Desain dan print surat dengan elegan.</p>
         </div>
       </div>
 
@@ -178,7 +207,7 @@ export default function TambahSuratPage() {
               </label>
               <input 
                 type="text"
-                placeholder="Cth: Orang Tua Santri Kelas X"
+                placeholder="Cth: Wali Santri Kelas X"
                 {...register("penerima")}
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none"
               />
@@ -191,9 +220,9 @@ export default function TambahSuratPage() {
             </label>
             <input 
               type="text"
-              placeholder="Cth: Pemberitahuan Libur Idul Adha"
+              placeholder="Cth: Pemberitahuan Libur Kegiatan Belajar"
               {...register("judul", { required: true })}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none font-bold"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none font-bold text-lg"
             />
           </div>
 
@@ -203,21 +232,37 @@ export default function TambahSuratPage() {
             </label>
             <input 
               type="text"
-              placeholder="Cth: Libur Kegiatan Belajar Mengajar"
+              placeholder="Cth: Pemberitahuan"
               {...register("perihal", { required: true })}
               className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none"
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
-              Ringkasan / Isi Singkat (Opsional)
-            </label>
-            <textarea 
-              rows={4}
-              placeholder="Tuliskan ringkasan isi surat di sini..."
-              {...register("isi_singkat")}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none resize-none"
+          <div className="space-y-2 pt-4">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                Redaksi Isi Surat (Smart Editor)
+              </label>
+              <button 
+                type="button" 
+                onClick={loadTemplate}
+                className="text-xs flex items-center gap-1.5 bg-blue-50 text-blue-700 font-bold px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors"
+              >
+                <LayoutTemplate className="w-3.5 h-3.5" />
+                Gunakan Template {formValues.jenis_surat}
+              </button>
+            </div>
+            
+            <Controller
+              name="isi_singkat"
+              control={control}
+              render={({ field }) => (
+                <RichTextEditor 
+                  value={field.value} 
+                  onChange={field.onChange} 
+                  placeholder="Ketik isi surat di sini atau klik 'Gunakan Template' di atas..."
+                />
+              )}
             />
           </div>
 
@@ -243,7 +288,7 @@ export default function TambahSuratPage() {
               ) : (
                 <>
                   <Save className="w-5 h-5" />
-                  Generate Nomor & Simpan
+                  Generate & Simpan Surat
                 </>
               )}
             </button>
@@ -253,6 +298,3 @@ export default function TambahSuratPage() {
     </div>
   );
 }
-
-// Icon hack since Users is already imported in lucide-react but I used Users twice
-// Oh wait, I forgot to import Users in the top imports. Let me just add it.
