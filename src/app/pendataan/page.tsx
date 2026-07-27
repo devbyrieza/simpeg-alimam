@@ -379,7 +379,7 @@ export default function PendataanPage() {
               {/* Foto Upload */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Foto / Pas Foto <span className="text-red-500 font-normal text-xs ml-1">(Wajib bagi Laki-laki, Opsional bagi Perempuan/Akhwat)</span>
+                  Foto / Pas Foto <span className="text-red-500 font-normal text-xs ml-1">(Wajib bagi Laki-laki, Opsional bagi Perempuan)</span>
                 </label>
                 <div className="flex items-start gap-6">
                   <div
@@ -406,7 +406,7 @@ export default function PendataanPage() {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-slate-500 leading-relaxed mb-3">
-                      Unggah foto formal (pas foto) yang jelas terlihat wajahnya untuk referensi sistem absensi. <b>Khusus bagi pegawai Perempuan/Akhwat, bagian ini boleh dikosongkan.</b>
+                      Unggah foto formal (pas foto) yang jelas terlihat wajahnya untuk referensi sistem absensi. <b>Khusus bagi pegawai Perempuan, bagian ini boleh dikosongkan.</b>
                     </p>
                     <button
                       type="button"
