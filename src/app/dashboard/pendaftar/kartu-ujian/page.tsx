@@ -63,7 +63,7 @@ export default function ExamCardPage() {
                 "id-ID",
               ),
               waktu: j.waktu_mulai.substring(0, 5),
-              lokasi: j.lokasi || "Pesantren Al-Andalus Al-Imam",
+              lokasi: j.lokasi || "Pesantren Al Imam Al Islami",
             })) || [],
         };
 

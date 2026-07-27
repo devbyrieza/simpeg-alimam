@@ -90,7 +90,7 @@ async function main() {
 
         const lokasi = googleMeetLink 
             ? `${jadwal.exam_session?.location || "Online"} (Link: ${googleMeetLink})` 
-            : (jadwal.exam_session?.location || "Pesantren Al-Andalus Al-Imam");
+            : (jadwal.exam_session?.location || "Pesantren Al Imam Al Islami");
 
         // 1. Enqueue for Santri
         if (jadwal.pendaftar.no_hp) {

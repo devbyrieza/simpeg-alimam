@@ -623,7 +623,7 @@ export default function PendataanPage() {
         </motion.div>
 
         <p className="text-center text-xs text-slate-400 mt-8">
-          © 2026 Pesantren Al-Andalus Al-Imam · Sistem SIMPEG v1.0
+          © 2026 Pesantren Al Imam Al Islami · Sistem SIMPEG v1.0
         </p>
       </div>
     </div>
