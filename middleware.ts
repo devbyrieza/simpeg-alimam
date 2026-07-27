@@ -9,6 +9,7 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith("/login") || 
     pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/setup") ||
     pathname.startsWith("/pendataan") ||
     pathname.startsWith("/api/pendataan") ||
     pathname.startsWith("/api/pegawai") ||
