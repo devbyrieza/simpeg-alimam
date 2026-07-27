@@ -31,7 +31,7 @@ export async function GET() {
     // Jika sudah ada, reset passwordnya ke AdminAlimam2026! agar admin bisa login
     const hashedPassword = await bcrypt.hash(password, 10);
     await prisma.profile.update({
-      where: { email },
+      where: { id: admin.id },
       data: { password_hash: hashedPassword }
     });
 
