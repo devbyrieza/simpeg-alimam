@@ -27,6 +27,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Printer className="w-5 h-5" />
             Cetak Kartu Jajan
           </Link>
+
+          <Link 
+            href="/admin/surat" 
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${pathname.includes('/admin/surat') ? 'bg-gold-500 text-slate-900 font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+          >
+            <Printer className="w-5 h-5" />
+            Arsip Surat
+          </Link>
           
           <Link 
             href="/dashboard" 
