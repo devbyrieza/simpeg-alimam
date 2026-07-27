@@ -183,6 +183,14 @@ export default function PendataanPage() {
   };
 
   const onSubmit = async (data: FormData) => {
+    // Validasi Wajib Foto Khusus Laki-laki
+    if (data.jenis_kelamin === "LAKI_LAKI" && !fotoFile) {
+      toast.error("Wajib: Foto/Pas Foto harus diunggah bagi pendaftar Laki-laki.");
+      const el = document.getElementById("identitas");
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: "smooth" });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       let foto_url: string | null = null;
