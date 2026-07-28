@@ -45,7 +45,7 @@ export default function AdminPegawaiPage() {
   const [selectedPegawai, setSelectedPegawai] = useState<PegawaiData | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [editForm, setEditForm] = useState({ kategori_pegawai: "", jabatan: "", unit_kerja: "", divisi: "" });
+  const [editForm, setEditForm] = useState({ kategori_pegawai: "", jabatan: "", unit_kerja: "", divisi: "", mata_pelajaran: "" });
 
   useEffect(() => {
     fetchPegawai();
@@ -193,7 +193,7 @@ export default function AdminPegawaiPage() {
                 </tr>
               ) : (
                 filteredData.map((pegawai, index) => (
-                  <tr key={pegawai.id} className="hover:bg-primary-50/50 transition-colors cursor-pointer group" onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "" }); }}>
+                  <tr key={pegawai.id} className="hover:bg-primary-50/50 transition-colors cursor-pointer group" onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "", mata_pelajaran: pegawai.mata_pelajaran || "" }); }}>
                     <td className="px-4 py-3 whitespace-nowrap text-center text-slate-400 font-medium">{index + 1}</td>
                     <td className="px-4 py-3 whitespace-nowrap font-bold text-slate-800 group-hover:text-primary-700 transition-colors">
                       {formatName(pegawai.nama_lengkap)}
@@ -219,7 +219,7 @@ export default function AdminPegawaiPage() {
                     <td className="px-4 py-3 whitespace-nowrap text-slate-500">{pegawai.no_hp || "-"}</td>
                     <td className="px-4 py-3 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
                       <button
-                        onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "" }); }}
+                        onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "", mata_pelajaran: pegawai.mata_pelajaran || "" }); }}
                         className="px-3 py-1.5 bg-white hover:bg-primary-50 text-primary-600 border border-slate-200 hover:border-primary-200 rounded-lg text-xs font-bold transition-all shadow-sm"
                       >
                         Lihat Profil
@@ -316,15 +316,42 @@ export default function AdminPegawaiPage() {
                             className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
                           />
                         </div>
-                        <div>
-                          <label className="text-xs font-bold text-slate-500 uppercase">Jabatan</label>
-                          <input 
-                            type="text" 
-                            value={editForm.jabatan}
-                            onChange={(e) => setEditForm({...editForm, jabatan: e.target.value})}
-                            placeholder="Contoh: Kasi IT, Musyrif"
-                            className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
-                          />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div className={editForm.kategori_pegawai.includes("GURU") ? "" : "col-span-2"}>
+                            <label className="text-xs font-bold text-slate-500 uppercase">Jabatan</label>
+                            <input 
+                              type="text" 
+                              value={editForm.jabatan}
+                              onChange={(e) => setEditForm({...editForm, jabatan: e.target.value})}
+                              placeholder="Contoh: Kasi IT, Musyrif"
+                              className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                            />
+                          </div>
+                          {editForm.kategori_pegawai.includes("GURU") && (
+                            <div>
+                              <label className="text-xs font-bold text-slate-500 uppercase">Mapel / Mengajar</label>
+                              <select
+                                value={editForm.mata_pelajaran}
+                                onChange={(e) => setEditForm({...editForm, mata_pelajaran: e.target.value})}
+                                className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                              >
+                                <option value="">Tidak Mengajar / Pilih Mapel...</option>
+                                <option value="Al-Qur'an (Tahfidz)">Al-Qur'an (Tahfidz / Tahsin)</option>
+                                <option value="Bahasa Arab">Bahasa Arab (Nahwu / Sharaf / Durusul Lughah)</option>
+                                <option value="Fiqih">Fiqih</option>
+                                <option value="Aqidah">Aqidah</option>
+                                <option value="Hadits">Hadits</option>
+                                <option value="Tafsir">Tafsir</option>
+                                <option value="Tarikh">Tarikh / Sejarah Kebudayaan Islam</option>
+                                <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                                <option value="Bahasa Inggris">Bahasa Inggris</option>
+                                <option value="Matematika">Matematika</option>
+                                <option value="IPA">IPA (Fisika / Biologi)</option>
+                                <option value="IPS">IPS</option>
+                                <option value="PKn">Pendidikan Pancasila & Kewarganegaraan</option>
+                              </select>
+                            </div>
+                          )}
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>

@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
-    const { id, kategori_pegawai, jabatan, unit_kerja, divisi } = body;
+    const { id, kategori_pegawai, jabatan, unit_kerja, divisi, mata_pelajaran } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, message: "ID Pegawai wajib diisi." }, { status: 400 });
@@ -31,7 +31,8 @@ export async function PATCH(req: NextRequest) {
         kategori_pegawai,
         jabatan,
         unit_kerja,
-        divisi
+        divisi,
+        mata_pelajaran: kategori_pegawai.includes("GURU") ? mata_pelajaran : null
       }
     });
 

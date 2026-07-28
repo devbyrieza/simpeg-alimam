@@ -588,8 +588,23 @@ export default function PendataanPage() {
 
                 {isGuru && (
                   <div className="col-span-1 md:col-span-2">
-                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus Guru / Pengajar (Kosongkan jika tidak mengajar)" error={errors.mata_pelajaran?.message}>
-                      <input {...register("mata_pelajaran")} className={inputClass} placeholder="Contoh: Tahfidz Al-Qur'an, Matematika, Bahasa Arab, dll." />
+                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus Guru / Pengajar (Pilih salah satu)" error={errors.mata_pelajaran?.message}>
+                      <select {...register("mata_pelajaran")} className={selectClass}>
+                        <option value="">Pilih Mata Pelajaran...</option>
+                        <option value="Al-Qur'an (Tahfidz)">Al-Qur'an (Tahfidz / Tahsin)</option>
+                        <option value="Bahasa Arab">Bahasa Arab (Nahwu / Sharaf / Durusul Lughah)</option>
+                        <option value="Fiqih">Fiqih</option>
+                        <option value="Aqidah">Aqidah</option>
+                        <option value="Hadits">Hadits</option>
+                        <option value="Tafsir">Tafsir</option>
+                        <option value="Tarikh">Tarikh / Sejarah Kebudayaan Islam</option>
+                        <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                        <option value="Bahasa Inggris">Bahasa Inggris</option>
+                        <option value="Matematika">Matematika</option>
+                        <option value="IPA">IPA (Fisika / Biologi)</option>
+                        <option value="IPS">IPS</option>
+                        <option value="PKn">Pendidikan Pancasila & Kewarganegaraan</option>
+                      </select>
                     </Field>
                   </div>
                 )}
