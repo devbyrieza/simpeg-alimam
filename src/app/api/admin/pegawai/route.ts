@@ -32,7 +32,7 @@ export async function PATCH(req: NextRequest) {
         jabatan,
         unit_kerja,
         divisi,
-        mata_pelajaran: kategori_pegawai.includes("GURU") ? mata_pelajaran : null
+        mata_pelajaran: (kategori_pegawai || "").toUpperCase().includes("GURU") ? mata_pelajaran : null
       }
     });
 

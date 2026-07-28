@@ -317,7 +317,7 @@ export default function AdminPegawaiPage() {
                           />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className={editForm.kategori_pegawai.includes("GURU") ? "" : "col-span-1 md:col-span-2"}>
+                          <div className={(editForm?.kategori_pegawai || "").toUpperCase().includes("GURU") ? "" : "col-span-1 md:col-span-2"}>
                             <label className="text-xs font-bold text-slate-500 uppercase">Jabatan</label>
                             <input 
                               type="text" 
@@ -327,7 +327,7 @@ export default function AdminPegawaiPage() {
                               className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
                             />
                           </div>
-                          {editForm.kategori_pegawai.includes("GURU") && (
+                          {(editForm?.kategori_pegawai || "").toUpperCase().includes("GURU") && (
                             <div>
                               <label className="text-xs font-bold text-slate-500 uppercase">Mapel / Mengajar</label>
                               <select
