@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Download, Search, Users, ShieldAlert, X, Calendar, Phone, Mail, MapPin, Award, Heart, Briefcase, FileText } from "lucide-react";
 import * as XLSX from "xlsx";
 import Image from "next/image";
+import MapelSelector from "@/components/MapelSelector";
 
 interface PegawaiData {
   id: string;
@@ -329,13 +330,10 @@ export default function AdminPegawaiPage() {
                           </div>
                           {(editForm?.kategori_pegawai || "").toUpperCase().includes("GURU") && (
                             <div>
-                              <label className="text-xs font-bold text-slate-500 uppercase">Mapel / Mengajar (Pisahkan koma)</label>
-                              <input
-                                type="text"
-                                value={editForm.mata_pelajaran}
-                                onChange={(e) => setEditForm({...editForm, mata_pelajaran: e.target.value})}
-                                placeholder="Contoh: Shorf, Tadribat Alal Anmath"
-                                className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                              <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Mapel / Mengajar</label>
+                              <MapelSelector 
+                                value={editForm.mata_pelajaran || ""} 
+                                onChange={(val) => setEditForm({...editForm, mata_pelajaran: val})} 
                               />
                             </div>
                           )}

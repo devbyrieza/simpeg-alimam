@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import MapelSelector from "@/components/MapelSelector";
 
 const KATEGORI_OPTIONS = [
   { value: "GURU", label: "Guru / Pengajar", desc: "Mengajar santri di kelas & kajian" },
@@ -588,12 +589,10 @@ export default function PendataanPage() {
 
                 {isGuru && (
                   <div className="col-span-1 md:col-span-2">
-                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus Guru / Pengajar (Bisa lebih dari 1, pisahkan dengan koma)" error={errors.mata_pelajaran?.message}>
-                      <input 
-                        type="text"
-                        {...register("mata_pelajaran")} 
-                        className={inputClass} 
-                        placeholder="Contoh: Shorf, Tadribat Alal Anmath, Al-Qur'an" 
+                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus Guru / Pengajar (Bisa tambah lebih dari 1)" error={errors.mata_pelajaran?.message}>
+                      <MapelSelector 
+                        value={watch("mata_pelajaran") || ""} 
+                        onChange={(val) => setValue("mata_pelajaran", val, { shouldValidate: true })} 
                       />
                     </Field>
                   </div>
