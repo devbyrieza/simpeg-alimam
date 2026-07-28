@@ -12,8 +12,7 @@ const JENJANG_OPTIONS = [
   "9 MTs",
   "10 MA",
   "11 MA",
-  "12 MA",
-  "Halaqah Tahfizh"
+  "12 MA"
 ];
 
 interface MapelItem {
