@@ -29,7 +29,7 @@ interface PegawaiData {
 const formatName = (str: string) => {
   if (!str) return "-";
   return str.split(' ').map(word => {
-    // Jika semua huruf kapital (RAMDAN) atau semua huruf kecil (wahyudi), kita format menjadi Title Case
+    // Jika semua huruf kapital (misal dari database) atau semua huruf kecil (wahyudi), kita format menjadi Title Case
     if (word === word.toUpperCase() || word === word.toLowerCase()) {
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
@@ -305,7 +305,7 @@ export default function AdminPegawaiPage() {
                         </p>
                       </>
                     ) : (
-                      <div className="space-y-3 mt-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                      <div className="space-y-4 mt-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
                         <div>
                           <label className="text-xs font-bold text-slate-500 uppercase">Kategori Pegawai (Bisa lebih dari 1, pisahkan dengan koma)</label>
                           <input 
@@ -316,8 +316,8 @@ export default function AdminPegawaiPage() {
                             className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
                           />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div className={editForm.kategori_pegawai.includes("GURU") ? "" : "col-span-2"}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className={editForm.kategori_pegawai.includes("GURU") ? "" : "col-span-1 md:col-span-2"}>
                             <label className="text-xs font-bold text-slate-500 uppercase">Jabatan</label>
                             <input 
                               type="text" 
@@ -353,7 +353,7 @@ export default function AdminPegawaiPage() {
                             </div>
                           )}
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="text-xs font-bold text-slate-500 uppercase">Divisi</label>
                             <input 
