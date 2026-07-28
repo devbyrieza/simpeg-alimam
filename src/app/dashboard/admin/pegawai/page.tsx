@@ -329,27 +329,14 @@ export default function AdminPegawaiPage() {
                           </div>
                           {(editForm?.kategori_pegawai || "").toUpperCase().includes("GURU") && (
                             <div>
-                              <label className="text-xs font-bold text-slate-500 uppercase">Mapel / Mengajar</label>
-                              <select
+                              <label className="text-xs font-bold text-slate-500 uppercase">Mapel / Mengajar (Pisahkan koma)</label>
+                              <input
+                                type="text"
                                 value={editForm.mata_pelajaran}
                                 onChange={(e) => setEditForm({...editForm, mata_pelajaran: e.target.value})}
+                                placeholder="Contoh: Shorf, Tadribat Alal Anmath"
                                 className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
-                              >
-                                <option value="">Tidak Mengajar / Pilih Mapel...</option>
-                                <option value="Al-Qur'an (Tahfidz)">Al-Qur'an (Tahfidz / Tahsin)</option>
-                                <option value="Bahasa Arab">Bahasa Arab (Nahwu / Sharaf / Durusul Lughah)</option>
-                                <option value="Fiqih">Fiqih</option>
-                                <option value="Aqidah">Aqidah</option>
-                                <option value="Hadits">Hadits</option>
-                                <option value="Tafsir">Tafsir</option>
-                                <option value="Tarikh">Tarikh / Sejarah Kebudayaan Islam</option>
-                                <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                                <option value="Bahasa Inggris">Bahasa Inggris</option>
-                                <option value="Matematika">Matematika</option>
-                                <option value="IPA">IPA (Fisika / Biologi)</option>
-                                <option value="IPS">IPS</option>
-                                <option value="PKn">Pendidikan Pancasila & Kewarganegaraan</option>
-                              </select>
+                              />
                             </div>
                           )}
                         </div>
