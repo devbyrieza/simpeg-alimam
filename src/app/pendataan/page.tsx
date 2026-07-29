@@ -27,7 +27,7 @@ const formSchema = z.object({
   tempat_lahir: z.string().min(2, "Tempat lahir harus diisi"),
   tanggal_lahir: z.string().min(1, "Tanggal lahir harus diisi"),
   no_hp: z.string().min(10, "No WA/HP tidak valid (minimal 10 digit)"),
-  email: z.string().email("Format email tidak valid").or(z.literal("")).optional(),
+  email: z.string().min(1, "Email wajib diisi").email("Format email tidak valid"),
   alamat: z.string().optional(),
   kategori_pegawai: z.array(z.string()).min(1, "Pilih minimal 1 kategori"),
   divisi: z.string().optional(),
@@ -498,7 +498,7 @@ export default function PendataanPage() {
                 <Field label="No WhatsApp / HP" required error={errors.no_hp?.message}>
                   <input {...register("no_hp")} className={inputClass} placeholder="0812xxxxxxxxxx" />
                 </Field>
-                <Field label="Email" hint="Opsional" error={errors.email?.message}>
+                <Field label="Email" required hint="Email ini akan digunakan untuk login aplikasi SIKAP" error={errors.email?.message}>
                   <input type="email" {...register("email")} className={inputClass} placeholder="nama@email.com" />
                 </Field>
                 <div className="col-span-1 md:col-span-2">
