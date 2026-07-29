@@ -13,6 +13,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/pendataan") ||
     pathname.startsWith("/api/pendataan") ||
     pathname.startsWith("/api/pegawai") ||
+    pathname.startsWith("/api/export-semua") ||
     pathname.startsWith("/images") ||
     pathname.startsWith("/uploads") ||
     pathname.startsWith("/api/uploads") ||
