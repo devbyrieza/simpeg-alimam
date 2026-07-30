@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, X, GraduationCap, BookOpen } from "lucide-react";
+import { Plus, X, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const JENJANG_OPTIONS = [
-  "Umum / Semua Kelas",
-  "IL",
   "7 MTs",
   "8 MTs",
   "9 MTs",
+  "IL",
   "10 MA",
   "11 MA",
   "12 MA"
@@ -27,7 +26,7 @@ interface MapelSelectorProps {
 
 export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
   const [items, setItems] = useState<MapelItem[]>([]);
-  const [selectedJenjang, setSelectedJenjang] = useState(JENJANG_OPTIONS[0]);
+  const [checkedJenjangs, setCheckedJenjangs] = useState<string[]>([]);
   const [inputMapel, setInputMapel] = useState("");
 
   // Parse existing value on mount and when value changes externally
@@ -38,7 +37,6 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
     }
     
     const parsedItems: MapelItem[] = [];
-    // Split safely by comma, ignoring commas inside brackets if any (though unlikely for mapel)
     const segments = value.split(',').map(s => s.trim()).filter(s => s);
     
     segments.forEach(segment => {
@@ -47,7 +45,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
         parsedItems.push({ jenjang: match[1], nama: match[2] });
       } else {
         // Fallback for old data without brackets
-        parsedItems.push({ jenjang: "Umum / Semua Kelas", nama: segment });
+        parsedItems.push({ jenjang: "IL", nama: segment });
       }
     });
     
@@ -55,13 +53,27 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
   }, [value]);
 
   const handleAdd = () => {
-    if (!inputMapel.trim()) return;
+    if (!inputMapel.trim() || checkedJenjangs.length === 0) return;
     
-    const newItem = { jenjang: selectedJenjang, nama: inputMapel.trim() };
-    const newItems = [...items, newItem];
+    // Split inputMapel by comma
+    const mapels = inputMapel.split(',').map(m => m.trim()).filter(m => m);
+    const newItems = [...items];
+    
+    checkedJenjangs.forEach(jenjang => {
+      mapels.forEach(mapel => {
+        // Check if already exists (case-insensitive)
+        const exists = newItems.some(
+          item => item.jenjang === jenjang && item.nama.toLowerCase() === mapel.toLowerCase()
+        );
+        if (!exists) {
+          newItems.push({ jenjang, nama: mapel });
+        }
+      });
+    });
     
     updateValue(newItems);
     setInputMapel(""); // Clear input
+    setCheckedJenjangs([]); // Reset checkboxes
   };
 
   const handleRemove = (index: number) => {
@@ -76,55 +88,64 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
 
   return (
     <div className="space-y-3">
+      {/* Checkbox Grid for Jenjangs */}
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3">
+        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 block">Pilih Kelas / Jenjang (Bisa > 1)</span>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {JENJANG_OPTIONS.map((opt) => (
+            <label key={opt} className="flex items-center gap-2 text-xs text-slate-700 font-semibold cursor-pointer select-none hover:text-primary-600">
+              <input
+                type="checkbox"
+                checked={checkedJenjangs.includes(opt)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setCheckedJenjangs([...checkedJenjangs, opt]);
+                  } else {
+                    setCheckedJenjangs(checkedJenjangs.filter((j) => j !== opt));
+                  }
+                }}
+                className="rounded border-slate-300 text-primary-600 focus:ring-primary-500 w-3.5 h-3.5"
+              />
+              {opt}
+            </label>
+          ))}
+        </div>
+      </div>
+
       {/* Input Form */}
-      <div className="flex flex-col gap-2">
-        <div className="relative w-full">
+      <div className="flex gap-2 w-full">
+        <div className="relative flex-grow">
           <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-            <GraduationCap className="h-4 w-4 text-slate-400" />
+            <BookOpen className="h-4 w-4 text-slate-400" />
           </div>
-          <select
-            value={selectedJenjang}
-            onChange={(e) => setSelectedJenjang(e.target.value)}
-            className="w-full pl-9 pr-8 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 transition-all outline-none text-slate-700 text-sm appearance-none cursor-pointer"
-          >
-            {JENJANG_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-          </select>
+          <input
+            type="text"
+            value={inputMapel}
+            onChange={(e) => setInputMapel(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleAdd();
+              }
+            }}
+            placeholder="Mapel, pisahkan koma jika > 1 (cth: Fiqh, Nahwu)"
+            className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 transition-all outline-none text-slate-700 text-xs"
+          />
         </div>
-        
-        <div className="relative flex gap-2 w-full">
-          <div className="relative flex-grow">
-            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-              <BookOpen className="h-4 w-4 text-slate-400" />
-            </div>
-            <input
-              type="text"
-              value={inputMapel}
-              onChange={(e) => setInputMapel(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  handleAdd();
-                }
-              }}
-              placeholder="Nama mapel (cth: Shorf)"
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary-500/30 focus:border-primary-400 transition-all outline-none text-slate-700 text-sm"
-            />
-          </div>
-          <button
-            type="button"
-            onClick={handleAdd}
-            disabled={!inputMapel.trim()}
-            className="px-4 py-2.5 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-all flex items-center gap-1.5 shadow-sm shrink-0"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Tambah</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleAdd}
+          disabled={!inputMapel.trim() || checkedJenjangs.length === 0}
+          className="px-4 py-2 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 shadow-sm shrink-0"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          <span>Tambah</span>
+        </button>
       </div>
 
       {/* Badges Display */}
       {items.length > 0 && (
-        <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-3 flex flex-wrap gap-2">
+        <div className="bg-slate-50/50 rounded-xl border border-slate-100 p-2.5 flex flex-wrap gap-2 max-h-[150px] overflow-y-auto">
           <AnimatePresence>
             {items.map((item, index) => (
               <motion.div
@@ -132,18 +153,18 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                className="inline-flex items-center gap-1.5 bg-white border border-primary-100 shadow-sm pl-3 pr-2 py-1.5 rounded-lg group"
+                className="inline-flex items-center gap-1.5 bg-white border border-primary-100 shadow-sm pl-2.5 pr-1.5 py-1 rounded-lg group"
               >
                 <div className="flex flex-col">
-                  <span className="text-[9px] font-bold text-primary-500 uppercase tracking-wider leading-none mb-0.5">{item.jenjang}</span>
+                  <span className="text-[8px] font-black text-primary-500 uppercase tracking-wider leading-none mb-0.5">{item.jenjang}</span>
                   <span className="text-xs font-semibold text-slate-700 leading-none">{item.nama}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleRemove(index)}
-                  className="ml-1.5 p-1 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                  className="ml-1 p-0.5 rounded text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                 >
-                  <X className="w-3.5 h-3.5" />
+                  <X className="w-3 h-3" />
                 </button>
               </motion.div>
             ))}
