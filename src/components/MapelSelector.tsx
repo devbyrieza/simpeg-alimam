@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const JENJANG_OPTIONS = [
   "Umum / Semua Kelas",
-  "I'dad Lughowy (IL)",
+  "IL",
   "7 MTs",
   "8 MTs",
   "9 MTs",
@@ -77,8 +77,8 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
   return (
     <div className="space-y-3">
       {/* Input Form */}
-      <div className="flex flex-col sm:flex-row gap-2">
-        <div className="relative flex-shrink-0 sm:w-5/12">
+      <div className="flex flex-col gap-2">
+        <div className="relative w-full">
           <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
             <GraduationCap className="h-4 w-4 text-slate-400" />
           </div>
@@ -91,7 +91,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
           </select>
         </div>
         
-        <div className="relative flex-grow flex gap-2">
+        <div className="relative flex gap-2 w-full">
           <div className="relative flex-grow">
             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
               <BookOpen className="h-4 w-4 text-slate-400" />
@@ -114,10 +114,10 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
             type="button"
             onClick={handleAdd}
             disabled={!inputMapel.trim()}
-            className="px-4 py-2.5 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-all flex items-center gap-1.5 shadow-sm"
+            className="px-4 py-2.5 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-all flex items-center gap-1.5 shadow-sm shrink-0"
           >
             <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Tambah</span>
+            <span>Tambah</span>
           </button>
         </div>
       </div>
