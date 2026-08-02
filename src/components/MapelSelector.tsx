@@ -197,7 +197,6 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
 
   // Custom inputs per class
   const [customInputs, setCustomInputs] = useState<Record<string, string>>({});
-  const [dropdownInputs, setDropdownInputs] = useState<Record<string, string>>({});
 
   // Show extra/inactive classes toggle
   const [showOtherClasses, setShowOtherClasses] = useState<Record<string, boolean>>({});
@@ -329,12 +328,6 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
     }
 
     setCustomInputs((prev) => ({ ...prev, [classId]: "" }));
-  };
-
-  const handleSelectDropdown = (classId: string, mapelName: string) => {
-    if (!mapelName) return;
-    toggleMapel(classId, mapelName);
-    setDropdownInputs((prev) => ({ ...prev, [classId]: "" }));
   };
 
   const handleRemoveItem = (index: number) => {
@@ -513,107 +506,87 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
                 </div>
 
                 {/* Mapel Pickers untuk Setiap Kelas yang Dicentang di Jenjang Ini */}
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {jenjangDef.classes
                     .filter((c) => selectedClasses.includes(c.id))
                     .map((c) => {
                       const mapelGroups = MAPEL_PER_KELAS[c.id] || MAPEL_PER_KELAS["7 MTs"] || [];
-                      const allMapelItems = mapelGroups.flatMap((g) => g.items);
 
                       return (
-                        <div key={c.id} className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-3 shadow-sm">
-                          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                            <span className="text-xs font-black text-primary-950 uppercase tracking-wider flex items-center gap-1.5">
-                              <BookOpen className="w-3.5 h-3.5 text-primary-600" />
-                              <span>Pilih Mapel untuk [{c.label}]:</span>
+                        <div key={c.id} className="p-4 bg-slate-50/50 rounded-2xl border border-slate-200 space-y-3.5 shadow-sm">
+                          <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+                            <span className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                              <BookOpen className="w-4 h-4 text-primary-600" />
+                              <span>Pilihan Mata Pelajaran [{c.label}]:</span>
                             </span>
-                            <span className="text-[10px] font-bold text-slate-400">
-                              {countPerKelas[c.id] || 0} mapel terpilih
+                            <span className="text-xs font-bold text-primary-700 bg-primary-50 border border-primary-200 px-2.5 py-0.5 rounded-full">
+                              {countPerKelas[c.id] || 0} mapel dipilih
                             </span>
                           </div>
 
-                          {/* Quick Select Chips (Click to Toggle ON/OFF) */}
-                          <div className="space-y-1.5">
-                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-                              Klik Chip Mapel (Centang / Batal Centang):
-                            </span>
-                            <div className="flex flex-wrap gap-1.5">
-                              {allMapelItems.map((m) => {
-                                const isSelected = items.some(
-                                  (it) => it.jenjang === c.id && it.nama.toLowerCase() === m.toLowerCase()
-                                );
+                          {/* Grouped Quick Clickable Chips */}
+                          <div className="space-y-3">
+                            {mapelGroups.map((group) => (
+                              <div key={group.kategori} className="space-y-1.5">
+                                <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider block">
+                                  📌 {group.kategori}
+                                </span>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {group.items.map((m) => {
+                                    const isSelected = items.some(
+                                      (it) => it.jenjang === c.id && it.nama.toLowerCase() === m.toLowerCase()
+                                    );
 
-                                return (
-                                  <button
-                                    key={m}
-                                    type="button"
-                                    onClick={() => toggleMapel(c.id, m)}
-                                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 border ${
-                                      isSelected
-                                        ? "bg-primary-600 text-white border-primary-600 shadow-sm"
-                                        : "bg-slate-50 hover:bg-primary-50 hover:text-primary-800 hover:border-primary-300 border-slate-200 text-slate-700"
-                                    }`}
-                                  >
-                                    <div className={`w-3.5 h-3.5 rounded flex items-center justify-center ${isSelected ? "bg-white text-primary-600" : "border border-slate-300 bg-white"}`}>
-                                      {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                                    </div>
-                                    <span>{m}</span>
-                                  </button>
-                                );
-                              })}
-                            </div>
+                                    return (
+                                      <button
+                                        key={m}
+                                        type="button"
+                                        onClick={() => toggleMapel(c.id, m)}
+                                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border ${
+                                          isSelected
+                                            ? "bg-primary-600 text-white border-primary-600 shadow-sm ring-2 ring-primary-500/20"
+                                            : "bg-white hover:bg-primary-50 hover:text-primary-900 hover:border-primary-300 border-slate-300 text-slate-700"
+                                        }`}
+                                      >
+                                        <div className={`w-3.5 h-3.5 rounded flex items-center justify-center ${isSelected ? "bg-white text-primary-600" : "border border-slate-300 bg-slate-50"}`}>
+                                          {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                                        </div>
+                                        <span>{m}</span>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            ))}
                           </div>
 
-                          {/* Dropdown Selector & Custom Adder */}
-                          <div className="flex flex-col sm:flex-row gap-2 pt-2 border-t border-slate-100">
-                            <div className="flex-1 relative">
-                              <select
-                                value={dropdownInputs[c.id] || ""}
-                                onChange={(e) => handleSelectDropdown(c.id, e.target.value)}
-                                className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-primary-500/20 cursor-pointer"
-                              >
-                                <option value="">— Tambah Dari Daftar Lengkap [{c.id}] —</option>
-                                {mapelGroups.map((group) => (
-                                  <optgroup key={group.kategori} label={`── ${group.kategori} ──`}>
-                                    {group.items.map((m) => {
-                                      const isAdded = items.some(
-                                        (it) => it.jenjang === c.id && it.nama.toLowerCase() === m.toLowerCase()
-                                      );
-                                      return (
-                                        <option key={m} value={m}>
-                                          {isAdded ? `✓ ${m} (Sudah Terpilih)` : m}
-                                        </option>
-                                      );
-                                    })}
-                                  </optgroup>
-                                ))}
-                              </select>
-                            </div>
-
-                            <div className="flex gap-2">
-                              <input
-                                type="text"
-                                value={customInputs[c.id] || ""}
-                                onChange={(e) => setCustomInputs((prev) => ({ ...prev, [c.id]: e.target.value }))}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    e.preventDefault();
-                                    handleAddCustomMapel(c.id);
-                                  }
-                                }}
-                                placeholder={`Ketik mapel kustom ${c.id}...`}
-                                className="px-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 flex-1 sm:w-48"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => handleAddCustomMapel(c.id)}
-                                disabled={!(customInputs[c.id] || "").trim()}
-                                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 disabled:opacity-40 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition-all shrink-0"
-                              >
-                                <Plus className="w-3.5 h-3.5" />
-                                <span>Tambah</span>
-                              </button>
-                            </div>
+                          {/* Custom Adder Input */}
+                          <div className="pt-2 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                            <span className="text-[11px] text-slate-400 font-semibold whitespace-nowrap">
+                              Mapel Tambahan / Kustom:
+                            </span>
+                            <input
+                              type="text"
+                              value={customInputs[c.id] || ""}
+                              onChange={(e) => setCustomInputs((prev) => ({ ...prev, [c.id]: e.target.value }))}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault();
+                                  handleAddCustomMapel(c.id);
+                                }
+                              }}
+                              placeholder={`Ketik nama mapel kustom untuk ${c.id}...`}
+                              className="px-3 py-1.5 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 flex-1"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleAddCustomMapel(c.id)}
+                              disabled={!(customInputs[c.id] || "").trim()}
+                              className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-900 disabled:opacity-40 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all shrink-0"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                              <span>Tambah</span>
+                            </button>
                           </div>
                         </div>
                       );
