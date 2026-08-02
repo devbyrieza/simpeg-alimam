@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Search, Users, ShieldAlert, X, Calendar, Phone, Mail, MapPin, Award, Heart, Briefcase, FileText, CheckCircle2, Plus, Sparkles } from "lucide-react";
+import { 
+  Download, Search, Users, ShieldAlert, X, Calendar, Phone, Mail, MapPin, 
+  Award, Heart, Briefcase, FileText, CheckCircle2, Plus, Sparkles, Camera, 
+  Upload, Trash2, Loader2, Edit3, Check
+} from "lucide-react";
 import * as XLSX from "xlsx";
 import Image from "next/image";
 import MapelSelector from "@/components/MapelSelector";
+import toast from "react-hot-toast";
 
 interface PegawaiData {
   id: string;
@@ -35,6 +40,28 @@ const KATEGORI_OPTIONS = [
   { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Divisi, dll", color: "rose" },
 ];
 
+const DIVISI_OPTIONS = [
+  "Kepengasuhan",
+  "Kurikulum",
+  "Kedisiplinan",
+  "Sarana & Prasarana",
+  "Dapur & Konsumsi",
+  "IT",
+  "Media & Dokumentasi",
+  "Keuangan",
+  "Tata Usaha",
+  "Umum",
+];
+
+const PENDIDIKAN_OPTIONS = [
+  "SMA / MA / Sederajat",
+  "D3",
+  "D4 / S1",
+  "S2 (Magister)",
+  "S3 (Doktor)",
+  "Pondok Pesantren / Non-Formal",
+];
+
 const formatName = (str: string) => {
   if (!str) return "-";
   return str.split(' ').map(word => {
@@ -46,6 +73,17 @@ const formatName = (str: string) => {
   }).join(' ');
 };
 
+const formatDateForInput = (dateStr?: string | null) => {
+  if (!dateStr) return "";
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return "";
+    return d.toISOString().split("T")[0];
+  } catch {
+    return "";
+  }
+};
+
 export default function AdminPegawaiPage() {
   const [data, setData] = useState<PegawaiData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,7 +91,30 @@ export default function AdminPegawaiPage() {
   const [selectedPegawai, setSelectedPegawai] = useState<PegawaiData | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [editForm, setEditForm] = useState({ kategori_pegawai: "", jabatan: "", unit_kerja: "", divisi: "", mata_pelajaran: "" });
+  const [uploadingFoto, setUploadingFoto] = useState(false);
+
+  const fotoInputRef = useRef<HTMLInputElement>(null);
+
+  // Full Editable Form State
+  const [editForm, setEditForm] = useState({
+    nama_lengkap: "",
+    nik: "",
+    jenis_kelamin: "LAKI_LAKI",
+    tempat_lahir: "",
+    tanggal_lahir: "",
+    no_hp: "",
+    email: "",
+    alamat: "",
+    kategori_pegawai: "",
+    unit_kerja: "",
+    divisi: "",
+    jabatan: "",
+    mata_pelajaran: "",
+    pendidikan_terakhir: "",
+    status_pernikahan: "BELUM_MENIKAH",
+    foto_url: null as string | null,
+  });
+
   const [customKategoriInput, setCustomKategoriInput] = useState("");
 
   useEffect(() => {
@@ -72,6 +133,30 @@ export default function AdminPegawaiPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const openDetailModal = (pegawai: PegawaiData, startInEditMode = false) => {
+    setSelectedPegawai(pegawai);
+    setIsEditing(startInEditMode);
+    setEditForm({
+      nama_lengkap: pegawai.nama_lengkap || "",
+      nik: pegawai.nik || "",
+      jenis_kelamin: pegawai.jenis_kelamin || "LAKI_LAKI",
+      tempat_lahir: pegawai.tempat_lahir || "",
+      tanggal_lahir: formatDateForInput(pegawai.tanggal_lahir),
+      no_hp: pegawai.no_hp || "",
+      email: pegawai.email || "",
+      alamat: pegawai.alamat || "",
+      kategori_pegawai: pegawai.kategori_pegawai || "",
+      unit_kerja: pegawai.unit_kerja || "",
+      divisi: pegawai.divisi || "",
+      jabatan: pegawai.jabatan || "",
+      mata_pelajaran: pegawai.mata_pelajaran || "",
+      pendidikan_terakhir: pegawai.pendidikan_terakhir || "",
+      status_pernikahan: pegawai.status_pernikahan || "BELUM_MENIKAH",
+      foto_url: pegawai.foto_url || null,
+    });
+    setCustomKategoriInput("");
   };
 
   const filteredData = data.filter((p) =>
@@ -112,8 +197,47 @@ export default function AdminPegawaiPage() {
     setCustomKategoriInput("");
   };
 
+  // Upload Foto Handler
+  const handleUploadFoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Ukuran foto maksimal 5MB");
+      return;
+    }
+
+    setUploadingFoto(true);
+    try {
+      const fd = new FormData();
+      fd.append("foto", file);
+      const res = await fetch("/api/pendataan/upload-foto", {
+        method: "POST",
+        body: fd,
+      });
+
+      if (res.ok) {
+        const resData = await res.json();
+        setEditForm((prev) => ({ ...prev, foto_url: resData.url }));
+        alert("Foto berhasil diunggah!");
+      } else {
+        alert("Gagal mengunggah foto");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Terjadi kesalahan saat mengunggah foto");
+    } finally {
+      setUploadingFoto(false);
+    }
+  };
+
   const handleSaveEdit = async () => {
     if (!selectedPegawai) return;
+    if (!editForm.nama_lengkap.trim()) {
+      alert("Nama lengkap wajib diisi.");
+      return;
+    }
+
     setSaving(true);
     try {
       const res = await fetch("/api/admin/pegawai", {
@@ -121,15 +245,19 @@ export default function AdminPegawaiPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: selectedPegawai.id,
-          ...editForm
-        })
+          ...editForm,
+        }),
       });
+
       if (res.ok) {
+        const result = await res.json();
         setIsEditing(false);
         fetchPegawai();
         setSelectedPegawai({ ...selectedPegawai, ...editForm });
+        alert("Data civitas / pegawai berhasil diperbarui!");
       } else {
-        alert("Gagal menyimpan perubahan");
+        const err = await res.json().catch(() => ({ message: "Gagal menyimpan perubahan" }));
+        alert(err.message || "Gagal menyimpan perubahan");
       }
     } catch (e) {
       console.error(e);
@@ -157,7 +285,7 @@ export default function AdminPegawaiPage() {
         Jabatan: d.jabatan || "-",
         "Mata Pelajaran": d.mata_pelajaran || "-",
         "Pendidikan Terakhir": d.pendidikan_terakhir || "-",
-        "Status Pernikahan": d.status_pernikahan.replace("_", " ") || "-",
+        "Status Pernikahan": d.status_pernikahan ? d.status_pernikahan.replace("_", " ") : "-",
       }))
     );
     const wb = XLSX.utils.book_new();
@@ -175,7 +303,7 @@ export default function AdminPegawaiPage() {
           </div>
           <div>
             <h1 className="text-2xl font-black text-slate-800 tracking-tight">Database Pegawai &amp; Asatidz</h1>
-            <p className="text-slate-500 text-sm">Data induk untuk absensi dan SIAKAD</p>
+            <p className="text-slate-500 text-sm">Data induk civitas untuk absensi, kurikulum, dan SIAKAD</p>
           </div>
         </div>
 
@@ -188,7 +316,7 @@ export default function AdminPegawaiPage() {
         </button>
       </div>
 
-      {/* Konten */}
+      {/* Konten Table */}
       <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
         <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <div className="relative w-full max-w-sm">
@@ -213,7 +341,7 @@ export default function AdminPegawaiPage() {
                 <th className="px-4 py-3 whitespace-nowrap w-16 text-center">No</th>
                 <th className="px-4 py-3 whitespace-nowrap">Nama Lengkap</th>
                 <th className="px-4 py-3 whitespace-nowrap">Kategori</th>
-                <th className="px-4 py-3 whitespace-nowrap">Jabatan</th>
+                <th className="px-4 py-3 whitespace-nowrap">Jabatan / Divisi</th>
                 <th className="px-4 py-3 whitespace-nowrap">Kontak</th>
                 <th className="px-4 py-3 whitespace-nowrap text-center">Aksi</th>
               </tr>
@@ -237,21 +365,20 @@ export default function AdminPegawaiPage() {
                   <tr
                     key={pegawai.id}
                     className="hover:bg-primary-50/50 transition-colors cursor-pointer group"
-                    onClick={() => {
-                      setSelectedPegawai(pegawai);
-                      setIsEditing(false);
-                      setEditForm({
-                        kategori_pegawai: pegawai.kategori_pegawai,
-                        jabatan: pegawai.jabatan || "",
-                        unit_kerja: pegawai.unit_kerja || "",
-                        divisi: pegawai.divisi || "",
-                        mata_pelajaran: pegawai.mata_pelajaran || "",
-                      });
-                    }}
+                    onClick={() => openDetailModal(pegawai, false)}
                   >
                     <td className="px-4 py-3 whitespace-nowrap text-center text-slate-400 font-medium">{index + 1}</td>
                     <td className="px-4 py-3 whitespace-nowrap font-bold text-slate-800 group-hover:text-primary-700 transition-colors">
-                      {formatName(pegawai.nama_lengkap)}
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center text-xs text-slate-400">
+                          {pegawai.foto_url ? (
+                            <img src={pegawai.foto_url} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <Users className="w-4 h-4 text-slate-300" />
+                          )}
+                        </div>
+                        <span>{formatName(pegawai.nama_lengkap)}</span>
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-1.5">
@@ -270,25 +397,27 @@ export default function AdminPegawaiPage() {
                         ))}
                       </div>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-slate-500">{pegawai.jabatan || "-"}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-slate-500">
+                      <div>{pegawai.jabatan || "-"}</div>
+                      {pegawai.divisi && <div className="text-xs text-slate-400">{pegawai.divisi}</div>}
+                    </td>
                     <td className="px-4 py-3 whitespace-nowrap text-slate-500">{pegawai.no_hp || "-"}</td>
                     <td className="px-4 py-3 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={() => {
-                          setSelectedPegawai(pegawai);
-                          setIsEditing(false);
-                          setEditForm({
-                            kategori_pegawai: pegawai.kategori_pegawai,
-                            jabatan: pegawai.jabatan || "",
-                            unit_kerja: pegawai.unit_kerja || "",
-                            divisi: pegawai.divisi || "",
-                            mata_pelajaran: pegawai.mata_pelajaran || "",
-                          });
-                        }}
-                        className="px-3 py-1.5 bg-white hover:bg-primary-50 text-primary-600 border border-slate-200 hover:border-primary-200 rounded-lg text-xs font-bold transition-all shadow-sm"
-                      >
-                        Lihat Profil
-                      </button>
+                      <div className="flex items-center justify-center gap-1.5">
+                        <button
+                          onClick={() => openDetailModal(pegawai, false)}
+                          className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg text-xs font-bold transition-all shadow-sm"
+                        >
+                          Lihat Profil
+                        </button>
+                        <button
+                          onClick={() => openDetailModal(pegawai, true)}
+                          className="px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-xs font-bold transition-all shadow-sm flex items-center gap-1"
+                        >
+                          <Edit3 className="w-3 h-3" />
+                          <span>Edit</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -298,17 +427,17 @@ export default function AdminPegawaiPage() {
         </div>
       </div>
 
-      {/* Detail Modal */}
+      {/* ─── DETAIL & FULL EDIT MODAL ─── */}
       <AnimatePresence>
         {selectedPegawai && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 overflow-y-auto">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedPegawai(null)}
-              className="absolute inset-0 bg-primary-950/40 backdrop-blur-md"
+              className="fixed inset-0 bg-primary-950/50 backdrop-blur-md"
             />
 
             {/* Modal Box */}
@@ -316,17 +445,21 @@ export default function AdminPegawaiPage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[90vh] z-10"
+              className="relative w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[92vh] z-10"
             >
               {/* Header Modal */}
-              <div className="p-6 bg-gradient-to-r from-primary-900 to-primary-950 text-white flex justify-between items-center shrink-0">
+              <div className="p-5 md:p-6 bg-gradient-to-r from-primary-900 to-primary-950 text-white flex justify-between items-center shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 bg-white/10 backdrop-blur-md rounded-xl text-primary-200">
                     <FileText className="w-5 h-5" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold">Detail Profil Civitas</h2>
-                    <p className="text-xs text-primary-200/80">Informasi lengkap data kepegawaian</p>
+                    <h2 className="text-lg font-bold">
+                      {isEditing ? "Edit Lengkap Data Civitas (Admin Super)" : "Detail Profil Civitas"}
+                    </h2>
+                    <p className="text-xs text-primary-200/80">
+                      {isEditing ? "Ubah foto, kategori, jenjang/mapel, serta seluruh data identitas" : "Informasi lengkap data kepegawaian"}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -337,33 +470,78 @@ export default function AdminPegawaiPage() {
                 </button>
               </div>
 
-              {/* Body Modal */}
-              <div className="p-6 md:p-8 overflow-y-auto space-y-6">
-                {/* Profile Card & Edit Form */}
-                <div className="flex flex-col md:flex-row gap-6 items-center md:items-start bg-slate-50/50 p-6 rounded-2xl border border-slate-100">
-                  {/* Foto */}
-                  <div className="w-28 h-28 rounded-2xl bg-white border-2 border-slate-100 shadow-sm overflow-hidden flex items-center justify-center shrink-0 relative">
-                    {selectedPegawai.foto_url ? (
-                      <img
-                        src={selectedPegawai.foto_url}
-                        alt={selectedPegawai.nama_lengkap}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="text-center p-3">
-                        <Users className="w-10 h-10 mx-auto text-slate-300 mb-2" />
-                        <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">No Foto</span>
+              {/* Body Modal (Scrollable) */}
+              <div className="p-5 md:p-8 overflow-y-auto space-y-6">
+                
+                {/* ─── BAGIAN ATAS: FOTO & NAMA UTAMA ─── */}
+                <div className="flex flex-col md:flex-row gap-6 items-center md:items-start bg-slate-50/70 p-6 rounded-2xl border border-slate-200">
+                  
+                  {/* Foto Pasfoto + Upload / Ganti / Hapus */}
+                  <div className="flex flex-col items-center gap-2 shrink-0">
+                    <div className="w-32 h-32 rounded-2xl bg-white border-2 border-slate-200 shadow-sm overflow-hidden flex items-center justify-center shrink-0 relative group">
+                      {(isEditing ? editForm.foto_url : selectedPegawai.foto_url) ? (
+                        <img
+                          src={(isEditing ? editForm.foto_url : selectedPegawai.foto_url) || ""}
+                          alt={editForm.nama_lengkap}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="text-center p-3">
+                          <Users className="w-12 h-12 mx-auto text-slate-300 mb-1" />
+                          <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">Belum Ada Foto</span>
+                        </div>
+                      )}
+
+                      {/* Loading Overlay when uploading */}
+                      {uploadingFoto && (
+                        <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white text-xs font-semibold gap-1">
+                          <Loader2 className="w-6 h-6 animate-spin text-primary-400" />
+                          <span>Mengunggah...</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Foto Actions when Editing */}
+                    {isEditing && (
+                      <div className="flex flex-col gap-1 w-full">
+                        <button
+                          type="button"
+                          onClick={() => fotoInputRef.current?.click()}
+                          disabled={uploadingFoto}
+                          className="w-full py-1.5 px-2.5 bg-primary-50 hover:bg-primary-100 text-primary-700 border border-primary-200 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                        >
+                          <Camera className="w-3.5 h-3.5" />
+                          <span>{editForm.foto_url ? "Ganti Foto" : "Upload Foto"}</span>
+                        </button>
+                        <input
+                          ref={fotoInputRef}
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleUploadFoto}
+                        />
+
+                        {editForm.foto_url && (
+                          <button
+                            type="button"
+                            onClick={() => setEditForm((prev) => ({ ...prev, foto_url: null }))}
+                            className="w-full py-1 px-2 text-red-600 hover:bg-red-50 rounded-lg text-[11px] font-semibold transition-all flex items-center justify-center gap-1"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                            <span>Hapus Foto</span>
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
 
-                  {/* Top Details */}
-                  <div className="flex-1 text-center md:text-left space-y-2 w-full">
-                    <h3 className="text-2xl font-black text-slate-800 tracking-tight leading-tight">
-                      {formatName(selectedPegawai.nama_lengkap)}
-                    </h3>
+                  {/* Header Details (Nama Lengkap & Kategori / Jabatan) */}
+                  <div className="flex-1 text-center md:text-left space-y-3 w-full">
                     {!isEditing ? (
                       <>
+                        <h3 className="text-2xl font-black text-slate-800 tracking-tight leading-tight">
+                          {formatName(selectedPegawai.nama_lengkap)}
+                        </h3>
                         <div className="flex flex-wrap gap-1.5 justify-center md:justify-start">
                           {selectedPegawai.kategori_pegawai.split(",").map((k, i) => (
                             <span
@@ -376,13 +554,27 @@ export default function AdminPegawaiPage() {
                           ))}
                         </div>
                         <p className="text-slate-500 text-sm font-medium">
-                          {selectedPegawai.jabatan || "Staf"} · {selectedPegawai.divisi || "Umum"}
+                          {selectedPegawai.jabatan || "Staf"} · {selectedPegawai.divisi || "Umum"} ({selectedPegawai.unit_kerja || "Pesantren Al-Imam"})
                         </p>
                       </>
                     ) : (
-                      <div className="space-y-4 mt-4 bg-white p-5 rounded-2xl border border-slate-200 text-left w-full shadow-sm">
+                      <div className="space-y-4">
+                        {/* Edit Nama Lengkap */}
+                        <div>
+                          <label className="text-xs font-bold text-slate-700 uppercase block mb-1">
+                            Nama Lengkap &amp; Gelar Akademik <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={editForm.nama_lengkap}
+                            onChange={(e) => setEditForm({ ...editForm, nama_lengkap: e.target.value })}
+                            placeholder="Contoh: Ahmad Fulan, Lc., M.A."
+                            className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                          />
+                        </div>
+
                         {/* KATEGORI MULTI SELECTOR (CLICKABLE CARDS + CUSTOM TAGS) */}
-                        <div className="space-y-2">
+                        <div className="space-y-2 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                           <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
                             <Sparkles className="w-3.5 h-3.5 text-primary-600" />
                             <span>Pilih Kategori Pegawai (Bisa Pilih Lebih Dari 1):</span>
@@ -421,11 +613,11 @@ export default function AdminPegawaiPage() {
                             })}
                           </div>
 
-                          {/* Custom Tag Display & Adder */}
-                          <div className="pt-1 space-y-2">
+                          {/* Custom Tag Adder */}
+                          <div className="pt-2 space-y-2">
                             {selectedKategoriList.some((k) => !KATEGORI_OPTIONS.some((opt) => opt.value === k)) && (
                               <div className="flex flex-wrap gap-1.5 items-center">
-                                <span className="text-[10px] text-slate-400 font-bold uppercase">Kategori Tambahan:</span>
+                                <span className="text-[10px] text-slate-400 font-bold uppercase">Kategori Lain:</span>
                                 {selectedKategoriList
                                   .filter((k) => !KATEGORI_OPTIONS.some((opt) => opt.value === k))
                                   .map((custom) => (
@@ -474,45 +666,30 @@ export default function AdminPegawaiPage() {
                           </div>
                         </div>
 
-                        {/* JABATAN & MAPEL */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
-                          <div className={selectedKategoriList.includes("GURU") ? "" : "col-span-1 md:col-span-2"}>
-                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">
-                              Jabatan / Posisi Struktural
-                            </label>
+                        {/* JABATAN, DIVISI & UNIT KERJA */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          <div>
+                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Jabatan / Posisi</label>
                             <input 
                               type="text" 
                               value={editForm.jabatan}
                               onChange={(e) => setEditForm({...editForm, jabatan: e.target.value})}
-                              placeholder="Contoh: Kasi IT, Musyrif, Wali Kelas"
-                              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20"
+                              placeholder="Contoh: Wali Kelas, Kasi IT"
+                              className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
                             />
                           </div>
-
-                          {selectedKategoriList.includes("GURU") && (
-                            <div className="col-span-1 md:col-span-2 bg-slate-50/80 p-4 rounded-2xl border border-slate-200 space-y-2">
-                              <label className="text-xs font-black text-slate-700 uppercase tracking-wider block">
-                                Penugasan Mata Pelajaran Mengajar (Khusus Guru)
-                              </label>
-                              <MapelSelector 
-                                value={editForm.mata_pelajaran || ""} 
-                                onChange={(val) => setEditForm({...editForm, mata_pelajaran: val})} 
-                              />
-                            </div>
-                          )}
-                        </div>
-
-                        {/* DIVISI & UNIT KERJA */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Divisi</label>
-                            <input 
-                              type="text" 
+                            <select
                               value={editForm.divisi}
                               onChange={(e) => setEditForm({...editForm, divisi: e.target.value})}
-                              placeholder="Contoh: Kurikulum, Kepengasuhan, Sapras"
-                              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20"
-                            />
+                              className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                            >
+                              <option value="">— Pilih Divisi —</option>
+                              {DIVISI_OPTIONS.map((d) => (
+                                <option key={d} value={d}>{d}</option>
+                              ))}
+                            </select>
                           </div>
                           <div>
                             <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Unit Kerja</label>
@@ -521,123 +698,268 @@ export default function AdminPegawaiPage() {
                               value={editForm.unit_kerja}
                               onChange={(e) => setEditForm({...editForm, unit_kerja: e.target.value})}
                               placeholder="Contoh: Pesantren Al-Imam"
-                              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20"
+                              className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
                             />
                           </div>
                         </div>
+
+                        {/* PENUGASAN MAPEL (JIKA KATEGORI GURU AKTIF) */}
+                        {selectedKategoriList.includes("GURU") && (
+                          <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-2 shadow-sm">
+                            <label className="text-xs font-black text-slate-800 uppercase tracking-wider block">
+                              Penugasan Mata Pelajaran Mengajar (Khusus Guru / Asatidz)
+                            </label>
+                            <MapelSelector 
+                              value={editForm.mata_pelajaran || ""} 
+                              onChange={(val) => setEditForm({...editForm, mata_pelajaran: val})} 
+                            />
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Detail Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                  {/* NIK */}
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">NIK (No. KTP)</span>
-                    <p className="text-slate-800 text-sm font-semibold">{selectedPegawai.nik || "-"}</p>
+                {/* ─── BAGIAN BAWAH: DATA INDUK & IDENTITAS ─── */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-primary-600" />
+                      <span>Data Induk Pribadi &amp; Kontak</span>
+                    </h4>
+                    {isEditing && (
+                      <span className="text-xs text-primary-600 font-semibold bg-primary-50 px-2.5 py-1 rounded-lg">
+                        Mode Edit Aktif
+                      </span>
+                    )}
                   </div>
 
-                  {/* Gender */}
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Jenis Kelamin</span>
-                    <p className="text-slate-800 text-sm font-semibold">
-                      {selectedPegawai.jenis_kelamin === "LAKI_LAKI" ? "Laki-laki" : "Perempuan"}
-                    </p>
-                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+                    {/* NIK */}
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">NIK (No. KTP)</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold">{selectedPegawai.nik || "-"}</p>
+                      ) : (
+                        <input
+                          type="text"
+                          maxLength={16}
+                          value={editForm.nik}
+                          onChange={(e) => setEditForm({ ...editForm, nik: e.target.value })}
+                          placeholder="16 digit NIK"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                        />
+                      )}
+                    </div>
 
-                  {/* TTL */}
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Tempat / Tanggal Lahir</span>
-                    <p className="text-slate-800 text-sm font-semibold flex items-center gap-1.5">
-                      <Calendar className="w-4 h-4 text-slate-400" />
-                      {selectedPegawai.tempat_lahir || "-"}, {selectedPegawai.tanggal_lahir ? new Date(selectedPegawai.tanggal_lahir).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }) : "-"}
-                    </p>
-                  </div>
+                    {/* Jenis Kelamin */}
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Jenis Kelamin</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold">
+                          {selectedPegawai.jenis_kelamin === "LAKI_LAKI" ? "Laki-laki" : selectedPegawai.jenis_kelamin === "PEREMPUAN" ? "Perempuan" : "-"}
+                        </p>
+                      ) : (
+                        <select
+                          value={editForm.jenis_kelamin}
+                          onChange={(e) => setEditForm({ ...editForm, jenis_kelamin: e.target.value })}
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                        >
+                          <option value="LAKI_LAKI">Laki-laki</option>
+                          <option value="PEREMPUAN">Perempuan</option>
+                        </select>
+                      )}
+                    </div>
 
-                  {/* Kontak */}
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">WhatsApp / No. HP</span>
-                    <p className="text-slate-800 text-sm font-semibold flex items-center gap-1.5">
-                      <Phone className="w-4 h-4 text-slate-400" />
-                      {selectedPegawai.no_hp || "-"}
-                    </p>
-                  </div>
+                    {/* Tempat Lahir */}
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Tempat Lahir</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold">{selectedPegawai.tempat_lahir || "-"}</p>
+                      ) : (
+                        <input
+                          type="text"
+                          value={editForm.tempat_lahir}
+                          onChange={(e) => setEditForm({ ...editForm, tempat_lahir: e.target.value })}
+                          placeholder="Kota kelahiran"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                        />
+                      )}
+                    </div>
 
-                  {/* Email */}
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Email</span>
-                    <p className="text-slate-800 text-sm font-semibold flex items-center gap-1.5">
-                      <Mail className="w-4 h-4 text-slate-400" />
-                      {selectedPegawai.email || "-"}
-                    </p>
-                  </div>
+                    {/* Tanggal Lahir */}
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Tanggal Lahir</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold flex items-center gap-1.5">
+                          <Calendar className="w-4 h-4 text-slate-400" />
+                          {selectedPegawai.tanggal_lahir
+                            ? new Date(selectedPegawai.tanggal_lahir).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })
+                            : "-"}
+                        </p>
+                      ) : (
+                        <input
+                          type="date"
+                          value={editForm.tanggal_lahir}
+                          onChange={(e) => setEditForm({ ...editForm, tanggal_lahir: e.target.value })}
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                        />
+                      )}
+                    </div>
 
-                  {/* Pendidikan */}
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Pendidikan Terakhir</span>
-                    <p className="text-slate-800 text-sm font-semibold">{selectedPegawai.pendidikan_terakhir || "-"}</p>
-                  </div>
+                    {/* WhatsApp / No HP */}
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">WhatsApp / No. HP</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold flex items-center gap-1.5">
+                          <Phone className="w-4 h-4 text-slate-400" />
+                          {selectedPegawai.no_hp || "-"}
+                        </p>
+                      ) : (
+                        <input
+                          type="text"
+                          value={editForm.no_hp}
+                          onChange={(e) => setEditForm({ ...editForm, no_hp: e.target.value })}
+                          placeholder="08123456789"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                        />
+                      )}
+                    </div>
 
-                  {/* Status Pernikahan */}
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Status Pernikahan</span>
-                    <p className="text-slate-800 text-sm font-semibold flex items-center gap-1.5">
-                      <Heart className="w-4 h-4 text-slate-400" />
-                      {selectedPegawai.status_pernikahan ? selectedPegawai.status_pernikahan.replace("_", " ") : "-"}
-                    </p>
-                  </div>
+                    {/* Email */}
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Email</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold flex items-center gap-1.5">
+                          <Mail className="w-4 h-4 text-slate-400" />
+                          {selectedPegawai.email || "-"}
+                        </p>
+                      ) : (
+                        <input
+                          type="email"
+                          value={editForm.email}
+                          onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                          placeholder="nama@email.com"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                        />
+                      )}
+                    </div>
 
-                  {/* Mapel */}
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Mata Pelajaran Diajar</span>
-                    <p className="text-slate-800 text-sm font-semibold flex items-center gap-1.5">
-                      <Briefcase className="w-4 h-4 text-slate-400" />
-                      {selectedPegawai.mata_pelajaran || "-"}
-                    </p>
-                  </div>
+                    {/* Pendidikan Terakhir */}
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Pendidikan Terakhir</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold">{selectedPegawai.pendidikan_terakhir || "-"}</p>
+                      ) : (
+                        <select
+                          value={editForm.pendidikan_terakhir}
+                          onChange={(e) => setEditForm({ ...editForm, pendidikan_terakhir: e.target.value })}
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                        >
+                          <option value="">— Pilih Pendidikan —</option>
+                          {PENDIDIKAN_OPTIONS.map((p) => (
+                            <option key={p} value={p}>{p}</option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
 
-                  {/* Alamat */}
-                  <div className="space-y-1 md:col-span-2">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">Alamat Tinggal / Domisili</span>
-                    <p className="text-slate-800 text-sm font-semibold flex items-start gap-1.5">
-                      <MapPin className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-                      <span>{selectedPegawai.alamat || "-"}</span>
-                    </p>
+                    {/* Status Pernikahan */}
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Status Pernikahan</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold flex items-center gap-1.5">
+                          <Heart className="w-4 h-4 text-slate-400" />
+                          {selectedPegawai.status_pernikahan ? selectedPegawai.status_pernikahan.replace("_", " ") : "-"}
+                        </p>
+                      ) : (
+                        <select
+                          value={editForm.status_pernikahan}
+                          onChange={(e) => setEditForm({ ...editForm, status_pernikahan: e.target.value })}
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20"
+                        >
+                          <option value="BELUM_MENIKAH">Belum Menikah</option>
+                          <option value="MENIKAH">Menikah</option>
+                          <option value="DUDA_JANDA">Duda / Janda</option>
+                        </select>
+                      )}
+                    </div>
+
+                    {/* Mapel Diajar (View Only Summary) */}
+                    {!isEditing && (
+                      <div className="space-y-1 md:col-span-2">
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Mata Pelajaran Diajar</span>
+                        <p className="text-slate-800 font-semibold flex items-center gap-1.5">
+                          <Briefcase className="w-4 h-4 text-slate-400" />
+                          {selectedPegawai.mata_pelajaran || "-"}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Alamat */}
+                    <div className="space-y-1 md:col-span-2">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Alamat Tinggal / Domisili</span>
+                      {!isEditing ? (
+                        <p className="text-slate-800 font-semibold flex items-start gap-1.5">
+                          <MapPin className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                          <span>{selectedPegawai.alamat || "-"}</span>
+                        </p>
+                      ) : (
+                        <textarea
+                          rows={2}
+                          value={editForm.alamat}
+                          onChange={(e) => setEditForm({ ...editForm, alamat: e.target.value })}
+                          placeholder="Alamat lengkap domisili..."
+                          className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 resize-none"
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
+
               </div>
 
-              {/* Footer */}
-              <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-between shrink-0 items-center">
+              {/* Footer Modal */}
+              <div className="p-4 md:p-6 bg-slate-50 border-t border-slate-100 flex justify-between shrink-0 items-center">
                 {isEditing ? (
                   <>
                     <button
                       onClick={() => setIsEditing(false)}
                       disabled={saving}
-                      className="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-all disabled:opacity-50"
+                      className="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-all disabled:opacity-50 text-sm"
                     >
                       Batal
                     </button>
                     <button
                       onClick={handleSaveEdit}
-                      disabled={saving}
-                      className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-all shadow-md disabled:opacity-50"
+                      disabled={saving || uploadingFoto}
+                      className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-all shadow-md disabled:opacity-50 text-sm flex items-center gap-2"
                     >
-                      {saving ? "Menyimpan..." : "Simpan Perubahan"}
+                      {saving ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Menyimpan...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Check className="w-4 h-4" />
+                          <span>Simpan Perubahan</span>
+                        </>
+                      )}
                     </button>
                   </>
                 ) : (
                   <>
                     <button
                       onClick={() => setIsEditing(true)}
-                      className="px-6 py-2.5 bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold rounded-xl transition-all"
+                      className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-all text-sm flex items-center gap-2 shadow-sm"
                     >
-                      Edit Kategori / Posisi
+                      <Edit3 className="w-4 h-4" />
+                      <span>Edit Data Civitas</span>
                     </button>
                     <button
                       onClick={() => setSelectedPegawai(null)}
-                      className="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-all"
+                      className="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-all text-sm"
                     >
                       Tutup
                     </button>
