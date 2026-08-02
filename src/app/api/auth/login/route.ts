@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     if (!profile || !profile.password_hash) {
       return NextResponse.json(
-        { error: "Email atau Password salah" },
+        { error: "User ID / Email / No. WA atau password salah" },
         { status: 401 }
       );
     }
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const isValid = await comparePassword(password, profile.password_hash);
     if (!isValid) {
       return NextResponse.json(
-        { error: "Email atau Password salah" },
+        { error: "User ID / Email / No. WA atau password salah" },
         { status: 401 }
       );
     }
