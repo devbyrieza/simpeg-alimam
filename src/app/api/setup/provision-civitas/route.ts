@@ -46,9 +46,9 @@ export async function GET() {
         targetEmail = `${namaDepan}@pesantren-alimam.com`;
       }
 
-      // Generate NIP
+      // Generate NIP (User ID)
       let nipProfile = p.nip;
-      if (!nipProfile || nipProfile.length < 10) {
+      if (!nipProfile) {
         const randomDigits = Math.floor(1000 + Math.random() * 9000); // 1000 to 9999
         nipProfile = `202608${randomDigits}`;
         
