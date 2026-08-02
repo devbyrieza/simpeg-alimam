@@ -1,11 +1,23 @@
 "use client";
 
-import { Building2, Settings, Users, ArrowLeft, Printer, Calendar } from "lucide-react";
+import { useState } from "react";
+import { Building2, Settings, Users, ArrowLeft, Printer, Calendar, LogOut, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch { /* ignore */ } finally {
+      router.push("/login");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
@@ -51,6 +63,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <ArrowLeft className="w-5 h-5" />
             Kembali ke Portal
           </Link>
+
+          <button
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all mt-2 border border-transparent hover:border-red-500/20"
+          >
+            {isLoggingOut
+              ? <Loader2 className="w-5 h-5 animate-spin" />
+              : <LogOut className="w-5 h-5" />
+            }
+            {isLoggingOut ? "Keluar..." : "Logout"}
+          </button>
         </nav>
       </aside>
 

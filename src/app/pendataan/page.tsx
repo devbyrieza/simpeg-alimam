@@ -7,7 +7,7 @@ import * as z from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Loader2, CheckCircle, User, Briefcase, Phone, Camera, X, 
-  GraduationCap, Heart, BookOpen, Upload, ChevronRight
+  GraduationCap, Heart, BookOpen, Upload, ChevronRight, LogOut
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -103,7 +103,17 @@ export default function PendataanPage() {
   const [activeSection, setActiveSection] = useState(0);
   const [fotoPreview, setFotoPreview] = useState<string | null>(null);
   const [fotoFile, setFotoFile] = useState<File | null>(null);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const fotoInputRef = useRef<HTMLInputElement>(null);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch { /* ignore */ } finally {
+      window.location.href = "/login";
+    }
+  };
 
   const { register, handleSubmit, formState: { errors }, reset, watch, setValue, getValues } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -305,7 +315,21 @@ export default function PendataanPage() {
 
       <div className="max-w-3xl mx-auto relative z-10">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
+        <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10 relative">
+          {/* Tombol Logout di kanan atas */}
+          <div className="absolute top-0 right-0">
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-all text-xs font-bold shadow-sm cursor-pointer"
+            >
+              {isLoggingOut
+                ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                : <LogOut className="w-3.5 h-3.5" />
+              }
+              {isLoggingOut ? "Keluar..." : "Logout"}
+            </button>
+          </div>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 rounded-full mb-4">
             <BookOpen className="w-4 h-4 text-primary-600" />
             <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">SIMPEG · Pesantren Al-Imam Al-Islami</span>
