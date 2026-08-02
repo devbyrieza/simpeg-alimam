@@ -11,6 +11,7 @@ import * as XLSX from "xlsx";
 import Image from "next/image";
 import MapelSelector from "@/components/MapelSelector";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 interface PegawaiData {
   id: string;
@@ -203,11 +204,22 @@ export default function AdminPegawaiPage() {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      alert("Ukuran foto maksimal 5MB");
+      Swal.fire({
+        icon: "warning",
+        title: "<span class='text-slate-800 font-extrabold text-lg'>Ukuran File Terlalu Besar</span>",
+        html: "<p class='text-slate-500 text-sm'>Ukuran foto maksimal adalah <b>5MB</b>.</p>",
+        confirmButtonText: "Mengerti",
+        confirmButtonColor: "#3b0a0a",
+        customClass: {
+          popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
+          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
+        },
+      });
       return;
     }
 
     setUploadingFoto(true);
+    const loadingToast = toast.loading("Mengunggah foto profil...");
     try {
       const fd = new FormData();
       fd.append("foto", file);
@@ -219,13 +231,44 @@ export default function AdminPegawaiPage() {
       if (res.ok) {
         const resData = await res.json();
         setEditForm((prev) => ({ ...prev, foto_url: resData.url }));
-        alert("Foto berhasil diunggah!");
+        toast.dismiss(loadingToast);
+        toast.success("Foto profil berhasil diunggah!", {
+          style: {
+            borderRadius: "16px",
+            background: "#1e293b",
+            color: "#fff",
+            fontWeight: "bold",
+            fontSize: "13px",
+          },
+        });
       } else {
-        alert("Gagal mengunggah foto");
+        toast.dismiss(loadingToast);
+        Swal.fire({
+          icon: "error",
+          title: "<span class='text-slate-800 font-extrabold text-lg'>Gagal Mengunggah Foto</span>",
+          html: "<p class='text-slate-500 text-sm'>Terjadi kesalahan pada server saat mengunggah foto.</p>",
+          confirmButtonText: "Tutup",
+          confirmButtonColor: "#3b0a0a",
+          customClass: {
+            popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
+            confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
+          },
+        });
       }
     } catch (err) {
       console.error(err);
-      alert("Terjadi kesalahan saat mengunggah foto");
+      toast.dismiss(loadingToast);
+      Swal.fire({
+        icon: "error",
+        title: "<span class='text-slate-800 font-extrabold text-lg'>Kesalahan Jaringan</span>",
+        html: "<p class='text-slate-500 text-sm'>Gagal menghubungi server saat mengunggah foto.</p>",
+        confirmButtonText: "Tutup",
+        confirmButtonColor: "#3b0a0a",
+        customClass: {
+          popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
+          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
+        },
+      });
     } finally {
       setUploadingFoto(false);
     }
@@ -234,7 +277,17 @@ export default function AdminPegawaiPage() {
   const handleSaveEdit = async () => {
     if (!selectedPegawai) return;
     if (!editForm.nama_lengkap.trim()) {
-      alert("Nama lengkap wajib diisi.");
+      Swal.fire({
+        icon: "warning",
+        title: "<span class='text-slate-800 font-extrabold text-lg'>Nama Lengkap Wajib Diisi</span>",
+        html: "<p class='text-slate-500 text-sm'>Silakan lengkapi nama lengkap civitas / pegawai.</p>",
+        confirmButtonText: "Lengkapi Sekarang",
+        confirmButtonColor: "#3b0a0a",
+        customClass: {
+          popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
+          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
+        },
+      });
       return;
     }
 
@@ -254,14 +307,52 @@ export default function AdminPegawaiPage() {
         setIsEditing(false);
         fetchPegawai();
         setSelectedPegawai({ ...selectedPegawai, ...editForm });
-        alert("Data civitas / pegawai berhasil diperbarui!");
+
+        Swal.fire({
+          icon: "success",
+          title: "<span class='text-primary-950 font-extrabold text-xl'>Perubahan Berhasil Disimpan!</span>",
+          html: `
+            <div class='text-slate-600 text-sm space-y-2 pt-1'>
+              <p>Data profil civitas <b>${editForm.nama_lengkap}</b> telah berhasil diperbarui di database induk SIMPEG.</p>
+              ${editForm.mata_pelajaran ? `<div class='mt-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 font-medium text-left'><b>Mapel Ditugaskan:</b> ${editForm.mata_pelajaran}</div>` : ""}
+            </div>
+          `,
+          confirmButtonText: "Selesai",
+          confirmButtonColor: "#3b0a0a",
+          customClass: {
+            popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
+            confirmButton: "px-8 py-3 rounded-2xl font-black text-sm shadow-lg shadow-primary-950/20 hover:scale-[1.02] transition-transform cursor-pointer",
+          },
+          timer: 3000,
+          timerProgressBar: true,
+        });
       } else {
         const err = await res.json().catch(() => ({ message: "Gagal menyimpan perubahan" }));
-        alert(err.message || "Gagal menyimpan perubahan");
+        Swal.fire({
+          icon: "error",
+          title: "<span class='text-slate-800 font-extrabold text-lg'>Gagal Menyimpan</span>",
+          html: `<p class='text-slate-500 text-sm'>${err.message || "Terjadi kendala saat menyimpan perubahan data."}</p>`,
+          confirmButtonText: "Tutup",
+          confirmButtonColor: "#3b0a0a",
+          customClass: {
+            popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
+            confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
+          },
+        });
       }
     } catch (e) {
       console.error(e);
-      alert("Terjadi kesalahan jaringan");
+      Swal.fire({
+        icon: "error",
+        title: "<span class='text-slate-800 font-extrabold text-lg'>Kesalahan Jaringan</span>",
+        html: "<p class='text-slate-500 text-sm'>Tidak dapat terhubung ke server. Silakan periksa koneksi internet Anda.</p>",
+        confirmButtonText: "Tutup",
+        confirmButtonColor: "#3b0a0a",
+        customClass: {
+          popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
+          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
+        },
+      });
     } finally {
       setSaving(false);
     }
