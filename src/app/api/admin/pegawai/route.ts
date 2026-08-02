@@ -16,6 +16,60 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const {
+      nama_lengkap,
+      nik,
+      jenis_kelamin,
+      tempat_lahir,
+      tanggal_lahir,
+      no_hp,
+      email,
+      alamat,
+      kategori_pegawai,
+      unit_kerja,
+      divisi,
+      jabatan,
+      mata_pelajaran,
+      pendidikan_terakhir,
+      status_pernikahan,
+      foto_url,
+    } = body;
+
+    if (!nama_lengkap || !nama_lengkap.trim()) {
+      return NextResponse.json({ success: false, message: "Nama lengkap wajib diisi." }, { status: 400 });
+    }
+
+    const newPegawai = await prisma.pegawai.create({
+      data: {
+        nama_lengkap: nama_lengkap.trim(),
+        nik: nik?.trim() || null,
+        jenis_kelamin: jenis_kelamin || null,
+        tempat_lahir: tempat_lahir?.trim() || null,
+        tanggal_lahir: tanggal_lahir ? new Date(tanggal_lahir) : null,
+        no_hp: no_hp?.trim() || null,
+        email: email?.trim() || null,
+        alamat: alamat?.trim() || null,
+        kategori_pegawai: kategori_pegawai || "PEGAWAI_UMUM",
+        unit_kerja: unit_kerja || null,
+        divisi: divisi || null,
+        jabatan: jabatan || null,
+        mata_pelajaran: (kategori_pegawai || "").toUpperCase().includes("GURU") ? (mata_pelajaran?.trim() || null) : null,
+        pendidikan_terakhir: pendidikan_terakhir || null,
+        status_pernikahan: status_pernikahan || null,
+        foto_url: foto_url || null,
+      },
+    });
+
+    return NextResponse.json({ success: true, data: newPegawai }, { status: 201 });
+  } catch (error: any) {
+    console.error("Error creating pegawai:", error);
+    return NextResponse.json({ success: false, message: error.message || "Terjadi kesalahan saat menambahkan pegawai." }, { status: 500 });
+  }
+}
+
 export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
@@ -78,5 +132,25 @@ export async function PATCH(req: NextRequest) {
   } catch (error: any) {
     console.error("Error updating pegawai:", error);
     return NextResponse.json({ success: false, message: error.message || "Terjadi kesalahan saat mengupdate data." }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ success: false, message: "ID Pegawai wajib disertakan." }, { status: 400 });
+    }
+
+    await prisma.pegawai.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ success: true, message: "Data civitas berhasil dihapus." }, { status: 200 });
+  } catch (error: any) {
+    console.error("Error deleting pegawai:", error);
+    return NextResponse.json({ success: false, message: error.message || "Terjadi kesalahan saat menghapus data." }, { status: 500 });
   }
 }
