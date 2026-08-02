@@ -16,7 +16,12 @@ export async function POST(request: NextRequest) {
     }
 
     const profile = await prisma.profile.findFirst({
-      where: { email },
+      where: {
+        OR: [
+          { email },
+          { nip: email }
+        ]
+      },
     });
 
     if (!profile || !profile.password_hash) {

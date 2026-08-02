@@ -46,10 +46,31 @@ export async function GET() {
         targetEmail = `${namaDepan}@pesantren-alimam.com`;
       }
 
+      // Generate NIP
+      let nipProfile = p.nip;
+      if (!nipProfile) {
+        const randomDigits = Math.floor(100 + Math.random() * 900); // 100 to 999
+        nipProfile = `26${randomDigits}`;
+        
+        try {
+          await prisma.profile.update({
+            where: { id: p.id },
+            data: { nip: nipProfile }
+          });
+        } catch(e) {
+          nipProfile = `26${Math.floor(100 + Math.random() * 900)}`;
+          await prisma.profile.update({
+            where: { id: p.id },
+            data: { nip: nipProfile }
+          });
+        }
+      }
+
       const updated = await prisma.profile.update({
         where: { id: p.id },
         data: {
           email: targetEmail,
+          nip: nipProfile,
           role: role,
           secondary_roles: secondaryRoles,
           password_hash: passwordHash,

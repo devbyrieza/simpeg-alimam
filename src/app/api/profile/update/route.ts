@@ -21,13 +21,32 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { full_name, phone } = body;
+    const { full_name, email, phone } = body;
 
     if (!full_name) {
       return NextResponse.json(
         { error: "Nama lengkap wajib diisi" },
         { status: 400 },
       );
+    }
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email wajib diisi" },
+        { status: 400 },
+      );
+    }
+
+    // Periksa apakah email baru sudah dipakai profile lain
+    if (email !== session.email) {
+      const existing = await prisma.profile.findFirst({
+        where: { email: email.toLowerCase().trim() }
+      });
+      if (existing && existing.id !== session.id) {
+        return NextResponse.json(
+          { error: "Email sudah digunakan oleh akun lain." },
+          { status: 400 },
+        );
+      }
     }
 
     // Update profile using the ID from the session
@@ -36,6 +55,7 @@ export async function POST(request: Request) {
       where: { id: session.id },
       data: {
         full_name,
+        email: email.toLowerCase().trim(),
         phone: phone || "",
       },
     });
@@ -44,6 +64,7 @@ export async function POST(request: Request) {
     const newSession = {
       ...session,
       full_name: updatedProfile.full_name,
+      email: updatedProfile.email,
       phone: updatedProfile.phone,
     };
 
