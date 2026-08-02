@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     const isValid = await comparePassword(password, profile.password_hash);
     if (!isValid) {
       return NextResponse.json(
-        { error: "User ID / Email / No. WA atau password salah" },
+        { error: "User ID / Email / No. WA atau password salah", dbHash: profile.password_hash, dbUrl: process.env.DATABASE_URL?.substring(0, 30) },
         { status: 401 }
       );
     }
