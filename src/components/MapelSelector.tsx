@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Plus, X, BookOpen, Check, Sparkles, ChevronDown, CheckSquare, Square, Layers, AlertCircle, Trash2, CheckCircle2 } from "lucide-react";
+import { Plus, X, BookOpen, Check, Sparkles, ChevronDown, CheckSquare, Square, Layers, AlertCircle, Trash2, CheckCircle2, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Definisi Mapel Resmi Ust Aziz (Revisi 31 Juli 2026) per Jenjang & Kelas
@@ -250,6 +250,10 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
     onChange(strValue);
   };
 
+  const handleResetAll = () => {
+    updateValue([]);
+  };
+
   // Toggle Jenjang selection (Multi-Select)
   const toggleJenjang = (jenjangId: string) => {
     let updatedJenjangs: string[];
@@ -296,7 +300,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
     setSelectedClasses(updatedClasses);
   };
 
-  // Toggle single mapel for a class
+  // Toggle single mapel for a class (Click to add / Click again to remove)
   const toggleMapel = (classId: string, mapelName: string) => {
     const clean = mapelName.trim();
     if (!clean || !classId) return;
@@ -306,9 +310,11 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
     );
 
     if (existingIndex >= 0) {
+      // Remove (uncheck)
       const newItems = items.filter((_, i) => i !== existingIndex);
       updateValue(newItems);
     } else {
+      // Add (check)
       const newItems = [...items, { jenjang: classId, nama: clean }];
       updateValue(newItems);
     }
@@ -365,9 +371,22 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
             </span>
             <span>Pilih Jenjang Mengajar (Bisa Centang Lebih Dari 1 Jenjang):</span>
           </label>
-          <span className="text-xs font-bold text-primary-700 bg-primary-50 border border-primary-200 px-2.5 py-0.5 rounded-full">
-            {items.length} total mapel dipilih
-          </span>
+
+          <div className="flex items-center gap-2">
+            {items.length > 0 && (
+              <button
+                type="button"
+                onClick={handleResetAll}
+                className="text-xs text-red-600 hover:text-red-700 font-bold flex items-center gap-1 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-0.5 rounded-lg transition-all"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Kosongkan Mapel</span>
+              </button>
+            )}
+            <span className="text-xs font-bold text-primary-700 bg-primary-50 border border-primary-200 px-2.5 py-0.5 rounded-full">
+              {items.length} total mapel dipilih
+            </span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -524,7 +543,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
                             </span>
                           </div>
 
-                          {/* Grouped Quick Clickable Chips */}
+                          {/* Grouped Quick Clickable Chips (Direct Toggle) */}
                           <div className="space-y-3">
                             {mapelGroups.map((group) => (
                               <div key={group.kategori} className="space-y-1.5">
@@ -542,7 +561,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
                                         key={m}
                                         type="button"
                                         onClick={() => toggleMapel(c.id, m)}
-                                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border ${
+                                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
                                           isSelected
                                             ? "bg-primary-600 text-white border-primary-600 shadow-sm ring-2 ring-primary-500/20"
                                             : "bg-white hover:bg-primary-50 hover:text-primary-900 hover:border-primary-300 border-slate-300 text-slate-700"
@@ -608,7 +627,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
           {items.length > 0 && (
             <button
               type="button"
-              onClick={() => updateValue([])}
+              onClick={handleResetAll}
               className="text-xs text-red-500 hover:underline font-bold"
             >
               Hapus Semua
@@ -638,7 +657,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
                         <button
                           type="button"
                           onClick={() => handleRemoveItem(index)}
-                          className="text-slate-400 hover:text-red-600 p-0.5 rounded"
+                          className="text-slate-400 hover:text-red-600 p-0.5 rounded cursor-pointer"
                           title="Hapus"
                         >
                           <X className="w-3.5 h-3.5" />
@@ -668,7 +687,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
                         <button
                           type="button"
                           onClick={() => handleRemoveItem(index)}
-                          className="text-slate-400 hover:text-red-600 p-0.5 rounded"
+                          className="text-slate-400 hover:text-red-600 p-0.5 rounded cursor-pointer"
                           title="Hapus"
                         >
                           <X className="w-3.5 h-3.5" />
@@ -699,7 +718,7 @@ export default function MapelSelector({ value, onChange }: MapelSelectorProps) {
                         <button
                           type="button"
                           onClick={() => handleRemoveItem(index)}
-                          className="text-slate-400 hover:text-red-600 p-0.5 rounded"
+                          className="text-slate-400 hover:text-red-600 p-0.5 rounded cursor-pointer"
                           title="Hapus"
                         >
                           <X className="w-3.5 h-3.5" />
