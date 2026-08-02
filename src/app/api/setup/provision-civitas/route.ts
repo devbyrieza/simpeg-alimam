@@ -48,9 +48,9 @@ export async function GET() {
 
       // Generate NIP
       let nipProfile = p.nip;
-      if (!nipProfile) {
-        const randomDigits = Math.floor(100 + Math.random() * 900); // 100 to 999
-        nipProfile = `26${randomDigits}`;
+      if (!nipProfile || nipProfile.length < 10) {
+        const randomDigits = Math.floor(1000 + Math.random() * 9000); // 1000 to 9999
+        nipProfile = `202608${randomDigits}`;
         
         try {
           await prisma.profile.update({
@@ -58,7 +58,7 @@ export async function GET() {
             data: { nip: nipProfile }
           });
         } catch(e) {
-          nipProfile = `26${Math.floor(100 + Math.random() * 900)}`;
+          nipProfile = `202608${Math.floor(1000 + Math.random() * 9000)}`;
           await prisma.profile.update({
             where: { id: p.id },
             data: { nip: nipProfile }
