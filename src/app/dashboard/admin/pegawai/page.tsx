@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Search, Users, ShieldAlert, X, Calendar, Phone, Mail, MapPin, Award, Heart, Briefcase, FileText } from "lucide-react";
+import { Download, Search, Users, ShieldAlert, X, Calendar, Phone, Mail, MapPin, Award, Heart, Briefcase, FileText, CheckCircle2, Plus, Sparkles } from "lucide-react";
 import * as XLSX from "xlsx";
 import Image from "next/image";
 import MapelSelector from "@/components/MapelSelector";
@@ -27,11 +27,18 @@ interface PegawaiData {
   foto_url: string | null;
 }
 
+const KATEGORI_OPTIONS = [
+  { value: "GURU", label: "Guru / Asatidz", desc: "Pengajar kelas & kajian", color: "blue" },
+  { value: "MUSYRIF", label: "Musyrif / Pengasuh", desc: "Pembina asrama & santri", color: "purple" },
+  { value: "STAF", label: "Staf Pegawai", desc: "Keuangan, Sapras, IT, Media", color: "emerald" },
+  { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Konsumsi & dapur santri", color: "amber" },
+  { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Divisi, dll", color: "rose" },
+];
+
 const formatName = (str: string) => {
   if (!str) return "-";
   return str.split(' ').map(word => {
     if (word.includes('.')) return word; // Biarkan singkatan gelar (misal B.A, S.Pd)
-    // Jika semua huruf kapital (misal dari database) atau semua huruf kecil (wahyudi), kita format menjadi Title Case
     if (word === word.toUpperCase() || word === word.toLowerCase()) {
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
@@ -47,6 +54,7 @@ export default function AdminPegawaiPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editForm, setEditForm] = useState({ kategori_pegawai: "", jabatan: "", unit_kerja: "", divisi: "", mata_pelajaran: "" });
+  const [customKategoriInput, setCustomKategoriInput] = useState("");
 
   useEffect(() => {
     fetchPegawai();
@@ -71,6 +79,38 @@ export default function AdminPegawaiPage() {
     p.kategori_pegawai.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (p.unit_kerja && p.unit_kerja.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  // Parse list of selected categories from editForm
+  const selectedKategoriList = useMemo(() => {
+    if (!editForm.kategori_pegawai) return [];
+    return editForm.kategori_pegawai
+      .split(",")
+      .map((s) => s.trim().toUpperCase())
+      .filter((s) => s);
+  }, [editForm.kategori_pegawai]);
+
+  const toggleKategori = (val: string) => {
+    const cleanVal = val.trim().toUpperCase();
+    if (!cleanVal) return;
+
+    let updated: string[];
+    if (selectedKategoriList.includes(cleanVal)) {
+      updated = selectedKategoriList.filter((v) => v !== cleanVal);
+    } else {
+      updated = [...selectedKategoriList, cleanVal];
+    }
+    setEditForm({ ...editForm, kategori_pegawai: updated.join(",") });
+  };
+
+  const handleAddCustomKategori = () => {
+    const clean = customKategoriInput.trim().toUpperCase();
+    if (!clean) return;
+    if (!selectedKategoriList.includes(clean)) {
+      const updated = [...selectedKategoriList, clean];
+      setEditForm({ ...editForm, kategori_pegawai: updated.join(",") });
+    }
+    setCustomKategoriInput("");
+  };
 
   const handleSaveEdit = async () => {
     if (!selectedPegawai) return;
@@ -134,7 +174,7 @@ export default function AdminPegawaiPage() {
             <Users className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-slate-800 tracking-tight">Database Pegawai & Asatidz</h1>
+            <h1 className="text-2xl font-black text-slate-800 tracking-tight">Database Pegawai &amp; Asatidz</h1>
             <p className="text-slate-500 text-sm">Data induk untuk absensi dan SIAKAD</p>
           </div>
         </div>
@@ -194,7 +234,21 @@ export default function AdminPegawaiPage() {
                 </tr>
               ) : (
                 filteredData.map((pegawai, index) => (
-                  <tr key={pegawai.id} className="hover:bg-primary-50/50 transition-colors cursor-pointer group" onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "", mata_pelajaran: pegawai.mata_pelajaran || "" }); }}>
+                  <tr
+                    key={pegawai.id}
+                    className="hover:bg-primary-50/50 transition-colors cursor-pointer group"
+                    onClick={() => {
+                      setSelectedPegawai(pegawai);
+                      setIsEditing(false);
+                      setEditForm({
+                        kategori_pegawai: pegawai.kategori_pegawai,
+                        jabatan: pegawai.jabatan || "",
+                        unit_kerja: pegawai.unit_kerja || "",
+                        divisi: pegawai.divisi || "",
+                        mata_pelajaran: pegawai.mata_pelajaran || "",
+                      });
+                    }}
+                  >
                     <td className="px-4 py-3 whitespace-nowrap text-center text-slate-400 font-medium">{index + 1}</td>
                     <td className="px-4 py-3 whitespace-nowrap font-bold text-slate-800 group-hover:text-primary-700 transition-colors">
                       {formatName(pegawai.nama_lengkap)}
@@ -220,7 +274,17 @@ export default function AdminPegawaiPage() {
                     <td className="px-4 py-3 whitespace-nowrap text-slate-500">{pegawai.no_hp || "-"}</td>
                     <td className="px-4 py-3 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
                       <button
-                        onClick={() => { setSelectedPegawai(pegawai); setIsEditing(false); setEditForm({ kategori_pegawai: pegawai.kategori_pegawai, jabatan: pegawai.jabatan || "", unit_kerja: pegawai.unit_kerja || "", divisi: pegawai.divisi || "", mata_pelajaran: pegawai.mata_pelajaran || "" }); }}
+                        onClick={() => {
+                          setSelectedPegawai(pegawai);
+                          setIsEditing(false);
+                          setEditForm({
+                            kategori_pegawai: pegawai.kategori_pegawai,
+                            jabatan: pegawai.jabatan || "",
+                            unit_kerja: pegawai.unit_kerja || "",
+                            divisi: pegawai.divisi || "",
+                            mata_pelajaran: pegawai.mata_pelajaran || "",
+                          });
+                        }}
                         className="px-3 py-1.5 bg-white hover:bg-primary-50 text-primary-600 border border-slate-200 hover:border-primary-200 rounded-lg text-xs font-bold transition-all shadow-sm"
                       >
                         Lihat Profil
@@ -252,30 +316,33 @@ export default function AdminPegawaiPage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white w-full max-w-3xl rounded-[2.5rem] overflow-hidden shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col z-10"
+              className="relative w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[90vh] z-10"
             >
-              {/* Header */}
-              <div className="p-6 md:p-8 flex justify-between items-center text-white shrink-0" style={{ backgroundColor: "#3b0a0a" }}>
+              {/* Header Modal */}
+              <div className="p-6 bg-gradient-to-r from-primary-900 to-primary-950 text-white flex justify-between items-center shrink-0">
                 <div className="flex items-center gap-3">
-                  <FileText className="w-6 h-6 text-white/80" />
+                  <div className="p-2.5 bg-white/10 backdrop-blur-md rounded-xl text-primary-200">
+                    <FileText className="w-5 h-5" />
+                  </div>
                   <div>
-                    <h2 className="text-xl font-bold text-white">Detail Profil Civitas</h2>
-                    <p className="text-xs text-white/80">Informasi lengkap data kepegawaian</p>
+                    <h2 className="text-lg font-bold">Detail Profil Civitas</h2>
+                    <p className="text-xs text-primary-200/80">Informasi lengkap data kepegawaian</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setSelectedPegawai(null)}
-                  className="p-2 hover:bg-white/10 rounded-full transition-all text-white/80 hover:text-white"
+                  className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/80 hover:text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Scrollable Body */}
-              <div className="p-6 md:p-8 overflow-y-auto space-y-8 no-scrollbar flex-1">
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 pb-6 border-b border-slate-100">
-                  {/* Photo area */}
-                  <div className="w-32 h-40 bg-slate-50 border border-slate-200 rounded-2xl relative overflow-hidden flex items-center justify-center shrink-0 shadow-inner">
+              {/* Body Modal */}
+              <div className="p-6 md:p-8 overflow-y-auto space-y-6">
+                {/* Profile Card & Edit Form */}
+                <div className="flex flex-col md:flex-row gap-6 items-center md:items-start bg-slate-50/50 p-6 rounded-2xl border border-slate-100">
+                  {/* Foto */}
+                  <div className="w-28 h-28 rounded-2xl bg-white border-2 border-slate-100 shadow-sm overflow-hidden flex items-center justify-center shrink-0 relative">
                     {selectedPegawai.foto_url ? (
                       <img
                         src={selectedPegawai.foto_url}
@@ -291,46 +358,142 @@ export default function AdminPegawaiPage() {
                   </div>
 
                   {/* Top Details */}
-                  <div className="flex-1 text-center md:text-left space-y-2">
+                  <div className="flex-1 text-center md:text-left space-y-2 w-full">
                     <h3 className="text-2xl font-black text-slate-800 tracking-tight leading-tight">
                       {formatName(selectedPegawai.nama_lengkap)}
                     </h3>
                     {!isEditing ? (
                       <>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 border border-primary-100 text-primary-900 rounded-full text-xs font-bold uppercase tracking-wider">
-                          <Award className="w-3.5 h-3.5" />
-                          {selectedPegawai.kategori_pegawai.replace("_", " ")}
+                        <div className="flex flex-wrap gap-1.5 justify-center md:justify-start">
+                          {selectedPegawai.kategori_pegawai.split(",").map((k, i) => (
+                            <span
+                              key={i}
+                              className="inline-flex items-center gap-1 px-3 py-1 bg-primary-50 border border-primary-200 text-primary-900 rounded-full text-xs font-bold uppercase tracking-wider"
+                            >
+                              <Award className="w-3 h-3 text-primary-600" />
+                              {k.trim().replace("_", " ")}
+                            </span>
+                          ))}
                         </div>
                         <p className="text-slate-500 text-sm font-medium">
                           {selectedPegawai.jabatan || "Staf"} · {selectedPegawai.divisi || "Umum"}
                         </p>
                       </>
                     ) : (
-                      <div className="space-y-4 mt-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
-                        <div>
-                          <label className="text-xs font-bold text-slate-500 uppercase">Kategori Pegawai (Bisa lebih dari 1, pisahkan dengan koma)</label>
-                          <input 
-                            type="text" 
-                            value={editForm.kategori_pegawai}
-                            onChange={(e) => setEditForm({...editForm, kategori_pegawai: e.target.value.toUpperCase()})}
-                            placeholder="Contoh: GURU,MUSYRIF"
-                            className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
-                          />
+                      <div className="space-y-4 mt-4 bg-white p-5 rounded-2xl border border-slate-200 text-left w-full shadow-sm">
+                        {/* KATEGORI MULTI SELECTOR (CLICKABLE CARDS + CUSTOM TAGS) */}
+                        <div className="space-y-2">
+                          <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                            <Sparkles className="w-3.5 h-3.5 text-primary-600" />
+                            <span>Pilih Kategori Pegawai (Bisa Pilih Lebih Dari 1):</span>
+                          </label>
+                          
+                          {/* Standard Options as Clickable Cards */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                            {KATEGORI_OPTIONS.map((cat) => {
+                              const isSelected = selectedKategoriList.includes(cat.value);
+                              return (
+                                <button
+                                  key={cat.value}
+                                  type="button"
+                                  onClick={() => toggleKategori(cat.value)}
+                                  className={`p-2.5 rounded-xl border text-left transition-all flex items-start gap-2.5 ${
+                                    isSelected
+                                      ? "bg-primary-50 border-primary-600 ring-2 ring-primary-500/20 shadow-sm"
+                                      : "bg-slate-50/70 border-slate-200 hover:border-slate-300 hover:bg-slate-100/70"
+                                  }`}
+                                >
+                                  <div className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center shrink-0 transition-all ${
+                                    isSelected ? "bg-primary-600 text-white" : "border border-slate-300 bg-white"
+                                  }`}>
+                                    {isSelected && <CheckCircle2 className="w-3.5 h-3.5 stroke-[3]" />}
+                                  </div>
+                                  <div>
+                                    <div className={`text-xs font-bold ${isSelected ? "text-primary-950" : "text-slate-800"}`}>
+                                      {cat.label}
+                                    </div>
+                                    <div className="text-[10px] text-slate-400 leading-tight">
+                                      {cat.desc}
+                                    </div>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+
+                          {/* Custom Tag Display & Adder */}
+                          <div className="pt-1 space-y-2">
+                            {selectedKategoriList.some((k) => !KATEGORI_OPTIONS.some((opt) => opt.value === k)) && (
+                              <div className="flex flex-wrap gap-1.5 items-center">
+                                <span className="text-[10px] text-slate-400 font-bold uppercase">Kategori Tambahan:</span>
+                                {selectedKategoriList
+                                  .filter((k) => !KATEGORI_OPTIONS.some((opt) => opt.value === k))
+                                  .map((custom) => (
+                                    <span
+                                      key={custom}
+                                      className="inline-flex items-center gap-1.5 bg-primary-100 text-primary-900 border border-primary-300 text-xs font-bold px-2.5 py-1 rounded-lg"
+                                    >
+                                      {custom}
+                                      <button
+                                        type="button"
+                                        onClick={() => toggleKategori(custom)}
+                                        className="text-primary-700 hover:text-red-600"
+                                        title="Hapus"
+                                      >
+                                        <X className="w-3 h-3" />
+                                      </button>
+                                    </span>
+                                  ))}
+                              </div>
+                            )}
+
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={customKategoriInput}
+                                onChange={(e) => setCustomKategoriInput(e.target.value.toUpperCase())}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    handleAddCustomKategori();
+                                  }
+                                }}
+                                placeholder="Tambah kategori kustom lainnya (misal: SATPAM, SOPIR)..."
+                                className="flex-1 px-3 py-1.5 border border-slate-300 rounded-lg text-xs bg-white outline-none focus:ring-2 focus:ring-primary-500/20"
+                              />
+                              <button
+                                type="button"
+                                onClick={handleAddCustomKategori}
+                                disabled={!customKategoriInput.trim()}
+                                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 disabled:opacity-40 text-white rounded-lg text-xs font-bold flex items-center gap-1 transition-all"
+                              >
+                                <Plus className="w-3.5 h-3.5" />
+                                <span>Tambah</span>
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className={(editForm?.kategori_pegawai || "").toUpperCase().includes("GURU") ? "" : "col-span-1 md:col-span-2"}>
-                            <label className="text-xs font-bold text-slate-500 uppercase">Jabatan</label>
+
+                        {/* JABATAN & MAPEL */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
+                          <div className={selectedKategoriList.includes("GURU") ? "" : "col-span-1 md:col-span-2"}>
+                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">
+                              Jabatan / Posisi Struktural
+                            </label>
                             <input 
                               type="text" 
                               value={editForm.jabatan}
                               onChange={(e) => setEditForm({...editForm, jabatan: e.target.value})}
-                              placeholder="Contoh: Kasi IT, Musyrif"
-                              className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                              placeholder="Contoh: Kasi IT, Musyrif, Wali Kelas"
+                              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20"
                             />
                           </div>
-                          {(editForm?.kategori_pegawai || "").toUpperCase().includes("GURU") && (
-                            <div>
-                              <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Mapel / Mengajar</label>
+
+                          {selectedKategoriList.includes("GURU") && (
+                            <div className="col-span-1 md:col-span-2 bg-slate-50/80 p-4 rounded-2xl border border-slate-200 space-y-2">
+                              <label className="text-xs font-black text-slate-700 uppercase tracking-wider block">
+                                Penugasan Mata Pelajaran Mengajar (Khusus Guru)
+                              </label>
                               <MapelSelector 
                                 value={editForm.mata_pelajaran || ""} 
                                 onChange={(val) => setEditForm({...editForm, mata_pelajaran: val})} 
@@ -338,23 +501,27 @@ export default function AdminPegawaiPage() {
                             </div>
                           )}
                         </div>
+
+                        {/* DIVISI & UNIT KERJA */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="text-xs font-bold text-slate-500 uppercase">Divisi</label>
+                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Divisi</label>
                             <input 
                               type="text" 
                               value={editForm.divisi}
                               onChange={(e) => setEditForm({...editForm, divisi: e.target.value})}
-                              className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                              placeholder="Contoh: Kurikulum, Kepengasuhan, Sapras"
+                              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20"
                             />
                           </div>
                           <div>
-                            <label className="text-xs font-bold text-slate-500 uppercase">Unit Kerja</label>
+                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Unit Kerja</label>
                             <input 
                               type="text" 
                               value={editForm.unit_kerja}
                               onChange={(e) => setEditForm({...editForm, unit_kerja: e.target.value})}
-                              className="w-full mt-1 px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                              placeholder="Contoh: Pesantren Al-Imam"
+                              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary-500/20"
                             />
                           </div>
                         </div>
