@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readFile } from "fs/promises";
+import { readFile, access } from "fs/promises";
 import path from "path";
 
 export async function GET(
@@ -9,17 +9,32 @@ export async function GET(
   try {
     const { filename } = await params;
     
-    // Resolve upload directory path based on environment
-    const uploadDir = process.env.NODE_ENV === "production"
-      ? "/app/storage_data/uploads"
-      : path.join(process.cwd(), "storage_data", "uploads");
+    // Resolve upload directory candidates
+    const candidateDirs = process.env.NODE_ENV === "production"
+      ? ["/app/storage_data/uploads"]
+      : [
+          path.join(process.cwd(), "storage_data", "uploads"),
+          path.join(process.cwd(), "..", "sikap-alimam", "storage_data", "uploads"),
+        ];
 
-    const filePath = path.join(uploadDir, filename);
+    let foundFilePath: string | null = null;
+    for (const dir of candidateDirs) {
+      const p = path.join(dir, filename);
+      try {
+        await access(p);
+        foundFilePath = p;
+        break;
+      } catch {
+        // Try next candidate
+      }
+    }
 
-    // Read file buffer
-    const fileBuffer = await readFile(filePath);
+    if (!foundFilePath) {
+      return NextResponse.json({ error: "File tidak ditemukan" }, { status: 404 });
+    }
 
-    // Determine content type based on extension
+    const fileBuffer = await readFile(foundFilePath);
+
     const ext = path.extname(filename).toLowerCase();
     let contentType = "image/png";
     if (ext === ".jpg" || ext === ".jpeg") {
@@ -37,7 +52,7 @@ export async function GET(
       },
     });
   } catch (error: any) {
-    console.error("Error serving file:", error);
+    console.error("Error serving file in SIMPEG:", error);
     return NextResponse.json({ error: "File tidak ditemukan", details: error?.message }, { status: 404 });
   }
 }
