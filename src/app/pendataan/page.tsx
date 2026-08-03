@@ -608,7 +608,7 @@ export default function PendataanPage() {
                 </AnimatePresence>
 
                 <Field label="Amanah / Jabatan" hint="Opsional — isi jika mendapat amanah memimpin bidang tertentu" error={errors.jabatan?.message}>
-                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kasi Kepengasuhan, Kasi Kurikulum, Kasi IT, Bendahara..." />
+                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kabid Kepengasuhan, Kabid Kurikulum, Kabid IT, Bendahara..." />
                 </Field>
 
                 {isGuru && (

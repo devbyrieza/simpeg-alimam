@@ -19,7 +19,7 @@ async function main() {
   await prisma.profile.updateMany({
     where: { nama_lengkap: { contains: 'Maulidin Bachtiar' } },
     data: {
-      jabatan: 'Bendahara dan Kasi Keuangan'
+      jabatan: 'Bendahara dan Kabid Keuangan'
     }
   });
   console.log('Updated Maulidin Bachtiar');
@@ -29,7 +29,7 @@ async function main() {
     where: { nama_lengkap: { contains: 'Abdil Aziz' } },
     data: {
       nama_lengkap: 'Abdil Aziz, S.Pd., B.A.',
-      jabatan: 'Kasi Kurikulum'
+      jabatan: 'Kabid Kurikulum'
     }
   });
   console.log('Updated Abdil Aziz');

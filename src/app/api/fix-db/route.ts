@@ -18,7 +18,7 @@ export async function GET() {
     await prisma.pegawai.updateMany({
       where: { nama_lengkap: { contains: 'Maulidin Bachtiar' } },
       data: {
-        jabatan: 'Bendahara dan Kasi Keuangan'
+        jabatan: 'Bendahara dan Kabid Keuangan'
       }
     });
 
@@ -27,7 +27,7 @@ export async function GET() {
       where: { nama_lengkap: { contains: 'Abdil Aziz' } },
       data: {
         nama_lengkap: 'Abdil Aziz, S.Pd., B.A.',
-        jabatan: 'Kasi Kurikulum'
+        jabatan: 'Kabid Kurikulum'
       }
     });
 

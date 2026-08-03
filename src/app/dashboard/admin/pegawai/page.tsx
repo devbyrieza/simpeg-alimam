@@ -37,7 +37,7 @@ const KATEGORI_OPTIONS = [
   { value: "MUSYRIF", label: "Musyrif / Pengasuh", desc: "Pembina asrama & santri", color: "purple" },
   { value: "STAF", label: "Staf Pegawai", desc: "Keuangan, Sapras, IT, Media", color: "emerald" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Konsumsi & dapur santri", color: "amber" },
-  { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Divisi, dll", color: "rose" },
+  { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Bidang (Kabid), dll", color: "rose" },
 ];
 
 const DIVISI_OPTIONS = [
@@ -940,7 +940,7 @@ export default function AdminPegawaiPage() {
                               type="text" 
                               value={formData.jabatan}
                               onChange={(e) => setFormData({ ...formData, jabatan: e.target.value })}
-                              placeholder="Contoh: Kasi Kurikulum"
+                              placeholder="Contoh: Kabid Kurikulum"
                               className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 font-semibold"
                             />
                           </div>
