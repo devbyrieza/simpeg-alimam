@@ -85,6 +85,19 @@ export default function FasilitasPage() {
     jumlah: "",
   });
 
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("simpeg_fasilitas_visit_form");
+      if (draft) {
+        setVisitForm(JSON.parse(draft));
+      }
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("simpeg_fasilitas_visit_form", JSON.stringify(visitForm));
+  }, [visitForm]);
+
   const handleVisitSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -105,6 +118,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
     // alandalus-alimam CS number
     const waNumber = "6285111524441"; 
     
+    localStorage.removeItem("simpeg_fasilitas_visit_form");
     window.open(`https://wa.me/${waNumber}?text=${encodedText}`, '_blank');
     setFormStatus('success');
   };

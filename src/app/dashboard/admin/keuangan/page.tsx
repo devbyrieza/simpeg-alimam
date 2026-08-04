@@ -449,10 +449,13 @@ export default function KeuanganPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm gap-4">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
+            <div className="p-3 bg-primary-50 rounded-2xl text-primary-600">
+              <TrendingUp className="w-6 h-6" />
+            </div>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight">
               Rekap Keuangan
             </h1>
             {tahunAjaranList.length > 0 && (
@@ -469,11 +472,11 @@ export default function KeuanganPage() {
               </select>
             )}
           </div>
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-500 text-sm font-medium mt-2">
             Monitoring status pembayaran seluruh pendaftar
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
                       <button
               onClick={handleExportKeringanan}
               className="bg-gold-600 hover:bg-gold-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-bold shadow-md transition-colors"
@@ -496,16 +499,16 @@ export default function KeuanganPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-2 bg-slate-100 p-1.5 rounded-2xl w-full md:w-fit overflow-x-auto">
         <button
           onClick={() => {
             setActiveTab("pendaftaran");
             setSearch("");
           }}
-          className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${
+          className={`px-6 py-3 rounded-xl text-sm font-bold transition-all whitespace-nowrap ${
             activeTab === "pendaftaran"
               ? "bg-white text-primary-800 shadow-sm"
-              : "text-slate-500 hover:text-slate-700"
+              : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
           }`}
         >
           💳 Pembayaran Pendaftaran
@@ -515,10 +518,10 @@ export default function KeuanganPage() {
             setActiveTab("daftar-ulang");
             setSearch("");
           }}
-          className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${
+          className={`px-6 py-3 rounded-xl text-sm font-bold transition-all whitespace-nowrap ${
             activeTab === "daftar-ulang"
               ? "bg-white text-primary-800 shadow-sm"
-              : "text-slate-500 hover:text-slate-700"
+              : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
           }`}
         >
           🎓 Daftar Ulang
@@ -533,56 +536,56 @@ export default function KeuanganPage() {
           {/* Summary Cards */}
           {pendaftaranSummary && (
             <div className="grid grid-cols-1 md:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
-                <p className="text-xs text-slate-500 font-medium mb-1">
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">
                   Total Pendaftar
                 </p>
-                <p className="text-2xl font-black text-slate-800">
+                <p className="text-3xl font-black text-slate-800">
                   {pendaftaranSummary.total}
                 </p>
               </div>
-              <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100 shadow-sm">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <p className="text-xs text-emerald-700 font-medium">
+              <div className="bg-emerald-50 rounded-3xl p-6 border border-emerald-100 shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <p className="text-xs text-emerald-700 font-bold uppercase tracking-wider">
                     Terverifikasi
                   </p>
                 </div>
-                <p className="text-2xl font-black text-emerald-700">
+                <p className="text-3xl font-black text-emerald-700">
                   {pendaftaranSummary.terverifikasi}
                 </p>
               </div>
-              <div className="bg-secondary-50 rounded-xl p-4 border border-secondary-100 shadow-sm">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <Clock className="w-3.5 h-3.5 text-secondary-600" />
-                  <p className="text-xs text-secondary-700 font-medium">Menunggu</p>
+              <div className="bg-secondary-50 rounded-3xl p-6 border border-secondary-100 shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <Clock className="w-4 h-4 text-secondary-600" />
+                  <p className="text-xs text-secondary-700 font-bold uppercase tracking-wider">Menunggu</p>
                 </div>
-                <p className="text-2xl font-black text-secondary-700">
+                <p className="text-3xl font-black text-secondary-700">
                   {pendaftaranSummary.menunggu}
                 </p>
               </div>
-              <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 shadow-sm">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <AlertCircle className="w-3.5 h-3.5 text-slate-500" />
-                  <p className="text-xs text-slate-500 font-medium">
+              <div className="bg-slate-50 rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <AlertCircle className="w-4 h-4 text-slate-500" />
+                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">
                     Belum Upload
                   </p>
                 </div>
-                <p className="text-2xl font-black text-slate-600">
+                <p className="text-3xl font-black text-slate-600">
                   {pendaftaranSummary.belum_upload}
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-4 border border-primary-100 shadow-sm col-span-2 md:col-span-1 lg:col-span-1">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <TrendingUp className="w-3.5 h-3.5 text-primary-700" />
-                  <p className="text-xs text-primary-800 font-medium">
+              <div className="bg-white rounded-3xl p-6 border border-primary-200 shadow-sm col-span-1 md:col-span-2 lg:col-span-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="w-4 h-4 text-primary-700" />
+                  <p className="text-xs text-primary-800 font-bold uppercase tracking-wider">
                     Total Terkumpul
                   </p>
                 </div>
-                <p className="text-lg font-black text-primary-800">
+                <p className="text-2xl font-black text-primary-800">
                   {formatCurrency(pendaftaranSummary.total_terkumpul)}
                 </p>
-                <p className="text-[10px] text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-400 mt-1 font-medium">
                   Pembayaran terverifikasi
                 </p>
               </div>
@@ -590,21 +593,21 @@ export default function KeuanganPage() {
           )}
 
           {/* Search */}
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+          <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Cari nama santri atau nomor pendaftaran..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary-600"
+                className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none font-medium"
               />
             </div>
           </div>
 
           {/* Table */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
             {loadingPendaftaran ? (
               <div className="flex justify-center py-12">
                 <Loader2 className="animate-spin w-6 h-6 text-slate-400" />
@@ -687,21 +690,21 @@ export default function KeuanganPage() {
           </div>
 
           {/* Search */}
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+          <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Cari nama santri atau nomor pendaftaran..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary-600"
+                className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none font-medium"
               />
             </div>
           </div>
 
           {/* Table */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
             {loadingDaftarUlang ? (
               <div className="flex justify-center py-12">
                 <Loader2 className="animate-spin w-6 h-6 text-slate-400" />

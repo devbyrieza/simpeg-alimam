@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, Mail, Eye, EyeOff, Loader2, AlertCircle, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,6 +14,22 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedEmail = localStorage.getItem("alimam_login_email_draft");
+      if (savedEmail) setEmail(savedEmail);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && email) {
+      const timeoutId = setTimeout(() => {
+        localStorage.setItem("alimam_login_email_draft", email);
+      }, 500);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [email]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +52,7 @@ export default function LoginPage() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Login gagal");
 
+      localStorage.removeItem("alimam_login_email_draft");
       window.location.href = "/dashboard";
     } catch (error: any) {
       setError(error.message || "Terjadi kesalahan saat login");

@@ -49,7 +49,7 @@ const StatCard = ({
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay, duration: 0.5 }}
-    className="bg-white p-6 sm:p-5 md:p-8 rounded-2xl sm:rounded-[2rem] border border-surface-100 shadow-premium-sm hover:shadow-premium-md transition-all text-center group"
+    className="bg-white/60 backdrop-blur-xl p-6 sm:p-5 md:p-8 rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] transition-all text-center group"
   >
     <div className="w-14 h-14 mx-auto bg-surface-50 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-premium-xs">
       <Icon className="w-7 h-7 text-primary-600" />
@@ -92,7 +92,7 @@ const TimelineItem = ({ item, index }: { item: any; index: number }) => (
     </div>
 
     {/* Card */}
-    <div className="bg-white p-5 sm:p-5 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-surface-100 shadow-premium-sm hover:shadow-premium-md transition-all">
+    <div className="bg-white/80 backdrop-blur-xl p-5 sm:p-5 md:p-8 rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] transition-all">
       <div className="flex flex-wrap items-center gap-4 mb-3">
         <h3 className="text-xl md:text-2xl font-display font-black text-ink-950">
           {item.phase}
@@ -250,9 +250,9 @@ function PPDBContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.25 }}
-              className="max-w-4xl mx-auto bg-primary-50 border border-primary-100 rounded-3xl p-6 md:p-8 mb-12 flex flex-col md:flex-row items-center gap-6 text-left shadow-premium-sm"
+              className="max-w-4xl mx-auto bg-white/60 backdrop-blur-xl border border-white rounded-[2.5rem] p-6 md:p-8 mb-12 flex flex-col md:flex-row items-center gap-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.05)]"
             >
-              <div className="w-16 h-16 bg-primary-600 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-premium-md relative overflow-hidden">
+              <div className="w-16 h-16 bg-primary-600 rounded-3xl flex items-center justify-center text-white shrink-0 shadow-premium-md relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20" />
                 <Award className="w-8 h-8 relative z-10" />
               </div>
@@ -372,7 +372,7 @@ function PPDBContent() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className="bg-white p-5 md:p-8 sm:p-6 md:p-12 rounded-[2rem] md:rounded-[3.5rem] border border-surface-100 shadow-premium-lg flex flex-col items-center text-center group hover:bg-primary-900 transition-all duration-500"
+                  className="bg-white/80 backdrop-blur-xl p-5 md:p-8 sm:p-6 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] flex flex-col items-center text-center group hover:bg-primary-900 transition-all duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.1)]"
                 >
                   <div className="w-20 h-20 bg-surface-50 rounded-[2rem] flex items-center justify-center text-primary-600 mb-8 group-hover:bg-white/10 group-hover:text-white transition-all shadow-premium-sm">
                     <Icon className="w-10 h-10" />
@@ -429,7 +429,7 @@ function PPDBContent() {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      className="bg-white p-6 sm:p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-surface-100 shadow-premium-md"
+                      className="bg-white/80 backdrop-blur-xl p-6 sm:p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)]"
                     >
                       <div className="flex items-center gap-4 md:gap-5 mb-6 md:mb-8">
                         <div className="w-12 h-12 md:w-14 md:h-14 bg-primary-50 rounded-2xl flex items-center justify-center text-primary-600 shadow-premium-sm shrink-0">

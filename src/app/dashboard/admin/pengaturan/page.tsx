@@ -161,24 +161,25 @@ export default function PengaturanPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-purple-100">
-        <div className="flex items-center justify-between">
+      <div className="bg-white rounded-3xl shadow-sm p-6 md:p-8 border border-slate-200 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+        <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl">
+            <div className="p-4 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-lg shadow-purple-500/20">
               <Settings className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-stone-900">Pengaturan</h2>
-              <p className="text-stone-600">Konfigurasi sistem PPDB</p>
+              <h2 className="text-3xl font-black text-slate-900 tracking-tight">Pengaturan</h2>
+              <p className="text-slate-500 font-medium mt-1">Konfigurasi sistem PPDB</p>
             </div>
           </div>
           <button
             onClick={fetchTahunAjaran}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
+            className="flex w-full md:w-auto justify-center items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl transition-all shadow-lg shadow-purple-600/30 active:scale-95 disabled:opacity-50 disabled:shadow-none"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-            Refresh
+            <span className="font-bold">Refresh</span>
           </button>
         </div>
       </div>
@@ -204,10 +205,10 @@ export default function PengaturanPage() {
       )}
 
       {/* Tahun Ajaran Section */}
-      <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-purple-100">
+      <div className="bg-white rounded-3xl shadow-sm p-6 md:p-8 border border-slate-200">
         <div className="flex items-center gap-3 mb-6">
           <Calendar className="w-6 h-6 text-purple-600" />
-          <h3 className="text-xl font-bold text-stone-900">Tahun Ajaran</h3>
+          <h3 className="text-xl font-bold text-slate-900">Tahun Ajaran</h3>
         </div>
 
         {loading ? (
@@ -218,41 +219,41 @@ export default function PengaturanPage() {
           <>
             {/* Active Tahun Ajaran */}
             <div className="mb-6">
-              <h4 className="text-sm font-bold text-stone-700 mb-3">
+              <h4 className="text-sm font-bold text-slate-700 mb-3">
                 Tahun Ajaran Aktif
               </h4>
               {activeTahunAjaran ? (
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Star className="w-6 h-6 text-green-600 fill-green-600" />
+                <div className="bg-gradient-to-r from-emerald-50 to-emerald-100/50 border border-emerald-200 rounded-3xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <Star className="w-8 h-8 text-emerald-600 fill-emerald-600 shrink-0" />
                     <div>
-                      <p className="text-lg font-bold text-green-800">
+                      <p className="text-xl font-black text-emerald-900">
                         {activeTahunAjaran.nama}
                       </p>
-                      <p className="text-sm text-green-700">
+                      <p className="text-sm text-emerald-700 font-medium mt-1">
                         Pendaftaran:{" "}
-                        {formatDate(activeTahunAjaran.tanggal_buka_pendaftaran)}{" "}
+                        <span className="font-bold">{formatDate(activeTahunAjaran.tanggal_buka_pendaftaran)}</span>{" "}
                         -{" "}
-                        {formatDate(
+                        <span className="font-bold">{formatDate(
                           activeTahunAjaran.tanggal_tutup_pendaftaran,
-                        )}
+                        )}</span>
                       </p>
-                      <p className="text-sm text-green-700 font-bold">
+                      <p className="text-sm text-emerald-700 mt-0.5">
                         Biaya:{" "}
-                        {formatCurrency(activeTahunAjaran.biaya_pendaftaran)}
+                        <span className="font-bold">{formatCurrency(activeTahunAjaran.biaya_pendaftaran)}</span>
                       </p>
                     </div>
                   </div>
                   <button
                     onClick={() => startEdit(activeTahunAjaran)}
-                    className="p-2 bg-white text-green-600 rounded-lg hover:shadow-md transition-all border border-green-100"
+                    className="p-3 bg-white text-emerald-600 rounded-2xl hover:shadow-md transition-all border border-emerald-200 w-full md:w-auto flex justify-center"
                   >
                     <Edit3 className="w-5 h-5" />
                   </button>
                 </div>
               ) : (
-                <div className="bg-secondary-50 border-2 border-secondary-200 rounded-xl p-4">
-                  <p className="text-secondary-800 font-medium">
+                <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6">
+                  <p className="text-slate-600 font-medium text-center">
                     Tidak ada tahun ajaran yang aktif
                   </p>
                 </div>
@@ -261,11 +262,11 @@ export default function PengaturanPage() {
 
             {/* Add 2026/2027 Button */}
             {!has2026 && (
-              <div className="mb-6">
+              <div className="mb-8">
                 <button
                   onClick={handleSeed2026}
                   disabled={seeding}
-                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-bold transition-all disabled:opacity-50"
+                  className="flex w-full md:w-auto items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-2xl font-black transition-all shadow-lg shadow-purple-600/30 active:scale-95 disabled:opacity-50 disabled:shadow-none"
                 >
                   {seeding ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -279,7 +280,7 @@ export default function PengaturanPage() {
 
             {/* All Tahun Ajaran */}
             <div>
-              <h4 className="text-sm font-bold text-stone-700 mb-3">
+              <h4 className="text-sm font-bold text-slate-700 mb-3">
                 Semua Tahun Ajaran
               </h4>
               {tahunAjaranList.length === 0 ? (
@@ -290,60 +291,34 @@ export default function PengaturanPage() {
                       <Calendar className="w-10 h-10 text-primary-300" />
                     </div>
                   </div>
-                  <h3 className="text-stone-900 text-lg font-black tracking-tight mb-1">
+                  <h3 className="text-slate-900 text-lg font-black tracking-tight mb-1">
                     Belum Ada Data Tahun Ajaran
                   </h3>
-                  <p className="text-stone-500 text-sm max-w-sm mx-auto">
+                  <p className="text-slate-500 text-sm max-w-sm mx-auto">
                     Silakan tambahkan Tahun Ajaran baru untuk memulai operasional pendaftaran.
                   </p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {tahunAjaranList.map((ta) => (
-                    <div
-                      key={ta.id}
-                      className={`border-2 rounded-xl p-4 transition-all ${
-                        ta.is_active
-                          ? "border-green-300 bg-green-50"
-                          : "border-stone-200 bg-stone-50"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
+                    <div key={ta.id} className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-200 gap-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-bold text-slate-900">{ta.nama}</span>
                           {ta.is_active && (
-                            <span className="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full">
-                              AKTIF
-                            </span>
-                          )}
-                          <div>
-                            <p className="font-bold text-stone-900">
-                              {ta.nama}
-                            </p>
-                            <p className="text-sm text-stone-600">
-                              {formatDate(ta.tanggal_buka_pendaftaran)} -{" "}
-                              {formatDate(ta.tanggal_tutup_pendaftaran)}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <div className="text-right">
-                            <p className="font-bold text-stone-900">
-                              {formatCurrency(ta.biaya_pendaftaran)}
-                            </p>
-                            <p className="text-xs text-stone-500">
-                              Biaya Pendaftaran
-                            </p>
-                          </div>
-                          {!ta.is_active && (
-                            <button
-                              onClick={() => startEdit(ta)}
-                              className="p-2 bg-white text-stone-400 hover:text-purple-600 rounded-lg transition-colors border border-stone-200"
-                            >
-                              <Edit3 className="w-5 h-5" />
-                            </button>
+                            <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase rounded-full">Aktif</span>
                           )}
                         </div>
+                        <p className="text-xs text-slate-500 font-medium">
+                          {formatDate(ta.tanggal_buka_pendaftaran)} - {formatDate(ta.tanggal_tutup_pendaftaran)}
+                        </p>
                       </div>
+                      <button
+                        onClick={() => startEdit(ta)}
+                        className="px-4 py-2 bg-white border border-slate-200 text-slate-700 font-bold text-sm rounded-xl hover:bg-slate-100 transition-colors"
+                      >
+                        Edit
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -353,7 +328,6 @@ export default function PengaturanPage() {
         )}
       </div>
 
-      {/* Edit Modal Overlay */}
       {editingTa && (
         <div className="fixed inset-0 z-[9999] flex items-start md:items-center pt-10 md:pt-0 pb-20 md:pb-0 justify-center bg-stone-900/50 backdrop-blur-sm p-4 overflow-y-auto overflow-x-hidden">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">

@@ -155,20 +155,25 @@ export default function BantuanBiayaPage() {
   return (
     <div className="p-4 md:p-8 space-y-6 max-w-7xl mx-auto">
       {/* ── Header ── */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-black text-ink-950 flex items-center gap-3">
-            <HandCoins className="w-8 h-8 text-primary-600" />
-            Bantuan Biaya — Beasiswa & Keringanan
-          </h1>
-          <p className="text-stone-500 text-sm mt-1">
-            Kelola pemberian beasiswa gratis dan keringanan potongan biaya per pendaftar
-          </p>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-600/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+        <div className="relative flex items-center gap-4">
+          <div className="p-4 bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl shadow-lg shadow-primary-600/20 text-white shrink-0">
+            <HandCoins className="w-8 h-8" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+              Bantuan Biaya — <span className="text-primary-700">Beasiswa & Keringanan</span>
+            </h1>
+            <p className="text-slate-500 font-medium mt-1">
+              Kelola pemberian beasiswa gratis dan keringanan potongan biaya per pendaftar
+            </p>
+          </div>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="relative flex flex-wrap items-center gap-3 w-full md:w-auto">
           <button
             onClick={fetchData}
-            className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-stone-50 border border-stone-200 text-stone-600 font-bold text-sm rounded-xl shadow-sm"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm rounded-2xl shadow-sm transition-colors"
           >
             <RefreshCw className="w-4 h-4" />
             Refresh
@@ -176,7 +181,7 @@ export default function BantuanBiayaPage() {
           <button
             onClick={handleExportExcel}
             disabled={exporting}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white font-bold text-sm rounded-xl shadow-sm transition-all"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white font-bold text-sm rounded-2xl shadow-lg shadow-primary-600/30 transition-all active:scale-95"
           >
             {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
             Ekspor Excel
@@ -185,33 +190,33 @@ export default function BantuanBiayaPage() {
       </div>
 
       {/* ── Stats Cards ── */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-2xl p-4 border border-stone-100 shadow-sm">
-          <p className="text-xs font-black text-stone-400 uppercase tracking-widest mb-2">Total Pengajuan</p>
-          <p className="text-2xl font-black text-ink-900">{data.length}</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-2">Total Pengajuan</p>
+          <p className="text-4xl font-black text-slate-800">{data.length}</p>
         </div>
-        <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100 shadow-sm">
-          <div className="flex items-center gap-1.5 mb-2">
+        <div className="bg-emerald-50 rounded-3xl p-6 border border-emerald-100 shadow-sm relative overflow-hidden">
+          <div className="flex items-center gap-2 mb-2">
             <GraduationCap className="w-4 h-4 text-emerald-600" />
-            <p className="text-xs font-black text-emerald-600 uppercase tracking-widest">Beasiswa</p>
+            <p className="text-xs font-black text-emerald-700 uppercase tracking-widest">Beasiswa</p>
           </div>
-          <p className="text-2xl font-black text-emerald-900">{totalBeasiswa}</p>
+          <p className="text-4xl font-black text-emerald-800">{totalBeasiswa}</p>
         </div>
-        <div className="bg-amber-50 rounded-2xl p-4 border border-amber-100 shadow-sm">
-          <div className="flex items-center gap-1.5 mb-2">
+        <div className="bg-amber-50 rounded-3xl p-6 border border-amber-100 shadow-sm relative overflow-hidden">
+          <div className="flex items-center gap-2 mb-2">
             <Coins className="w-4 h-4 text-amber-600" />
-            <p className="text-xs font-black text-amber-600 uppercase tracking-widest">Keringanan</p>
+            <p className="text-xs font-black text-amber-700 uppercase tracking-widest">Keringanan</p>
           </div>
-          <p className="text-2xl font-black text-amber-900">{totalKeringanan}</p>
+          <p className="text-4xl font-black text-amber-800">{totalKeringanan}</p>
         </div>
-        <div className="bg-primary-50 rounded-2xl p-4 border border-primary-100 shadow-sm">
-          <div className="flex items-center gap-1.5 mb-2">
+        <div className="bg-primary-50 rounded-3xl p-6 border border-primary-200 shadow-sm relative overflow-hidden">
+          <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="w-4 h-4 text-primary-600" />
-            <p className="text-xs font-black text-primary-600 uppercase tracking-widest">Disetujui</p>
+            <p className="text-xs font-black text-primary-700 uppercase tracking-widest">Disetujui</p>
           </div>
-          <p className="text-2xl font-black text-primary-900">{totalDisetujui}</p>
+          <p className="text-4xl font-black text-primary-800">{totalDisetujui}</p>
           {totalPending > 0 && (
-            <p className="text-[10px] text-amber-600 font-bold mt-1">{totalPending} pending</p>
+            <p className="text-xs text-amber-600 font-bold mt-2">{totalPending} pending</p>
           )}
         </div>
       </div>
@@ -272,7 +277,7 @@ export default function BantuanBiayaPage() {
       </div>
 
       {/* ── Table ── */}
-      <div className="bg-white border border-stone-200 shadow-sm rounded-2xl overflow-hidden">
+      <div className="bg-white border border-slate-200 shadow-sm rounded-3xl overflow-hidden">
         {loading ? (
           <div className="p-12 flex justify-center">
             <Loader2 className="w-8 h-8 animate-spin text-primary-500" />

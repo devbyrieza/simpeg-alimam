@@ -221,7 +221,7 @@ export default function TentangPage() {
                 transition={{ delay: 0.2 }}
                 className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pt-4 md:pt-6"
               >
-                <div className="app-card bg-white p-5 md:p-6 flex flex-col items-start group">
+                <div className="bg-white/80 backdrop-blur-xl p-5 md:p-6 flex flex-col items-start group rounded-3xl border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-orange-50 flex items-center justify-center mb-4 text-orange-600 group-hover:scale-110 transition-transform shadow-sm">
                     <Sparkles className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
@@ -232,7 +232,7 @@ export default function TentangPage() {
                     Fasilitas Modern
                   </p>
                 </div>
-                <div className="app-card bg-white p-5 md:p-6 flex flex-col items-start group">
+                <div className="bg-white/80 backdrop-blur-xl p-5 md:p-6 flex flex-col items-start group rounded-3xl border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary-50 flex items-center justify-center mb-4 text-primary-600 group-hover:scale-110 transition-transform shadow-sm">
                     <ShieldCheck className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
@@ -284,12 +284,11 @@ export default function TentangPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
-            {/* Visi */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="app-card bg-white p-5 md:p-8 md:p-10 flex flex-col group h-full hover:-translate-y-1 transition-transform duration-500"
+              className="bg-white/80 backdrop-blur-xl p-5 md:p-8 md:p-10 flex flex-col group h-full hover:-translate-y-1 transition-transform duration-500 rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)]"
             >
               <div className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center mb-6 text-primary-600 group-hover:scale-110 transition-transform duration-500 shadow-sm">
                 <Target className="w-7 h-7" />
@@ -303,13 +302,12 @@ export default function TentangPage() {
               </p>
             </motion.div>
 
-            {/* Tujuan - Moved to occupy 2nd slot */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="app-card bg-linear-to-br from-secondary-50 to-white p-5 md:p-8 md:p-10 flex flex-col group h-full hover:-translate-y-1 transition-transform duration-500"
+              className="bg-white/80 backdrop-blur-xl p-5 md:p-8 md:p-10 flex flex-col group h-full hover:-translate-y-1 transition-transform duration-500 rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)]"
             >
               <div className="w-14 h-14 bg-yellow-50 rounded-2xl flex items-center justify-center mb-6 text-yellow-600 group-hover:scale-110 transition-transform duration-500 shadow-sm">
                 <Compass className="w-7 h-7" />
@@ -335,13 +333,12 @@ export default function TentangPage() {
               </ul>
             </motion.div>
 
-            {/* Misi - Moved to Bottom, Full Width */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="md:col-span-2 app-card bg-secondary-100/50 p-5 md:p-8 md:p-10 lg:p-6 md:p-12 hover:-translate-y-1 transition-transform duration-500 group"
+              className="md:col-span-2 bg-secondary-50/50 backdrop-blur-xl p-5 md:p-8 md:p-10 lg:p-6 md:p-12 hover:-translate-y-1 transition-transform duration-500 group rounded-[3rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)]"
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
                 <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary-700 group-hover:scale-110 transition-transform duration-500 border border-primary-100 shadow-sm shrink-0">

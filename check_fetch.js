@@ -1,0 +1,1 @@
+async function main() { const res = await fetch('https://simpeg.pesantren-alimam.com/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: 'super@pesantren-alimam.com', password: 'AdminAlimam2026!' }) }); console.log(res.status, await res.text()); } main();

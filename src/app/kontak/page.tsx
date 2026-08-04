@@ -120,6 +120,20 @@ export default function ContactPage() {
     telepon: "",
     pesan: "",
   });
+
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("simpeg_kontak_form");
+      if (draft) {
+        setFormData(JSON.parse(draft));
+      }
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("simpeg_kontak_form", JSON.stringify(formData));
+  }, [formData]);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -137,6 +151,7 @@ export default function ContactPage() {
     // Simulate API call
     setTimeout(() => {
       setShowSuccess(true);
+      localStorage.removeItem("simpeg_kontak_form");
       setFormData({ nama: "", email: "", telepon: "", pesan: "" });
       setIsSubmitting(false);
       setTimeout(() => setShowSuccess(false), 5000);

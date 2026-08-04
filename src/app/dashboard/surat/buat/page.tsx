@@ -13,6 +13,7 @@ export default function BuatSuratPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewNomor, setPreviewNomor] = useState("");
+  const [isRestored, setIsRestored] = useState(false);
   
   const [formData, setFormData] = useState({
     jenis_surat: "UND",
@@ -23,6 +24,32 @@ export default function BuatSuratPage() {
     penerima: "",
     isi_singkat: "",
   });
+
+  // Autosave load
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("alimam_surat_buat_draft");
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          setFormData(prev => ({ ...prev, ...parsed }));
+        } catch (error) {
+          console.error("Error parsing draft data:", error);
+        }
+      }
+      setIsRestored(true);
+    }
+  }, []);
+
+  // Autosave save
+  useEffect(() => {
+    if (isRestored && typeof window !== "undefined") {
+      const timeoutId = setTimeout(() => {
+        localStorage.setItem("alimam_surat_buat_draft", JSON.stringify(formData));
+      }, 500);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [formData, isRestored]);
 
   useEffect(() => {
     const fetchPreview = async () => {
@@ -63,6 +90,7 @@ export default function BuatSuratPage() {
       });
       
       if (res.ok) {
+        localStorage.removeItem("alimam_surat_buat_draft");
         await Swal.fire("Berhasil", "Surat berhasil disimpan.", "success");
         router.push("/dashboard/surat");
       } else {
@@ -81,17 +109,17 @@ export default function BuatSuratPage() {
       <div className="flex items-center gap-4">
         <Link 
           href="/dashboard/surat"
-          className="p-2 text-slate-500 hover:bg-slate-100 rounded-xl transition-colors"
+          className="p-3 bg-white text-slate-500 hover:text-primary-600 rounded-2xl shadow-xl shadow-slate-200/40 transition-colors"
         >
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-6 h-6" />
         </Link>
         <div>
-          <h1 className="text-2xl font-black text-slate-900">Buat Surat Baru</h1>
-          <p className="text-slate-500 mt-1">Formulir penomoran surat keluar otomatis.</p>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Buat Surat Baru</h1>
+          <p className="text-slate-500 mt-1 font-medium">Formulir penomoran surat keluar otomatis.</p>
         </div>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
+      <div className="bg-white border border-slate-100 rounded-[2rem] p-6 md:p-10 shadow-xl shadow-slate-200/40 relative">
         {/* Preview Nomor */}
         <div className="mb-8 p-6 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
@@ -100,7 +128,7 @@ export default function BuatSuratPage() {
               {previewNomor || "Memuat..."}
             </p>
           </div>
-          <div className="px-4 py-2 bg-white text-slate-600 rounded-xl border border-slate-200 text-sm font-medium shadow-sm">
+          <div className="px-5 py-2 bg-white text-primary-700 rounded-xl border border-primary-100 text-sm font-black uppercase tracking-widest shadow-sm">
             Auto-Generated
           </div>
         </div>
@@ -225,7 +253,7 @@ export default function BuatSuratPage() {
           <button
             onClick={() => handleSubmit("DRAFT")}
             disabled={isSubmitting}
-            className="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-colors flex items-center gap-2"
+            className="px-8 py-4 bg-slate-50 border border-slate-200 text-slate-700 rounded-2xl font-bold hover:bg-slate-100 transition-all flex items-center gap-2"
           >
             <Save className="w-5 h-5" />
             Simpan Draft
@@ -233,7 +261,7 @@ export default function BuatSuratPage() {
           <button
             onClick={() => handleSubmit("PUBLISHED")}
             disabled={isSubmitting}
-            className="px-6 py-3 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 transition-colors flex items-center gap-2 shadow-lg shadow-primary-600/20"
+            className="px-8 py-4 bg-primary-600 text-white rounded-2xl font-bold hover:bg-primary-700 transition-all hover:-translate-y-1 flex items-center gap-2 shadow-xl shadow-primary-600/30"
           >
             <Send className="w-5 h-5" />
             Publish Surat

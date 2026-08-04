@@ -3,11 +3,7 @@ import { writeFile, access, mkdir } from "fs/promises";
 import path from "path";
 import crypto from "crypto";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+
 
 export async function POST(req: NextRequest) {
   try {

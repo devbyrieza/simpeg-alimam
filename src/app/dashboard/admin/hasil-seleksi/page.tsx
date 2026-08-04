@@ -129,71 +129,78 @@ export default function HasilSeleksiPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto p-4 md:p-8">
+    <div className="space-y-8 max-w-7xl mx-auto p-4 md:p-8">
       {/* Page Title */}
-      <div>
-        <h1 className="text-2xl font-black text-stone-800">
-          Rekapitulasi Hasil Seleksi
-        </h1>
-        <p className="text-stone-500 mt-1">
-          Laporan menyeluruh untuk pendaftar yang telah diatur status
-          kelulusannya.
-        </p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-600/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+        <div className="relative flex items-center gap-4">
+          <div className="p-4 bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl shadow-lg shadow-primary-600/20 text-white">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+              Rekapitulasi <span className="text-primary-700">Hasil Seleksi</span>
+            </h1>
+            <p className="text-slate-500 font-medium mt-1">
+              Laporan menyeluruh untuk pendaftar yang telah diatur status kelulusannya.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Header Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-green-50 p-6 rounded-xl shadow-sm border border-green-100 relative overflow-hidden">
-          <p className="text-green-600 text-sm font-bold tracking-wider uppercase mb-1">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-emerald-50 p-6 md:p-8 rounded-3xl shadow-sm border border-emerald-100 relative overflow-hidden">
+          <p className="text-emerald-700 text-sm font-black tracking-wider uppercase mb-2">
             Total Diterima
           </p>
           <div className="flex items-end gap-2">
-            <h3 className="text-2xl md:text-4xl font-black text-green-700">
+            <h3 className="text-4xl md:text-5xl font-black text-emerald-800">
               {stats.total_lulus}
             </h3>
-            <span className="text-green-600/70 font-medium mb-1 pl-1">
+            <span className="text-emerald-600/80 font-bold mb-1 pl-1">
               Santri
             </span>
           </div>
-          <div className="absolute -right-4 -bottom-4 bg-green-200/50 w-24 h-24 rounded-full blur-xl"></div>
+          <div className="absolute -right-4 -bottom-4 bg-emerald-200/50 w-32 h-32 rounded-full blur-2xl"></div>
         </div>
-        <div className="bg-secondary-50 p-6 rounded-xl shadow-sm border border-secondary-100 relative overflow-hidden">
-          <p className="text-secondary-600 text-sm font-bold tracking-wider uppercase mb-1">
+        <div className="bg-secondary-50 p-6 md:p-8 rounded-3xl shadow-sm border border-secondary-100 relative overflow-hidden">
+          <p className="text-secondary-700 text-sm font-black tracking-wider uppercase mb-2">
             Cadangan
           </p>
           <div className="flex items-end gap-2">
-            <h3 className="text-2xl md:text-4xl font-black text-secondary-700">
+            <h3 className="text-4xl md:text-5xl font-black text-secondary-800">
               {stats.total_cadangan}
             </h3>
-            <span className="text-secondary-600/70 font-medium mb-1 pl-1">
+            <span className="text-secondary-600/80 font-bold mb-1 pl-1">
               Santri
             </span>
           </div>
-          <div className="absolute -right-4 -bottom-4 bg-secondary-200/50 w-24 h-24 rounded-full blur-xl"></div>
+          <div className="absolute -right-4 -bottom-4 bg-secondary-200/50 w-32 h-32 rounded-full blur-2xl"></div>
         </div>
-        <div className="bg-rose-50 p-6 rounded-xl shadow-sm border border-rose-100 relative overflow-hidden">
-          <p className="text-rose-600 text-sm font-bold tracking-wider uppercase mb-1">
+        <div className="bg-rose-50 p-6 md:p-8 rounded-3xl shadow-sm border border-rose-100 relative overflow-hidden">
+          <p className="text-rose-700 text-sm font-black tracking-wider uppercase mb-2">
             Ditolak
           </p>
           <div className="flex items-end gap-2">
-            <h3 className="text-2xl md:text-4xl font-black text-rose-700">
+            <h3 className="text-4xl md:text-5xl font-black text-rose-800">
               {stats.total_gagal}
             </h3>
-            <span className="text-rose-600/70 font-medium mb-1 pl-1">
+            <span className="text-rose-600/80 font-bold mb-1 pl-1">
               Santri
             </span>
           </div>
-          <div className="absolute -right-4 -bottom-4 bg-rose-200/50 w-24 h-24 rounded-full blur-xl"></div>
+          <div className="absolute -right-4 -bottom-4 bg-rose-200/50 w-32 h-32 rounded-full blur-2xl"></div>
         </div>
       </div>
 
       {/* Filters & Actions */}
-      <div className="bg-white p-4 rounded-xl shadow-sm border border-stone-200 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4 w-full md:w-auto">
-          <div className="flex items-center gap-2 px-3 py-2 bg-stone-50 rounded-lg border border-stone-200">
-            <Filter className="w-4 h-4 text-stone-500" />
+          <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <Filter className="w-4 h-4 text-slate-500" />
             <select
-              className="bg-transparent text-sm font-bold text-stone-700 focus:outline-none"
+              className="bg-transparent text-sm font-bold text-slate-700 focus:outline-none w-full"
               value={filter.jenjang}
               onChange={(e) =>
                 setFilter({ ...filter, jenjang: e.target.value })
@@ -202,13 +209,14 @@ export default function HasilSeleksiPage() {
               <option value="">Semua Jenjang</option>
               <option value="MTs">MTs</option>
               <option value="SMA">SMA</option>
+              <option value="IL">I'dad Lughowi</option>
             </select>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-2 bg-stone-50 rounded-lg border border-stone-200">
-            <Search className="w-4 h-4 text-stone-500" />
+          <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <Search className="w-4 h-4 text-slate-500" />
             <select
-              className="bg-transparent text-sm font-bold text-stone-700 focus:outline-none"
+              className="bg-transparent text-sm font-bold text-slate-700 focus:outline-none w-full"
               value={filter.status}
               onChange={(e) => setFilter({ ...filter, status: e.target.value })}
             >
@@ -223,15 +231,15 @@ export default function HasilSeleksiPage() {
         <button
           onClick={handleExportExcel}
           disabled={candidates.length === 0 || loading}
-          className="flex items-center justify-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-green-200 disabled:shadow-none disabled:bg-stone-300 w-full md:w-auto"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black transition-all shadow-lg shadow-emerald-600/30 active:scale-95 disabled:shadow-none disabled:bg-slate-300 w-full md:w-auto"
         >
-          <Download className="w-4 h-4" />
+          <Download className="w-5 h-5" />
           Ekspor Excel
         </button>
       </div>
 
       {/* Table & Mobile View */}
-      <div className="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
         {/* Mobile View: Cards */}
         <div className="md:hidden divide-y divide-stone-100">
           {loading ? (
@@ -300,24 +308,24 @@ export default function HasilSeleksiPage() {
 
         {/* Desktop View: Table */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-stone-100/50 border-b border-stone-200">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-black text-stone-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">
                   Nama & Detail Nilai
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-black text-stone-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">
                   Jenjang
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-black text-stone-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">
                   Skor Akhir
                 </th>
-                <th className="px-6 py-4 text-center text-xs font-black text-stone-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-center text-xs font-black text-slate-500 uppercase tracking-wider">
                   Keputusan Akhir
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-stone-100">
+            <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
                   <td

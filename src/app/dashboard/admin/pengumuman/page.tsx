@@ -135,32 +135,45 @@ export default function PengumumanPage() {
   return (
     <div className="space-y-6">
       {/* Header Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
-          <p className="text-stone-500 text-sm font-medium">Kandidat Tampil</p>
-          <h3 className="text-2xl font-bold text-stone-800">{stats.total}</h3>
-        </div>
-        <div className="bg-primary-50 p-6 rounded-xl shadow-sm border border-primary-100">
-          <p className="text-primary-600 text-sm font-medium">
-            Proses Seleksi (Belum Selesai)
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+            Pengumuman <span className="text-primary-700">Kelulusan</span>
+          </h1>
+          <p className="text-slate-500 font-medium mt-1">
+            Proses penetapan dan publikasi kelulusan santri baru.
           </p>
-          <h3 className="text-2xl font-bold text-primary-700">{stats.ready}</h3>
         </div>
-        <div className="bg-green-50 p-6 rounded-xl shadow-sm border border-green-100">
-          <p className="text-green-600 text-sm font-medium">Sudah Lulus</p>
-          <h3 className="text-2xl font-bold text-green-700">
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden">
+          <p className="text-slate-500 text-sm font-black tracking-widest uppercase">Kandidat Tampil</p>
+          <h3 className="text-4xl font-black text-slate-800 mt-2">{stats.total}</h3>
+        </div>
+        <div className="bg-primary-50 p-6 md:p-8 rounded-3xl shadow-sm border border-primary-100 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary-600/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+          <p className="text-primary-700 text-sm font-black tracking-widest uppercase relative z-10">
+            Proses Seleksi (Belum Lulus)
+          </p>
+          <h3 className="text-4xl font-black text-primary-800 mt-2 relative z-10">{stats.ready}</h3>
+        </div>
+        <div className="bg-emerald-50 p-6 md:p-8 rounded-3xl shadow-sm border border-emerald-100 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-600/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+          <p className="text-emerald-700 text-sm font-black tracking-widest uppercase relative z-10">Sudah Lulus</p>
+          <h3 className="text-4xl font-black text-emerald-800 mt-2 relative z-10">
             {stats.accepted}
           </h3>
         </div>
       </div>
 
       {/* Filters & Actions */}
-      <div className="bg-white p-4 rounded-xl shadow-sm border border-stone-100 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4 w-full md:w-auto">
-          <div className="flex items-center gap-2 px-3 py-2 bg-stone-50 rounded-lg border border-stone-200">
-            <Filter className="w-4 h-4 text-stone-500" />
+          <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <Filter className="w-4 h-4 text-slate-500" />
             <select
-              className="bg-transparent text-sm focus:outline-none"
+              className="bg-transparent text-sm font-bold text-slate-700 focus:outline-none w-full"
               value={filter.jenjang}
               onChange={(e) =>
                 setFilter({ ...filter, jenjang: e.target.value })
@@ -169,13 +182,14 @@ export default function PengumumanPage() {
               <option value="">Semua Jenjang</option>
               <option value="MTs">MTs</option>
               <option value="SMA">SMA</option>
+              <option value="IL">I'dad Lughowi</option>
             </select>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-2 bg-stone-50 rounded-lg border border-stone-200">
-            <Search className="w-4 h-4 text-stone-500" />
+          <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <Search className="w-4 h-4 text-slate-500" />
             <select
-              className="bg-transparent text-sm focus:outline-none"
+              className="bg-transparent text-sm font-bold text-slate-700 focus:outline-none w-full"
               value={filter.status}
               onChange={(e) => setFilter({ ...filter, status: e.target.value })}
             >
@@ -189,7 +203,7 @@ export default function PengumumanPage() {
         <button
           onClick={handlePublish}
           disabled={selectedIds.length === 0 || isPublishing}
-          className="flex items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 disabled:bg-stone-300 text-white rounded-xl font-bold transition-all shadow-lg shadow-green-200 disabled:shadow-none"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white rounded-2xl font-black transition-all shadow-lg shadow-emerald-600/30 active:scale-95 disabled:shadow-none w-full md:w-auto"
         >
           {isPublishing ? (
             "Memproses..."
@@ -203,11 +217,11 @@ export default function PengumumanPage() {
       </div>
 
       {/* Table & Mobile View */}
-      <div className="bg-white rounded-xl shadow-lg border border-stone-200 overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
         {/* Mobile View: Cards */}
-        <div className="md:hidden divide-y divide-stone-100 select-none">
+        <div className="md:hidden divide-y divide-slate-100 select-none">
           {candidates.length === 0 ? (
-            <div className="px-6 py-12 text-center text-stone-500 italic">
+            <div className="px-6 py-12 text-center text-slate-500 font-medium">
               Tidak ada data kandidat sesuai filter
             </div>
           ) : (
@@ -251,12 +265,12 @@ export default function PengumumanPage() {
                 <div
                   key={c.id}
                   onClick={() => handleSelectOne(c.id)}
-                  className={`p-4 flex items-start gap-4 active:bg-stone-50 transition-colors ${selectedIds.includes(c.id) ? "bg-green-50/50" : ""}`}
+                  className={`p-4 flex items-start gap-4 active:bg-slate-50 transition-colors ${selectedIds.includes(c.id) ? "bg-emerald-50/50" : ""}`}
                 >
                   <div className="mt-1" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"
-                      className="w-5 h-5 rounded border-stone-300 text-green-600 focus:ring-green-500"
+                      className="w-5 h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                       checked={selectedIds.includes(c.id)}
                       onChange={() => handleSelectOne(c.id)}
                     />
@@ -327,13 +341,13 @@ export default function PengumumanPage() {
 
         {/* Desktop View: Table */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-stone-50 border-b border-stone-200">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
                 <th className="px-6 py-4 w-12">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 rounded border-stone-300 text-green-600 focus:ring-green-500"
+                    className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                     onChange={handleSelectAll}
                     checked={
                       candidates.length > 0 &&
@@ -341,21 +355,21 @@ export default function PengumumanPage() {
                     }
                   />
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-stone-500 uppercase">
+                <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">
                   Nama & Komponen
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-stone-500 uppercase">
+                <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">
                   Jenjang
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-stone-500 uppercase">
+                <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">
                   Total / Grade
                 </th>
-                <th className="px-6 py-4 text-center text-xs font-bold text-stone-500 uppercase">
+                <th className="px-6 py-4 text-center text-xs font-black text-slate-500 uppercase tracking-wider">
                   Status
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-stone-100">
+            <tbody className="divide-y divide-slate-100">
               {candidates.length === 0 ? (
                 <tr>
                   <td
@@ -404,17 +418,17 @@ export default function PengumumanPage() {
                     ws > 0 && wo > 0 ? (ws + wo) / 2 : ws || wo;
 
                   return (
-                    <tr key={c.id} className="hover:bg-stone-50/50">
+                    <tr key={c.id} className="hover:bg-slate-50/50 transition-colors">
                       <td className="px-6 py-4">
                         <input
                           type="checkbox"
-                          className="w-4 h-4 rounded border-stone-300 text-green-600 focus:ring-green-500"
+                          className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                           checked={selectedIds.includes(c.id)}
                           onChange={() => handleSelectOne(c.id)}
                         />
                       </td>
                       <td className="px-6 py-4">
-                        <div className="font-bold text-stone-800">
+                        <div className="font-black text-slate-800 text-sm">
                           {toTitleCase(c.nama_lengkap)}
                         </div>
                         <div className="text-xs text-stone-500 mb-2">

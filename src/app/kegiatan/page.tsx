@@ -211,7 +211,7 @@ const FeatureCard = ({
 const StatsCard = ({ icon: Icon, value, label, sublabel }: HeroStat) => (
   <motion.div
     whileHover={{ y: -5 }}
-    className="app-card bg-white p-4 md:p-6 rounded-[2rem] md:rounded-[2.5rem] border border-primary-100 shadow-sm text-center min-w-[140px] md:min-w-[160px] flex flex-col items-center"
+    className="bg-white/80 backdrop-blur-xl p-4 md:p-6 rounded-[2rem] md:rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] text-center min-w-[140px] md:min-w-[160px] flex flex-col items-center"
   >
     <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 mb-3 md:mb-4 border border-primary-100">
       <Icon className="w-5 h-5 md:w-6 md:h-6" />
@@ -282,7 +282,7 @@ const WeeklyActivityCard = ({
     whileInView={{ opacity: 1, scale: 1 }}
     viewport={{ once: true }}
     transition={{ delay: index * 0.05 }}
-    className={`app-card group p-8 rounded-[2.5rem] bg-white border border-primary-50 shadow-sm hover:shadow-md transition-all hover:-translate-y-2 text-center`}
+    className="bg-white/80 backdrop-blur-xl group p-8 rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-2 text-center"
   >
     <div
       className={`w-14 h-14 ${activity.bg} rounded-2xl flex items-center justify-center ${activity.color} mx-auto mb-6 group-hover:scale-110 transition-transform border border-primary-100`}
@@ -322,7 +322,7 @@ const EkskulCard = ({
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay: index * 0.05 }}
-    className="app-card group p-4 md:p-8 rounded-[2rem] md:rounded-[2.5rem] bg-white border border-primary-50 shadow-sm hover:shadow-md hover:border-primary-200 transition-all hover:-translate-y-2 text-center h-full flex flex-col justify-between"
+    className="bg-white/80 backdrop-blur-xl group p-4 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-2 text-center h-full flex flex-col justify-between"
   >
     <div className="w-12 h-12 md:w-16 md:h-16 bg-primary-50 rounded-xl md:rounded-2xl flex items-center justify-center text-primary-600 mx-auto mb-4 md:mb-6 group-hover:scale-110 transition-all duration-300 border border-primary-100">
       <ekskul.icon className="w-6 h-6 md:w-8 md:h-8" />

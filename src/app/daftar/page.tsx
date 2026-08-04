@@ -98,7 +98,7 @@ export default function DaftarPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedData = sessionStorage.getItem("pendaftaran_form");
+      const savedData = localStorage.getItem("alimam_pendaftaran_draft");
       if (savedData) {
         try {
           const parsed = JSON.parse(savedData);
@@ -123,7 +123,7 @@ export default function DaftarPage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const timeoutId = setTimeout(() => {
-        sessionStorage.setItem("pendaftaran_form", JSON.stringify(formData));
+        localStorage.setItem("alimam_pendaftaran_draft", JSON.stringify(formData));
       }, 500);
       return () => clearTimeout(timeoutId);
     }
@@ -326,7 +326,7 @@ export default function DaftarPage() {
                         });
 
                         if (result.isConfirmed) {
-                          sessionStorage.removeItem("pendaftaran_form");
+                          localStorage.removeItem("alimam_pendaftaran_draft");
                           setFormData({
                             nik: "",
                             nama_lengkap: "",

@@ -246,7 +246,7 @@ export default function ProgramPage() {
                     {program.stats.map((stat, sIdx) => (
                       <div
                         key={sIdx}
-                        className={`app-card bg-white p-5 rounded-[2rem] border border-primary-50 shadow-sm hover:shadow-md transition-all text-center group`}
+                        className="bg-white/80 backdrop-blur-xl p-5 rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] transition-all text-center group"
                       >
                         <div
                           className={`w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center transition-transform group-hover:scale-110 border border-primary-100
@@ -272,7 +272,7 @@ export default function ProgramPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className={`app-card rounded-[3rem] p-10 mb-10 border ${program.bg} border-primary-100 shadow-sm relative overflow-hidden`}
+                    className={`bg-white/60 backdrop-blur-xl rounded-[3rem] p-10 mb-10 border border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden`}
                   >
                     <div className="absolute top-0 right-0 p-5 md:p-8 opacity-5">
                       <BookOpen className="w-32 h-32 text-primary-900" />

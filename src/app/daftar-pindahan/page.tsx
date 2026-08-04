@@ -107,7 +107,7 @@ export default function DaftarPindahanPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedData = sessionStorage.getItem("pendaftaran_pindahan_form");
+      const savedData = localStorage.getItem("alimam_pindahan_draft");
       if (savedData) {
         try {
           const parsed = JSON.parse(savedData);
@@ -132,7 +132,7 @@ export default function DaftarPindahanPage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const timeoutId = setTimeout(() => {
-        sessionStorage.setItem("pendaftaran_pindahan_form", JSON.stringify(formData));
+        localStorage.setItem("alimam_pindahan_draft", JSON.stringify(formData));
       }, 500);
       return () => clearTimeout(timeoutId);
     }
@@ -362,7 +362,7 @@ export default function DaftarPindahanPage() {
                         });
 
                         if (result.isConfirmed) {
-                          sessionStorage.removeItem("pendaftaran_pindahan_form");
+                          localStorage.removeItem("alimam_pindahan_draft");
                           setFormData({
                             nik: "",
                             nama_lengkap: "",
