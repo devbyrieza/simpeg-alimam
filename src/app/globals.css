@@ -134,9 +134,9 @@
   --color-primary-800: var(--color-maroon-800);
   --color-primary-900: var(--color-maroon-900);
   --color-primary-950: var(--color-maroon-950);
-  --color-primary: var(--color-maroon-600);
+  --color-primary: var(--color-maroon-950);
   --color-primary-light: var(--color-maroon-50);
-  --color-primary-dark: var(--color-maroon-800);
+  --color-primary-dark: var(--color-maroon-900);
 
   --color-secondary-50: var(--color-cream-50);
   --color-secondary-100: var(--color-cream-100);
@@ -149,7 +149,7 @@
   --color-secondary-800: var(--color-cream-800);
   --color-secondary-900: var(--color-cream-900);
   --color-secondary-950: var(--color-cream-950);
-  --color-secondary: var(--color-cream-600);
+  --color-secondary: var(--color-cream-400);
   --color-secondary-light: var(--color-cream-50);
   --color-secondary-dark: var(--color-cream-800);
 
@@ -168,15 +168,12 @@
   --color-info-50: #f0f8ff;
 
   /* ━━━ TEMPLATE SEMANTIC TOKENS ━━━
-     Override ini di masing-masing project untuk ganti branding.
-     Default: Hijau Islami + Gold (Template-Demo)
-     Untuk Ulul Albaab: teal + sand
-     Untuk Al Imam: maroon + cream
+     Al Imam Branding: Maroon #550000 + Cream #ddc192
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
   /* ─── Islamic Color Palette — Semantic Tokens ─── */
-  --color-primary: var(--color-maroon-700);
-  /* Maroon utama */
+  --color-primary: var(--color-maroon-950);
+  /* Maroon utama #550000 */
   --color-primary-light: var(--color-maroon-50);
   /* Maroon muda / background aksen */
   --color-secondary: var(--color-cream-400);
