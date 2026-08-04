@@ -59,6 +59,7 @@ export async function POST(request: NextRequest) {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
+      domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN || undefined,
         maxAge,
         expires: new Date(Date.now() + maxAge * 1000),
       }
