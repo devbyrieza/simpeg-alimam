@@ -122,7 +122,7 @@ export default function DashboardPendaftarPage() {
 
 function HeroBanner({ nama, nomorPendaftaran, lastUpdate }: any) {
   return (
-    <div className="relative overflow-hidden rounded-[2.5rem] md:rounded-[3.5rem] bg-linear-to-br from-primary-700 to-primary-900 text-white p-5 md:p-8 md:p-16 shadow-2xl border border-primary-600/50">
+    <div className="relative overflow-hidden rounded-[2.5rem] md:rounded-[3.5rem] bg-linear-to-br from-primary-700 to-primary-900 text-white p-5 md:p-8 shadow-2xl border border-primary-600/50">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-400/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2" />
       <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
         <div className="flex-1 space-y-6">
@@ -168,7 +168,7 @@ function GuidedActionCard({ nextStep }: any) {
   return (
     <div className="bg-white rounded-[2.5rem] border-2 border-gold-100 shadow-xl shadow-gold-500/5 overflow-hidden group">
       <div className="flex flex-col md:flex-row items-stretch">
-        <div className="bg-gold-400 p-5 md:p-8 md:p-12 flex flex-col items-center justify-center text-primary-950 min-w-[200px]">
+        <div className="bg-gold-400 p-5 md:p-8 flex flex-col items-center justify-center text-primary-950 min-w-[200px]">
           <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Target className="w-8 h-8" />
           </div>
@@ -177,7 +177,7 @@ function GuidedActionCard({ nextStep }: any) {
           </p>
           <p className="text-3xl font-black">BERIKUTNYA</p>
         </div>
-        <div className="flex-1 p-5 md:p-8 md:p-12 space-y-6">
+        <div className="flex-1 p-5 md:p-8 space-y-6">
           <div>
             <h2 className="text-2xl md:text-3xl font-black text-primary-950 mb-2">
               Apa yang harus saya lakukan?
@@ -266,7 +266,7 @@ function StatusGrid({ status, statusLabel, pengumuman }: any) {
 
 function SupportCenter() {
   return (
-    <div className="bg-primary-950 text-white rounded-[3rem] p-6 md:p-10 md:p-16 relative overflow-hidden group shadow-2xl">
+    <div className="bg-primary-950 text-white rounded-[3rem] p-6 md:p-10 relative overflow-hidden group shadow-2xl">
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary-800 rounded-full blur-[100px] opacity-20 -translate-y-1/2 translate-x-1/2" />
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 text-center lg:text-left">
         <div className="flex-1 space-y-4">

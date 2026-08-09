@@ -395,7 +395,7 @@ export default function AdminDashboardPage() {
         </button>
       </div>
 
-      <div className="bg-primary-700 rounded-[2.5rem] lg:rounded-[3rem] p-6 sm:p-5 md:p-8 lg:p-6 md:p-12 text-white relative overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border border-white/10">
+      <div className="bg-primary-700 rounded-[2.5rem] lg:rounded-[3rem] p-6 sm:p-5 md:p-8 lg:p-6 text-white relative overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border border-white/10">
         
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           <div className="max-w-xl w-full">
@@ -463,7 +463,7 @@ export default function AdminDashboardPage() {
       {/* SUMMARY INSIGHTS - Terbuka untuk semua Admin */}
       {(isAdminSuper || isAdminBerkas || isAdminKeuangan) && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-        <div className="bg-primary-600 rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] p-5 sm:p-5 md:p-8 lg:p-6 md:p-10 text-white relative overflow-hidden group">
+        <div className="bg-primary-600 rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] p-5 sm:p-5 md:p-8 lg:p-6 text-white relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-5 md:p-8 opacity-5 group-hover:rotate-12 transition-transform duration-700">
             <TrendingUp className="w-48 h-48" />
           </div>
@@ -507,7 +507,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
  
-        <div className="bg-white rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] border border-secondary-200 p-5 sm:p-5 md:p-8 lg:p-6 md:p-10 shadow-premium-sm relative overflow-hidden group">
+        <div className="bg-white rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] border border-secondary-200 p-5 sm:p-5 md:p-8 lg:p-6 shadow-premium-sm relative overflow-hidden group">
           <div className="relative z-10">
             <h3 className="text-xl sm:text-2xl font-black text-primary-900 mb-6 sm:mb-8 tracking-tight flex items-center gap-3 italic">
               <div className="w-2 h-8 bg-primary-600 rounded-full" />
