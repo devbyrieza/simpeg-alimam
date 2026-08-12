@@ -140,6 +140,18 @@ export default function AdminPegawaiPage() {
     }
   }, [formData, isAddingNew, modalOpen]);
 
+  // Lock body scroll when modal is open to prevent background page scroll leak
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modalOpen]);
+
   const fetchPegawai = async () => {
     try {
       const res = await fetch("/api/admin/pegawai");
@@ -687,22 +699,14 @@ export default function AdminPegawaiPage() {
       {/* ─── DETAIL, ADD & FULL EDIT MODAL (PLATINUM STANDARD) ─── */}
       <AnimatePresence>
         {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={closeModal}
-              className="fixed inset-0 bg-primary-950/60 backdrop-blur-md"
-            />
-
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain bg-primary-950/60 backdrop-blur-md" onClick={closeModal}>
             {/* Modal Box */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[92vh] z-10"
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[90vh] z-10 overscroll-contain"
             >
               {/* Header Modal */}
               <div className="p-5 sm:p-6 bg-gradient-to-r from-primary-900 to-primary-950 text-white flex justify-between items-center shrink-0">
@@ -730,14 +734,14 @@ export default function AdminPegawaiPage() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/80 hover:text-white"
+                  className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/80 hover:text-white cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Body Modal (Scrollable) */}
-              <div className="p-5 sm:p-8 overflow-y-auto space-y-6">
+              {/* Body Modal (Scrollable with Touchpad Support & Clean Scrollbar) */}
+              <div className="p-5 sm:p-8 overflow-y-auto space-y-6 overscroll-contain custom-scrollbar flex-1">
                 
                 {/* ─── BAGIAN ATAS: FOTO & NAMA UTAMA ─── */}
                 <div className="flex flex-col md:flex-row gap-6 items-center md:items-start bg-slate-50/70 p-6 rounded-2xl border border-slate-200">
