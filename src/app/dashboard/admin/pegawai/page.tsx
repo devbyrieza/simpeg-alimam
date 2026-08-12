@@ -700,7 +700,7 @@ export default function AdminPegawaiPage() {
       {/* ─── DETAIL, ADD & FULL EDIT MODAL (PLATINUM STANDARD) ─── */}
       <AnimatePresence>
         {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain bg-primary-950/60 backdrop-blur-md" onClick={closeModal}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain bg-primary-950/60 backdrop-blur-md custom-scrollbar" onClick={closeModal}>
             {/* Modal Box */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}

@@ -2275,7 +2275,7 @@ export default function PendaftarDetailPage() {
       </div>
       {/* Edit Data Modal */}
       {isEditModalOpen && editFormData && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-start md:items-center pt-10 md:pt-0 pb-20 md:pb-0 justify-center z-50 p-4 overflow-y-auto overflow-x-hidden">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-start md:items-center pt-10 md:pt-0 pb-20 md:pb-0 justify-center z-50 p-4 overflow-y-auto overflow-x-hidden overscroll-contain custom-scrollbar">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden border border-stone-200">
             {/* Modal Header */}
             <div className="bg-primary-950 p-6 text-white flex items-center justify-between border-b border-primary-900">
@@ -2317,7 +2317,7 @@ export default function PendaftarDetailPage() {
             </div>
 
             {/* Modal Body / Form */}
-            <form onSubmit={handleSaveEdit} className="flex-1 overflow-y-auto p-5 md:p-8 space-y-6">
+            <form onSubmit={handleSaveEdit} className="flex-1 overflow-y-auto p-5 md:p-8 space-y-6 overscroll-contain custom-scrollbar">
               {editTab === "santri" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-1">
@@ -3137,7 +3137,7 @@ export default function PendaftarDetailPage() {
               </button>
             </div>
             
-            <form onSubmit={handleSaveNilaiManual} className="p-6 md:p-8 overflow-y-auto custom-scrollbar flex-1">
+            <form onSubmit={handleSaveNilaiManual} className="p-6 md:p-8 overflow-y-auto custom-scrollbar flex-1 overscroll-contain">
               <div className="space-y-4">
                 <div className="bg-amber-50 text-amber-800 p-4 rounded-xl text-sm mb-4 border border-amber-200 font-medium">
                   <strong>Peringatan:</strong> Fitur ini akan langsung menimpa data nilai secara spesifik (untuk pindahan/bypass).

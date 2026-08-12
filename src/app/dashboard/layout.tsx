@@ -41,7 +41,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto overscroll-contain custom-scrollbar">
         <p className="text-gold-500/50 text-xs font-bold uppercase tracking-wider px-3 py-2">Menu</p>
         <Link
           href="/dashboard"
