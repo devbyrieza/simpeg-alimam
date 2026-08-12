@@ -40,8 +40,9 @@ const KATEGORI_OPTIONS = [
   { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Bidang (Kabid), dll", color: "rose" },
 ];
 
-const DIVISI_OPTIONS = [
+const BIDANG_OPTIONS = [
   "Kepengasuhan",
+  "Asrama / Kesantriwan",
   "Kurikulum",
   "Kedisiplinan",
   "Sarana & Prasarana",
@@ -591,7 +592,7 @@ export default function AdminPegawaiPage() {
                 <th className="px-4 py-3.5 whitespace-nowrap w-14 text-center">No</th>
                 <th className="px-4 py-3.5 whitespace-nowrap min-w-[260px]">Nama Lengkap</th>
                 <th className="px-4 py-3.5 whitespace-nowrap min-w-[180px]">Kategori</th>
-                <th className="px-4 py-3.5 whitespace-nowrap min-w-[180px]">Jabatan / Divisi</th>
+                <th className="px-4 py-3.5 whitespace-nowrap min-w-[180px]">Jabatan / Bidang</th>
                 <th className="px-4 py-3.5 whitespace-nowrap min-w-[150px]">Kontak</th>
                 <th className="px-6 py-3.5 whitespace-nowrap w-48 text-right">Aksi</th>
               </tr>
@@ -949,14 +950,14 @@ export default function AdminPegawaiPage() {
                             />
                           </div>
                           <div>
-                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Divisi</label>
+                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Bidang Kerja</label>
                             <select
                               value={formData.divisi}
                               onChange={(e) => setFormData({ ...formData, divisi: e.target.value })}
                               className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 font-semibold"
                             >
-                              <option value="">— Pilih Divisi —</option>
-                              {DIVISI_OPTIONS.map((d) => (
+                              <option value="">— Pilih Bidang —</option>
+                              {BIDANG_OPTIONS.map((d) => (
                                 <option key={d} value={d}>{d}</option>
                               ))}
                             </select>

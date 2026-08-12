@@ -43,6 +43,7 @@ type FormData = z.infer<typeof formSchema>;
 // Divisi diurutkan dari yang paling sentral dan berpengaruh di kepesantrenan
 const DIVISI_OPTIONS = [
   "Kepengasuhan",
+  "Asrama / Kesantriwan",
   "Kurikulum",
   "Kedisiplinan",
   "Sarana & Prasarana",
@@ -578,7 +579,7 @@ export default function PendataanPage() {
                   </Field>
                 </div>
 
-                <Field label="Divisi" hint="Pilih jika tergabung dalam divisi tertentu" error={errors.divisi?.message}>
+                <Field label="Bidang Kerja" hint="Pilih jika tergabung dalam bidang tertentu" error={errors.divisi?.message}>
                   <select {...register("divisi")} className={selectClass}>
                     <option value="">Tidak Ada / Belum Ditentukan</option>
                     {DIVISI_OPTIONS.map((div) => (
@@ -595,7 +596,7 @@ export default function PendataanPage() {
                       exit={{ opacity: 0, height: 0, marginTop: 0 }}
                       className="overflow-hidden"
                     >
-                      <Field label="Nama Divisi Lainnya" hint="Tulis nama divisi Anda jika tidak ada di pilihan di atas (tidak wajib)" error={errors.divisiLainnya?.message}>
+                      <Field label="Nama Bidang Lainnya" hint="Tulis nama bidang Anda jika tidak ada di pilihan di atas (tidak wajib)" error={errors.divisiLainnya?.message}>
                         <input
                           type="text"
                           {...register("divisiLainnya")}
@@ -608,7 +609,7 @@ export default function PendataanPage() {
                 </AnimatePresence>
 
                 <Field label="Amanah / Jabatan" hint="Opsional — isi jika mendapat amanah memimpin bidang tertentu" error={errors.jabatan?.message}>
-                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kabid Kepengasuhan, Kabid Kurikulum, Kabid IT, Bendahara..." />
+                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kabid Pengasuhan, Kabid Asrama, Kabid Kurikulum, Bendahara..." />
                 </Field>
 
                 {isGuru && (
