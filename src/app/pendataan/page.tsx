@@ -43,7 +43,7 @@ type FormData = z.infer<typeof formSchema>;
 // Divisi diurutkan dari yang paling sentral dan berpengaruh di kepesantrenan
 const DIVISI_OPTIONS = [
   "Kepengasuhan",
-  "Asrama / Kesantriwan",
+  "Asrama",
   "Kurikulum",
   "Kedisiplinan",
   "Sarana & Prasarana",

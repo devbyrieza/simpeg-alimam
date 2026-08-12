@@ -42,7 +42,7 @@ const KATEGORI_OPTIONS = [
 
 const BIDANG_OPTIONS = [
   "Kepengasuhan",
-  "Asrama / Kesantriwan",
+  "Asrama",
   "Kurikulum",
   "Kedisiplinan",
   "Sarana & Prasarana",
