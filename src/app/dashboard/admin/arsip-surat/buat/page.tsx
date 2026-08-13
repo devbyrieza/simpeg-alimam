@@ -45,6 +45,23 @@ export default function BuatSuratPage() {
     fetchPreview();
   }, [formData.jenis_surat, formData.kode_divisi, formData.tanggal_surat]);
 
+  // AUTOSAVE: Load Draft
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("arsip_surat_buat_draft");
+      if (draft) {
+        setFormData(JSON.parse(draft));
+      }
+    } catch (e) {}
+  }, []);
+
+  // AUTOSAVE: Save to localStorage when form changes
+  useEffect(() => {
+    if (formData.judul || formData.perihal || formData.isi_singkat) {
+      localStorage.setItem("arsip_surat_buat_draft", JSON.stringify(formData));
+    }
+  }, [formData]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -64,6 +81,7 @@ export default function BuatSuratPage() {
       });
       
       if (res.ok) {
+        localStorage.removeItem("arsip_surat_buat_draft");
         await Swal.fire("Berhasil", "Surat berhasil disimpan.", "success");
         router.push("/dashboard/admin/arsip-surat");
       } else {

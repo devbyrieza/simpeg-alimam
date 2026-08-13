@@ -950,7 +950,7 @@ function VerifikasiPembayaranContent() {
                     <button
                       onClick={handleUploadClick}
                       disabled={uploadingProof === selectedPembayaran.id}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 text-primary-600 hover:bg-primary-100 rounded-lg text-xs font-bold transition-colors disabled:opacity-50"
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-primary-100 rounded-lg text-xs font-bold transition-colors disabled:opacity-50"
                     >
                       {uploadingProof === selectedPembayaran.id ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -997,7 +997,7 @@ function VerifikasiPembayaranContent() {
                   <button
                     onClick={handleUploadClick}
                     disabled={uploadingProof === selectedPembayaran.id}
-                    className="mx-auto flex items-center justify-center gap-2 px-4 py-2 bg-primary-50 text-primary-600 hover:bg-primary-100 rounded-xl text-sm font-bold transition-colors disabled:opacity-50"
+                    className="mx-auto flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-primary-100 rounded-xl text-sm font-bold transition-colors disabled:opacity-50"
                   >
                     {uploadingProof === selectedPembayaran.id ? (
                       <Loader2 className="w-4 h-4 animate-spin" />

@@ -109,6 +109,23 @@ export default function UserManagementPage() {
     jenis_kelamin: "",
   });
 
+  // AUTOSAVE: Load Draft
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("users_form_draft");
+      if (draft) {
+        setFormData(JSON.parse(draft));
+      }
+    } catch (e) {}
+  }, []);
+
+  // AUTOSAVE: Save to localStorage when form changes
+  useEffect(() => {
+    if (formData.email || formData.full_name) {
+      localStorage.setItem("users_form_draft", JSON.stringify(formData));
+    }
+  }, [formData]);
+
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -168,6 +185,7 @@ export default function UserManagementPage() {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
+        localStorage.removeItem("users_form_draft");
         Swal.fire({
           icon: "success",
           title: "Berhasil",

@@ -479,7 +479,7 @@ export default function KeuanganPage() {
         <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
                       <button
               onClick={handleExportKeringanan}
-              className="bg-gold-600 hover:bg-gold-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-bold shadow-md transition-colors"
+              className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-bold shadow-md transition-colors"
             >
               <Download className="w-4 h-4" /> Export Keringanan
             </button>
@@ -756,7 +756,7 @@ export default function KeuanganPage() {
                                     ? "bg-emerald-100 text-emerald-700 border-emerald-200"
                                     : row.tipe_cicilan === "BELUM_BAYAR"
                                       ? "bg-red-50 text-red-600 border-red-100"
-                                      : "bg-primary-50 text-primary-600 border-primary-100"
+                                      : "bg-blue-50 text-blue-600 border-primary-100"
                                 }`}
                               >
                                 {row.tipe_cicilan.replace(/_/g, " ")}

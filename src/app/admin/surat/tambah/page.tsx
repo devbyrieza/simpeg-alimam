@@ -191,7 +191,7 @@ export default function TambahSuratPage() {
               </label>
               <select 
                 {...register("jenis_surat")}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none bg-slate-50"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none bg-slate-50"
               >
                 {JENIS_SURAT_OPTIONS.map(opt => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -205,7 +205,7 @@ export default function TambahSuratPage() {
               </label>
               <select 
                 {...register("kode_divisi")}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none bg-slate-50"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none bg-slate-50"
               >
                 {DIVISI_OPTIONS.map(opt => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -222,7 +222,7 @@ export default function TambahSuratPage() {
               <input 
                 type="date"
                 {...register("tanggal_surat", { required: true })}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none"
               />
             </div>
             
@@ -234,7 +234,7 @@ export default function TambahSuratPage() {
                 type="text"
                 placeholder="Cth: Wali Santri Kelas X"
                 {...register("penerima")}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none"
               />
             </div>
           </div>
@@ -247,7 +247,7 @@ export default function TambahSuratPage() {
               type="text"
               placeholder="Cth: Pemberitahuan Libur Kegiatan Belajar"
               {...register("judul", { required: true })}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none font-bold text-lg"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none font-bold text-lg"
             />
           </div>
 
@@ -259,7 +259,7 @@ export default function TambahSuratPage() {
               type="text"
               placeholder="Cth: Pemberitahuan"
               {...register("perihal", { required: true })}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none"
             />
           </div>
 
@@ -317,7 +317,7 @@ export default function TambahSuratPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-8 py-3 rounded-xl font-bold text-white bg-gold-600 hover:bg-gold-700 shadow-lg shadow-gold-600/20 transition-all flex items-center gap-2 disabled:opacity-50"
+              className="px-8 py-3 rounded-xl font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/20 transition-all flex items-center gap-2 disabled:opacity-50"
             >
               {saving ? (
                 <>

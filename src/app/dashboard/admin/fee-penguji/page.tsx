@@ -104,7 +104,7 @@ export default function RekapFeePengujiPage() {
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-3xl border border-ink-100 shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="p-4 bg-primary-50 text-primary-600 rounded-2xl">
+          <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl">
             <Wallet className="w-8 h-8 font-black" />
           </div>
           <div>

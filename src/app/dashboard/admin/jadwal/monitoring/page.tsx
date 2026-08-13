@@ -420,7 +420,7 @@ export default function MonitoringJadwalPage() {
                                                 <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
                                                     stat.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
                                                     stat.status === 'absent' ? 'bg-rose-100 text-rose-700' :
-                                                    'bg-primary-100 text-primary-700'
+                                                    'bg-teal-100 text-teal-700'
                                                 }`}>
                                                     {stat.status === 'completed' ? 'Selesai' : stat.status === 'absent' ? 'Absen' : 'Menunggu'}
                                                 </span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2, Info, UserPlus } from "lucide-react";
@@ -27,6 +27,23 @@ function AdminTambahPendaftarContent() {
     nomor_induk_lama: "",
     catatan_pindahan: "",
   });
+
+  // AUTOSAVE
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("pendaftar_tambah_draft");
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        setFormData(prev => ({ ...prev, ...parsed }));
+      }
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    if (formData.nik || formData.nama_lengkap) {
+      localStorage.setItem("pendaftar_tambah_draft", JSON.stringify(formData));
+    }
+  }, [formData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -69,6 +86,7 @@ function AdminTambahPendaftarContent() {
         `,
         confirmButtonColor: "#059669",
       }).then(() => {
+        localStorage.removeItem("pendaftar_tambah_draft");
         router.push("/dashboard/admin/pendaftar");
         router.refresh();
       });

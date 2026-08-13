@@ -174,6 +174,22 @@ export default function WelcomeDayPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [openKategori, setOpenKategori] = useState<number | null>(null);
 
+  // AUTOSAVE
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("welcome_day_form_draft");
+      if (draft) {
+        setFormData(JSON.parse(draft));
+      }
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    if (formData.catatanTambahan || formData.statusKehadiran !== "HADIR") {
+      localStorage.setItem("welcome_day_form_draft", JSON.stringify(formData));
+    }
+  }, [formData]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -238,6 +254,7 @@ export default function WelcomeDayPage() {
       const result = await res.json();
       if (!res.ok) throw new Error(result.message || "Gagal menyimpan konfirmasi");
 
+      localStorage.removeItem("welcome_day_form_draft");
       setMessage({ type: "success", text: "✅ Konfirmasi kehadiran Welcome Day berhasil disimpan! Terima kasih." });
       setIsEditing(false);
     } catch (error: any) {
@@ -494,7 +511,7 @@ export default function WelcomeDayPage() {
                       <button
                         type="button"
                         onClick={() => setFormData({ ...formData, totalPengantar: formData.totalPengantar + 1 })}
-                        className="w-12 h-12 rounded-xl bg-primary-100 hover:bg-primary-200 text-primary-700 font-black text-xl flex items-center justify-center transition-colors"
+                        className="w-12 h-12 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xl flex items-center justify-center transition-colors"
                       >
                         +
                       </button>

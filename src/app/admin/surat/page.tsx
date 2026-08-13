@@ -52,14 +52,14 @@ export default function DaftarSuratPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <FileText className="w-8 h-8 text-gold-600" />
+            <FileText className="w-8 h-8 text-primary-600" />
             Arsip Persuratan
           </h1>
           <p className="text-slate-500 mt-1">Kelola data surat keluar Al-Imam (Undangan, Edaran, SK)</p>
         </div>
         <Link 
           href="/admin/surat/tambah" 
-          className="bg-gold-600 hover:bg-gold-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-gold-600/20 flex items-center gap-2"
+          className="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-primary-600/20 flex items-center gap-2"
         >
           <Plus className="w-5 h-5" />
           Buat Surat Baru
@@ -75,11 +75,11 @@ export default function DaftarSuratPage() {
               placeholder="Cari Nomor Surat, Judul, atau Perihal..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
             />
           </div>
           <select 
-            className="px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none bg-white"
+            className="px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none bg-white"
             value={filterDivisi}
             onChange={(e) => setFilterDivisi(e.target.value)}
           >

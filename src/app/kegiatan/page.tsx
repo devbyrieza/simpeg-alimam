@@ -461,7 +461,7 @@ export default function KegiatanPage() {
         "Halaqoh tahfidz Al-Qur'an intensif dimulai langsung setelah shalat subuh berjamaah di masjid saat kondisi pikiran paling segar.",
       benefit: "Optimasi daya ingat & keberkahan pagi.",
       bgColor: "bg-gold-50/50",
-      iconColor: "text-gold-600",
+      iconColor: "text-primary-600",
     },
     {
       icon: Heart,
@@ -711,7 +711,7 @@ export default function KegiatanPage() {
             <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gold-50/50 rounded-full blur-[100px] translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
             <div className="relative z-10 max-w-4xl mx-auto">
-              <span className="text-gold-600 font-extrabold tracking-widest uppercase text-xs mb-4 md:mb-6 block">
+              <span className="text-primary-600 font-extrabold tracking-widest uppercase text-xs mb-4 md:mb-6 block">
                 Output Santri
               </span>
               <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-black text-ink-950 mb-6 md:mb-8 leading-tight">

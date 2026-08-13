@@ -14,6 +14,22 @@ export default function SeragamPage() {
   });
   const [message, setMessage] = useState({ type: "", text: "" });
 
+  // AUTOSAVE
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("seragam_form_draft");
+      if (draft) {
+        setFormData(JSON.parse(draft));
+      }
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    if (formData.ukuran_seragam_baju || formData.ukuran_seragam_celana || formData.ukuran_seragam_almamater) {
+      localStorage.setItem("seragam_form_draft", JSON.stringify(formData));
+    }
+  }, [formData]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -68,6 +84,7 @@ export default function SeragamPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Gagal menyimpan data");
 
+      localStorage.removeItem("seragam_form_draft");
       setMessage({ type: "success", text: "Ukuran seragam berhasil disimpan!" });
       setIsEditing(false);
     } catch (error: any) {
@@ -89,7 +106,7 @@ export default function SeragamPage() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="bg-white p-6 rounded-3xl shadow-sm border border-ink-100 flex items-start gap-4 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-bl-[100px] -z-0"></div>
-        <div className="w-12 h-12 bg-primary-100 text-primary-700 rounded-2xl flex items-center justify-center flex-shrink-0 relative z-10">
+        <div className="w-12 h-12 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center flex-shrink-0 relative z-10">
           <Shirt className="w-6 h-6" />
         </div>
         <div className="relative z-10">

@@ -367,7 +367,7 @@ export default function ContactPage() {
                     whileTap={{ scale: 0.98 }}
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 md:py-6 rounded-pill bg-primary-900 text-white font-black text-lg md:text-xl hover:bg-gold-600 shadow-md transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                    className="w-full py-4 md:py-6 rounded-pill bg-primary-900 text-white font-black text-lg md:text-xl hover:bg-primary-600 shadow-md transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                   >
                     {isSubmitting ? "Sedang Mengirim..." : "Kirim Sekarang"}
                   </motion.button>

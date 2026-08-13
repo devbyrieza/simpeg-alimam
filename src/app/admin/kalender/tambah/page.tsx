@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Calendar as CalendarIcon, AlignLeft, Tag, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -40,6 +40,25 @@ export default function TambahAgendaPage() {
     },
   });
 
+  const { reset } = useForm<FormValues>(); // not used directly, using setValue below? Wait, reset is provided by useForm
+  // Autosave
+  const formValues = watch();
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("kalender_tambah_draft");
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        reset(parsed);
+      }
+    } catch (e) {}
+  }, [reset]);
+
+  useEffect(() => {
+    if (formValues.nama_kegiatan || formValues.deskripsi) {
+      localStorage.setItem("kalender_tambah_draft", JSON.stringify(formValues));
+    }
+  }, [formValues]);
+
   const tanggalMulai = watch("tanggal_mulai");
 
   const onSubmit = async (data: FormValues) => {
@@ -63,6 +82,8 @@ export default function TambahAgendaPage() {
       const responseData = await res.json();
       
       if (!res.ok) throw new Error(responseData.error || "Gagal menyimpan agenda");
+
+      localStorage.removeItem("kalender_tambah_draft");
 
       await Swal.fire({
         icon: "success",
@@ -110,7 +131,7 @@ export default function TambahAgendaPage() {
               type="text"
               placeholder="Cth: Penilaian Tengah Semester (PTS)"
               {...register("nama_kegiatan", { required: true })}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none font-bold text-lg"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none font-bold text-lg"
               autoFocus
             />
           </div>
@@ -123,7 +144,7 @@ export default function TambahAgendaPage() {
               <input 
                 type="date"
                 {...register("tanggal_mulai", { required: true })}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none"
               />
             </div>
             
@@ -135,7 +156,7 @@ export default function TambahAgendaPage() {
                 <input 
                   type="date"
                   {...register("tanggal_selesai", { required: true })}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none"
                 />
                 <button 
                   type="button" 
@@ -156,7 +177,7 @@ export default function TambahAgendaPage() {
               </label>
               <select 
                 {...register("kategori")}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none bg-slate-50"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none bg-slate-50"
               >
                 {KATEGORI_OPTIONS.map(opt => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -187,7 +208,7 @@ export default function TambahAgendaPage() {
               rows={3}
               placeholder="Tambahkan detail, tempat, atau keterangan tambahan..."
               {...register("deskripsi")}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 outline-none resize-none"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none resize-none"
             />
           </div>
 
@@ -203,7 +224,7 @@ export default function TambahAgendaPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-8 py-3 rounded-xl font-bold text-white bg-gold-600 hover:bg-gold-700 shadow-lg shadow-gold-600/20 transition-all flex items-center gap-2 disabled:opacity-50"
+              className="px-8 py-3 rounded-xl font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/20 transition-all flex items-center gap-2 disabled:opacity-50"
             >
               {saving ? (
                 <>

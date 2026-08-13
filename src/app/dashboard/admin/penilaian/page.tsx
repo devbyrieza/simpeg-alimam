@@ -1477,7 +1477,7 @@ export default function ExaminerDashboard() {
             <div className="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-white/20">
               <div className="bg-white px-6 pt-8 pb-6 sm:p-5 md:p-8">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 bg-primary-50 text-primary-600 rounded-2xl">
+                  <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
                     <Users className="w-5 h-5 font-black" />
                   </div>
                   <h3
@@ -1585,7 +1585,7 @@ export default function ExaminerDashboard() {
             <div className="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-white/20">
               <div className="bg-white px-6 pt-8 pb-6 sm:p-5 md:p-8">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 bg-primary-50 text-primary-600 rounded-2xl">
+                  <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
                     <Zap className="w-5 h-5 font-black" />
                   </div>
                   <h3

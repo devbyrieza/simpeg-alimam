@@ -91,7 +91,7 @@ export default function PengujiDashboardPage() {
       icon: ClipboardCheck,
       accent: "gold",
       bgColor: "bg-gold-50",
-      iconColor: "text-gold-600",
+      iconColor: "text-primary-600",
     },
   ];
 

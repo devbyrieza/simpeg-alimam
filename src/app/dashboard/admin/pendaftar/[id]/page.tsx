@@ -1128,7 +1128,7 @@ export default function PendaftarDetailPage() {
                       setTimeout(() => docInputRef.current?.click(), 100);
                     }}
                     disabled={!!uploadingDoc}
-                    className="px-3 py-2 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 border border-primary-100 disabled:opacity-50"
+                    className="px-3 py-2 bg-primary-50 hover:bg-teal-100 text-teal-700 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 border border-primary-100 disabled:opacity-50"
                   >
                     {uploadingDoc === item.id ? (
                       <Loader2 className="w-3 h-3 animate-spin" />
@@ -1234,7 +1234,7 @@ export default function PendaftarDetailPage() {
             <div className="bg-white rounded-3xl shadow-sm p-6 border border-gold-100">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 bg-gold-50 rounded-xl">
-                  <Trophy className="w-6 h-6 text-gold-600" />
+                  <Trophy className="w-6 h-6 text-primary-600" />
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-primary-950 tracking-tight leading-tight">
@@ -1918,7 +1918,7 @@ export default function PendaftarDetailPage() {
             <div className="bg-white rounded-3xl shadow-sm p-6 border border-gold-100">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 bg-gold-50 rounded-xl">
-                  <School className="w-6 h-6 text-gold-600" />
+                  <School className="w-6 h-6 text-primary-600" />
                 </div>
                 <h3 className="text-xl font-black text-primary-950 tracking-tight">
                   Asal Sekolah

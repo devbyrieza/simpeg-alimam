@@ -39,7 +39,7 @@ export default function CetakSuratPage({ params }: { params: Promise<{ id: strin
   };
 
   if (loading) {
-    return <div className="flex h-[50vh] items-center justify-center text-gold-600"><Loader2 className="w-8 h-8 animate-spin" /></div>;
+    return <div className="flex h-[50vh] items-center justify-center text-primary-600"><Loader2 className="w-8 h-8 animate-spin" /></div>;
   }
 
   if (!surat) return <div className="p-8 text-center text-slate-500">Surat tidak ditemukan.</div>;
@@ -56,7 +56,7 @@ export default function CetakSuratPage({ params }: { params: Promise<{ id: strin
         <Link href="/admin/surat" className="flex items-center gap-2 text-slate-500 hover:text-slate-900 font-bold transition-colors">
           <ArrowLeft className="w-5 h-5" /> Kembali
         </Link>
-        <button onClick={handlePrint} className="bg-gold-600 hover:bg-gold-700 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-gold-600/20 transition-all">
+        <button onClick={handlePrint} className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary-600/20 transition-all">
           <Printer className="w-5 h-5" /> Cetak / Save PDF
         </button>
       </div>

@@ -69,7 +69,7 @@ const PROGRAMS = [
     ],
     image: "/images/il.webp",
     theme: "gold",
-    accent: "text-gold-600",
+    accent: "text-primary-600",
     bg: "bg-secondary-50",
   },
 ];
@@ -250,7 +250,7 @@ export default function ProgramPage() {
                       >
                         <div
                           className={`w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center transition-transform group-hover:scale-110 border border-primary-100
-                                                    ${program.theme === "maroon" ? "bg-primary-50 text-primary-600" : "bg-secondary-100 text-gold-700"}
+                                                    ${program.theme === "maroon" ? "bg-blue-50 text-blue-600" : "bg-secondary-100 text-gold-700"}
                                                 `}
                         >
                           <stat.icon className="w-5 h-5" />
@@ -314,7 +314,7 @@ export default function ProgramPage() {
                     <Link href={`/daftar?program=${program.id}`}>
                       <button
                         className={`w-full sm:w-auto px-14 py-5 rounded-pill font-black text-white text-lg shadow-md transition-all hover:-translate-y-1
-                                                ${program.theme === "maroon" ? "bg-primary-700 hover:bg-primary-800" : "bg-gold-600 hover:bg-gold-700"}
+                                                ${program.theme === "maroon" ? "bg-primary-700 hover:bg-primary-800" : "bg-primary-600 hover:bg-primary-700"}
                                             `}
                       >
                         Daftarkan Sekarang

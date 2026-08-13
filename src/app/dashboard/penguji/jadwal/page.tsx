@@ -1470,7 +1470,7 @@ export default function JadwalPengujiPage() {
                     )}
                     <button
                       onClick={() => setIsBulkModalOpen(true)}
-                      className="w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-4 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded-2xl font-black border border-primary-100 transition-all text-xs uppercase tracking-widest active:scale-95 shadow-sm"
+                      className="w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-4 bg-primary-50 hover:bg-teal-100 text-teal-700 rounded-2xl font-black border border-primary-100 transition-all text-xs uppercase tracking-widest active:scale-95 shadow-sm"
                     >
                       <Plus className="w-5 h-5" /> Buat Massal
                     </button>
@@ -1548,7 +1548,7 @@ export default function JadwalPengujiPage() {
                       className={`px-1.5 py-0.5 rounded-md text-[9px] font-black ${
                         allSelected
                           ? "bg-white/20 text-white"
-                          : "bg-primary-100 text-primary-700"
+                          : "bg-teal-100 text-teal-700"
                       }`}
                     >
                       {count}

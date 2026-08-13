@@ -51,7 +51,7 @@ export default function DashboardEksekutifPage() {
       {/* METRIC CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gold-100 flex items-center justify-center text-gold-600 shrink-0">
+          <div className="w-14 h-14 rounded-2xl bg-gold-100 flex items-center justify-center text-primary-600 shrink-0">
             <Wallet className="w-7 h-7" />
           </div>
           <div>

@@ -283,7 +283,7 @@ function VerifikasiDokumenContent() {
             <button
               onClick={fetchData}
               disabled={refreshing}
-              className="p-2 bg-primary-50 text-primary-600 hover:bg-primary-600 hover:text-white rounded-xl transition-all disabled:opacity-50"
+              className="p-2 bg-blue-50 text-blue-600 hover:bg-primary-600 hover:text-white rounded-xl transition-all disabled:opacity-50"
               title="Muat Ulang Data"
             >
               <RefreshCw

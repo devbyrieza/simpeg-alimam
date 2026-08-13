@@ -165,7 +165,7 @@ export default function PengaturanPage() {
         <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
         <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="p-4 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-lg shadow-purple-500/20">
+            <div className="p-4 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl shadow-lg shadow-purple-500/20">
               <Settings className="w-8 h-8 text-white" />
             </div>
             <div>
@@ -266,7 +266,7 @@ export default function PengaturanPage() {
                 <button
                   onClick={handleSeed2026}
                   disabled={seeding}
-                  className="flex w-full md:w-auto items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-2xl font-black transition-all shadow-lg shadow-purple-600/30 active:scale-95 disabled:opacity-50 disabled:shadow-none"
+                  className="flex w-full md:w-auto items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-purple-700 hover:to-indigo-700 text-white rounded-2xl font-black transition-all shadow-lg shadow-purple-600/30 active:scale-95 disabled:opacity-50 disabled:shadow-none"
                 >
                   {seeding ? (
                     <Loader2 className="w-5 h-5 animate-spin" />

@@ -171,7 +171,7 @@ export default function PerubahanDataPage() {
                                                 ? "bg-secondary-100 text-secondary-700"
                                                 : req.status ===
                                                     "approved_to_edit"
-                                                  ? "bg-primary-100 text-primary-700"
+                                                  ? "bg-teal-100 text-teal-700"
                                                   : req.status === "submitted"
                                                     ? "bg-purple-100 text-purple-700"
                                                     : "bg-emerald-100 text-emerald-700"
