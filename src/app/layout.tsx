@@ -16,6 +16,8 @@ import { Toaster } from "react-hot-toast";
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import { BRANDING } from "@/config/branding";
+import SplashScreen from "@/components/ui/SplashScreen";
+
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -157,6 +159,7 @@ export default function RootLayout({
         className={`${plusJakarta.variable} ${inter.variable} font-sans antialiased bg-white text-ink-900 overflow-x-hidden transition-colors duration-500`}
         suppressHydrationWarning
       >
+        <SplashScreen />
         <ProgressBarProvider>
           <Toaster position="top-center" toastOptions={{ duration: 4000, style: { borderRadius: '16px', padding: '16px', fontWeight: 600 } }} />
         <SmoothScrollProvider>
