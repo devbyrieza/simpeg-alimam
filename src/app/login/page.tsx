@@ -125,7 +125,7 @@ export default function LoginPage() {
             {/* Email */}
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                User ID / Email / No. WA
+                Username / Email / No. WA
               </label>
               <div className="relative group">
                 <div className="absolute left-4 top-0 bottom-0 flex items-center pointer-events-none">
@@ -135,7 +135,7 @@ export default function LoginPage() {
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="User ID / admin@pesantren-alimam.com / No. WA"
+                  placeholder="Username / Email / No. WA"
                   className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-primary-500/50 focus:ring-4 focus:ring-primary-500/10 transition-all font-medium text-sm"
                   disabled={isLoading}
                 />
