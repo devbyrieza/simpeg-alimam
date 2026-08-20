@@ -31,6 +31,25 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  let sessionData: any = null;
+  try {
+    sessionData = JSON.parse(sessionCookie.value);
+  } catch (e) {}
+
+  if (sessionData && sessionData.is_default_password === true) {
+    const exemptedRoles = ["pendaftar", "santri", "wali_santri"];
+    if (!exemptedRoles.includes(sessionData.role)) {
+      // Allow access to API for changing password and logout
+      if (!pathname.startsWith("/api/profile/password") && !pathname.startsWith("/api/auth/logout")) {
+        const isPenguji = sessionData.role === "penguji";
+        const targetProfile = isPenguji ? "/dashboard/penguji/profil" : "/dashboard/admin/profil";
+        if (pathname !== targetProfile) {
+          return NextResponse.redirect(new URL(targetProfile, request.url));
+        }
+      }
+    }
+  }
+
   // Rolling session renewal
   const response = NextResponse.next();
   if (sessionCookie) {

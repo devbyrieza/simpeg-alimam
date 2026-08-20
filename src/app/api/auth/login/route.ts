@@ -40,10 +40,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const isDefaultPassword = profile.must_change_password === true || password === "2026#@" || profile.plain_password === "2026#@";
+
     const responseJson = NextResponse.json({
       success: true,
       message: "Login berhasil",
       role: profile.role,
+      is_default_password: isDefaultPassword,
     });
 
     const maxAge = 60 * 60 * 24 * 90; // 90 Days
@@ -54,6 +57,7 @@ export async function POST(request: NextRequest) {
         id: profile.id,
         full_name: profile.full_name,
         email: profile.email,
+        is_default_password: isDefaultPassword,
       }),
       {
         path: "/",
