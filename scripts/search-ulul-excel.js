@@ -3,10 +3,10 @@ const fs = require('fs');
 const path = require('path');
 
 const files = [
-  '../alandalus-ululalbaab/3. KANGGE SK Penerimaan santri baru 2026-2027 2.xlsx',
-  '../alandalus-ululalbaab/Data_Santri_Putri_UlulAlbaab_2026-2027.xlsx',
-  '../alandalus-ululalbaab/MASTER_PPDB_UlulAlbaab_2026-2027.xlsx',
-  '../alandalus-ululalbaab/Update DATA UP 2026-2027.xlsx'
+  '../alandalus-ululalbaab/3. KANGGE SK Penerimaan santri baru 2026/2027 2.xlsx',
+  '../alandalus-ululalbaab/Data_Santri_Putri_UlulAlbaab_2026/2027.xlsx',
+  '../alandalus-ululalbaab/MASTER_PPDB_UlulAlbaab_2026/2027.xlsx',
+  '../alandalus-ululalbaab/Update DATA UP 2026/2027.xlsx'
 ];
 
 const targetKeywords = [
