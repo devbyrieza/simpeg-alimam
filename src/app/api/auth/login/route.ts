@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       where: {
         OR: [
           { email },
-          { username: email },
+          { username: { equals: email, mode: "insensitive" } },
           { phone: email }
         ]
       },

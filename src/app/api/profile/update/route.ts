@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { full_name, email, phone } = body;
+    const { full_name, email, phone, username } = body;
 
     if (!full_name) {
       return NextResponse.json(
@@ -49,6 +49,24 @@ export async function POST(request: Request) {
       }
     }
 
+    // Validasi dan periksa username jika diisi
+    if (username) {
+      if (username.length < 4) {
+        return NextResponse.json({ error: "Username minimal 4 karakter." }, { status: 400 });
+      }
+      const usernameRegex = /^[a-zA-Z0-9._]+$/;
+      if (!usernameRegex.test(username)) {
+        return NextResponse.json({ error: "Username hanya boleh berisi huruf, angka, titik, atau underscore." }, { status: 400 });
+      }
+      
+      const existingUser = await prisma.profile.findFirst({
+        where: { username: username.toLowerCase().trim() }
+      });
+      if (existingUser && existingUser.id !== session.id) {
+        return NextResponse.json({ error: "Username sudah digunakan oleh akun lain." }, { status: 400 });
+      }
+    }
+
     // Update profile using the ID from the session
     // In this system, profile.id is stored in session.id for interviewers/admins
     const updatedProfile = await prisma.profile.update({
@@ -57,6 +75,7 @@ export async function POST(request: Request) {
         full_name,
         email: email.toLowerCase().trim(),
         phone: phone || "",
+        username: username ? username.toLowerCase().trim() : null,
       },
     });
 
@@ -66,6 +85,7 @@ export async function POST(request: Request) {
       full_name: updatedProfile.full_name,
       email: updatedProfile.email,
       phone: updatedProfile.phone,
+      username: updatedProfile.username,
     };
 
     const cookieStore = await cookies();

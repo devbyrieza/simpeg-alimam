@@ -16,6 +16,7 @@ interface UserSession {
   full_name: string;
   role: string;
   phone?: string;
+  username?: string;
 }
 
 export default function ProfileSettings({ user }: { user: UserSession }) {
@@ -26,6 +27,7 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
   const [fullName, setFullName] = useState(user?.full_name || "");
   const [email, setEmail] = useState(user?.email || "");
   const [phone, setPhone] = useState(user?.phone || "");
+  const [username, setUsername] = useState(user?.username || "");
 
   // UI State
   const [loading, setLoading] = useState(false);
@@ -67,7 +69,7 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
       const res = await fetch("/api/profile/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ full_name: fullName, email, phone }),
+        body: JSON.stringify({ full_name: fullName, email, phone, username }),
       });
 
       const data = await res.json();
@@ -222,6 +224,22 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
               />
               <p className="text-[10px] text-gray-400 mt-1.5 ml-1 italic">
                 Penting: Email ini akan digunakan untuk login Anda selanjutnya ke seluruh aplikasi.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Kosongkan jika belum memiliki username"
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none"
+              />
+              <p className="text-[10px] text-gray-400 mt-1.5 ml-1 italic">
+                Kosongkan jika belum memiliki username. (Minimal 4 karakter, huruf, angka, titik, atau underscore).
               </p>
             </div>
 
