@@ -290,7 +290,7 @@ export default function PendataanPage() {
             Data antum telah berhasil disimpan di database kepegawaian.
           </p>
           <p className="text-slate-400 text-sm mb-8">
-            Jazakumullahu khairan atas partisipasinya 🤍
+            Jazakumullahu khairan atas partisipasinya 
           </p>
           <div className="p-4 bg-primary-50 rounded-2xl border border-primary-100 mb-6">
             <p className="text-sm text-primary-700 font-semibold">
@@ -629,7 +629,7 @@ export default function PendataanPage() {
             <div className="pt-4 border-t border-slate-100">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-xs text-slate-400 flex items-center gap-1.5 text-center sm:text-left">
-                  <span className="text-slate-400">🔒</span>
+                  <span className="text-slate-400"></span>
                   Data antum aman dan terlindungi oleh sistem SIMPEG
                 </p>
                 <motion.button

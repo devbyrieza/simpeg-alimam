@@ -888,7 +888,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
               </p>
               <div className="mt-4 pt-4 border-t border-primary-50 w-full">
                 <span className="text-xs text-primary-600 font-bold uppercase tracking-widest">
-                  📚 Akademik
+                   Akademik
                 </span>
               </div>
             </motion.div>
@@ -911,7 +911,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
               </p>
               <div className="mt-4 pt-4 border-t border-primary-50 w-full">
                 <span className="text-xs text-primary-600 font-bold uppercase tracking-widest">
-                  🔬 Praktikum
+                   Praktikum
                 </span>
               </div>
             </motion.div>
@@ -934,7 +934,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
               </p>
               <div className="mt-4 pt-4 border-t border-primary-50 w-full">
                 <span className="text-xs text-primary-600 font-bold uppercase tracking-widest">
-                  🍽️ Nutrisi
+                  ️ Nutrisi
                 </span>
               </div>
             </motion.div>
@@ -958,7 +958,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
               </p>
               <div className="mt-4 pt-4 border-t border-primary-50 w-full">
                 <span className="text-xs text-primary-600 font-bold uppercase tracking-widest">
-                  🏥 Kesehatan
+                   Kesehatan
                 </span>
               </div>
             </motion.div>
@@ -981,7 +981,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
               </p>
               <div className="mt-4 pt-4 border-t border-primary-50 w-full">
                 <span className="text-xs text-primary-600 font-bold uppercase tracking-widest">
-                  🛡️ Keamanan
+                  ️ Keamanan
                 </span>
               </div>
             </motion.div>
@@ -1004,7 +1004,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
               </p>
               <div className="mt-4 pt-4 border-t border-primary-50 w-full">
                 <span className="text-xs text-primary-600 font-bold uppercase tracking-widest">
-                  🏛️ Event
+                  ️ Event
                 </span>
               </div>
             </motion.div>
@@ -1209,7 +1209,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
                       </button>
                       
                       <p className="text-xs text-center text-ink-400 font-medium mt-4">
-                        🔒 Data Anda aman dan hanya digunakan untuk keperluan jadwal kunjungan.
+                         Data Anda aman dan hanya digunakan untuk keperluan jadwal kunjungan.
                       </p>
                     </form>
                   )}

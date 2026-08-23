@@ -511,7 +511,7 @@ export default function KeuanganPage() {
               : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
           }`}
         >
-          💳 Pembayaran Pendaftaran
+           Pembayaran Pendaftaran
         </button>
         <button
           onClick={() => {
@@ -524,7 +524,7 @@ export default function KeuanganPage() {
               : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
           }`}
         >
-          🎓 Daftar Ulang
+           Daftar Ulang
         </button>
       </div>
 

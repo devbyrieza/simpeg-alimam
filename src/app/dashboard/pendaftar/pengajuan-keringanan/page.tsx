@@ -297,7 +297,7 @@ export default function PengajuanKeringananPage() {
 
             {/* Info syarat */}
             <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-800 font-medium">
-              📋 Keringanan memerlukan 2 dokumen wajib: <strong>SKTM</strong>{" "}
+               Keringanan memerlukan 2 dokumen wajib: <strong>SKTM</strong>{" "}
               dan{" "}
               <strong>Surat Permohonan Keringanan Biaya</strong>. Surat
               Permohonan harus menyebutkan jenis biaya (Uang Pangkal / SPP),

@@ -83,7 +83,7 @@ export default function DashboardLayout({
 
         // 2. Validate pendaftar_id
         if (!sessionData.pendaftar_id) {
-          console.warn("⚠️ [Layout] No pendaftar_id found in session");
+          console.warn("️ [Layout] No pendaftar_id found in session");
           setNamaLengkap(fallbackName);
           setStatusProses("draft");
           setLoading(false);
@@ -97,7 +97,7 @@ export default function DashboardLayout({
         );
 
         if (!statusRes.ok) {
-          console.error("❌ [Layout] Status fetch failed:", statusRes.status);
+          console.error(" [Layout] Status fetch failed:", statusRes.status);
           setNamaLengkap(fallbackName);
           setLoading(false);
           return;
@@ -108,7 +108,7 @@ export default function DashboardLayout({
         // 4. Update state with fresh data
         const currentStatus = (userData.status_proses ||
           "draft") as StatusProses;
-        console.log(`✅ [Layout] Current Status: ${currentStatus}`);
+        console.log(` [Layout] Current Status: ${currentStatus}`);
 
         setStatusProses(currentStatus);
         setNomorPendaftaran(userData.nomor_pendaftaran || "-");
@@ -590,7 +590,7 @@ export default function DashboardLayout({
                       <Shirt className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-black text-orange-900">⚠️ Data Ukuran Seragam Belum Diisi!</p>
+                      <p className="text-sm font-black text-orange-900">️ Data Ukuran Seragam Belum Diisi!</p>
                       <p className="text-xs text-orange-700 leading-snug mt-0.5">Harap segera isi ukuran seragam ananda agar dapat diproses tepat waktu.</p>
                     </div>
                     <Link
@@ -612,7 +612,7 @@ export default function DashboardLayout({
                       <Calendar className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-black text-primary-900">📅 Konfirmasi Welcome Day Belum Diisi!</p>
+                      <p className="text-sm font-black text-primary-900"> Konfirmasi Welcome Day Belum Diisi!</p>
                       <p className="text-xs text-primary-700 leading-snug mt-0.5">Harap konfirmasi kehadiran Welcome Day (18 Juli 2026) segera.</p>
                     </div>
                     <Link

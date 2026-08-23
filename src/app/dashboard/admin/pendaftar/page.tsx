@@ -1551,7 +1551,7 @@ function AdminPendaftarContent() {
               <option value="">Semua Tahun Ajaran</option>
               {tahunAjaranList.map((ta) => (
                 <option key={ta.id} value={ta.id}>
-                  {ta.nama} {ta.is_active && "⭐"}
+                  {ta.nama} {ta.is_active && ""}
                 </option>
               ))}
             </select>
@@ -2394,7 +2394,7 @@ function AdminPendaftarContent() {
             <div className="p-6 space-y-4">
               <div className="bg-secondary-50 border-2 border-secondary-200 rounded-xl p-4">
                 <p className="text-sm text-secondary-800 font-medium">
-                  ⚠️ Anda akan menghapus data{" "}
+                  ️ Anda akan menghapus data{" "}
                   <strong>{toTitleCase(deletingPendaftar.nama_lengkap)}</strong>{" "}
                   ({deletingPendaftar.nomor_pendaftaran}). Data akan dipindahkan
                   ke Sampah dan bisa di-restore kapan saja.

@@ -114,7 +114,7 @@ export default function DashboardPendaftarPage() {
             <AlertCircle className="w-6 h-6 text-primary-600 flex-shrink-0 mt-1" />
             <div>
               <h3 className="text-lg font-black text-primary-900 mb-2">
-                🎉 Dashboard Sedang Dikembangkan
+                 Dashboard Sedang Dikembangkan
               </h3>
               <p className="text-sm text-primary-800 mb-4">
                 Halaman dashboard pendaftar lengkap sedang dalam proses

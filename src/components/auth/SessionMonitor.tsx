@@ -1,5 +1,5 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 🎁 BONUS: SESSION MONITOR COMPONENT
+//  BONUS: SESSION MONITOR COMPONENT
 // Tampilkan info session di dashboard (opsional)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Path: src/components/auth/SessionMonitor.tsx
@@ -71,7 +71,7 @@ export default function SessionMonitor() {
 }
 
 // ============================================
-// 📖 CARA PAKAI:
+//  CARA PAKAI:
 // ============================================
 //
 // Di Dashboard Header (src/app/dashboard/page.tsx):
@@ -84,16 +84,16 @@ export default function SessionMonitor() {
 // </div>
 //
 // ============================================
-// 🎨 TAMPILAN:
+//  TAMPILAN:
 // ============================================
 //
-// ✅ Session aman (> 1 hari):
+//  Session aman (> 1 hari):
 // ┌──────────────────────────┐
-// │ ✓ Sisa 5 hari 🛡️        │
+// │  Sisa 5 hari ️        │
 // └──────────────────────────┘
 // (Hijau)
 //
-// ⚠️ Session akan expired (< 1 hari):
+// ️ Session akan expired (< 1 hari):
 // ┌──────────────────────────┐
 // │ ⏰ Sisa 8 jam            │
 // └──────────────────────────┘

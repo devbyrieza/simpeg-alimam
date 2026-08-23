@@ -37,7 +37,7 @@ const Section = React.forwardRef<HTMLElement, SectionProps>(
       <section
         ref={ref}
         className={cn(
-          // ✅ ONLY VERTICAL SPACING - NO HORIZONTAL PADDING!
+          //  ONLY VERTICAL SPACING - NO HORIZONTAL PADDING!
           {
             "py-12 md:py-16": spacing === "sm",
             "py-16 md:py-20": spacing === "md",

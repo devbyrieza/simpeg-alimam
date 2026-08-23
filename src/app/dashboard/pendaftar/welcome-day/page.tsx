@@ -255,7 +255,7 @@ export default function WelcomeDayPage() {
       if (!res.ok) throw new Error(result.message || "Gagal menyimpan konfirmasi");
 
       localStorage.removeItem("welcome_day_form_draft");
-      setMessage({ type: "success", text: "✅ Konfirmasi kehadiran Welcome Day berhasil disimpan! Terima kasih." });
+      setMessage({ type: "success", text: " Konfirmasi kehadiran Welcome Day berhasil disimpan! Terima kasih." });
       setIsEditing(false);
     } catch (error: any) {
       setMessage({ type: "error", text: error.message || "Terjadi kesalahan. Silakan coba lagi." });
@@ -344,7 +344,7 @@ export default function WelcomeDayPage() {
             <Shirt className="w-5 h-5 text-white" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-black text-orange-900">⚠️ Ukuran Seragam Belum Diisi!</p>
+            <p className="text-sm font-black text-orange-900">️ Ukuran Seragam Belum Diisi!</p>
             <p className="text-xs text-orange-700 leading-snug mt-1">
               Sebelum Welcome Day, pastikan Anda sudah mengisi ukuran seragam santri agar dapat disiapkan tepat waktu.
             </p>
@@ -364,7 +364,7 @@ export default function WelcomeDayPage() {
         <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-2xl px-4 py-3">
           <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
           <div className="flex-1">
-            <p className="text-sm font-black text-green-800">✅ Ukuran Seragam Sudah Terisi</p>
+            <p className="text-sm font-black text-green-800"> Ukuran Seragam Sudah Terisi</p>
             <p className="text-xs text-green-600 mt-0.5">
               Baju: <strong>{seragamStatus.baju}</strong> · Celana/Rok: <strong>{seragamStatus.celana}</strong> · Almamater: <strong>{seragamStatus.almamater}</strong>
             </p>

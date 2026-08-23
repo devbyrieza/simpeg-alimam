@@ -394,7 +394,7 @@ export default function TrashPage() {
             <div className="p-6 space-y-4">
               <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4">
                 <p className="text-sm text-green-800 font-medium">
-                  ✅ Data{" "}
+                   Data{" "}
                   <strong>{toTitleCase(restoringItem.nama_lengkap)}</strong> (
                   {restoringItem.nomor_pendaftaran}) akan dipulihkan dan muncul
                   kembali di daftar pendaftar aktif.

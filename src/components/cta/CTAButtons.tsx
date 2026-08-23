@@ -1,5 +1,5 @@
 /**
- * 🎯 CTA BUTTON COMPONENTS
+ *  CTA BUTTON COMPONENTS
  * Reusable CTA buttons dengan conversion funnel strategy yang benar
  *
  * USAGE:
@@ -159,7 +159,7 @@ export function CTAKonsultasi({
 
 /**
  * Aggressive CTA - Daftar Sekarang (High Urgency)
- * ⚠️ ONLY use in /ppdb page! NOT in homepage!
+ * ️ ONLY use in /ppdb page! NOT in homepage!
  */
 export function CTADaftarSekarang({
   size = "lg",

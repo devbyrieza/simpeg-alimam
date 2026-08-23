@@ -575,13 +575,13 @@ export default function PengajuanBeasiswaTab() {
           <div className="mb-4 p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs text-blue-800 font-medium">
             {jenisPengajuan === "BEASISWA_PRESTASI" ? (
               <span>
-                📋 <strong>Beasiswa</strong> memerlukan: SKTM + Surat Keterangan
+                 <strong>Beasiswa</strong> memerlukan: SKTM + Surat Keterangan
                 Penghasilan + KTP Orangtua Ayah + KTP Orangtua Ibu + Bukti Memiliki
                 Hafalan Al-Qur'an / Ranking 3 Besar.
               </span>
             ) : (
               <span>
-                📋 <strong>Keringanan</strong> memerlukan: SKTM + Surat
+                 <strong>Keringanan</strong> memerlukan: SKTM + Surat
                 Permohonan Keringanan. Surat Permohonan harus menyebutkan jenis
                 biaya (Uang Pangkal / SPP), jumlah yang sanggup dibayar,
                 dan/atau potongan yang diminta.

@@ -58,7 +58,7 @@ export default function FloatingWhatsApp() {
               </span>
             </div>
             <p className="text-[0.75rem] font-bold text-ink-800 leading-snug pr-3">
-              Ada pertanyaan seputar PPDB? Chat kami! 😊
+              Ada pertanyaan seputar PPDB? Chat kami! 
             </p>
             <p className="text-[0.65rem] text-ink-500 mt-1">
               Biasanya membalas dalam beberapa menit
