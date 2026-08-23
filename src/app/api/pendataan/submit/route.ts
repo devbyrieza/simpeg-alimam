@@ -21,8 +21,7 @@ const pegawaiSchema = z.object({
   mata_pelajaran: z.string().optional().nullable(),
   pendidikan_terakhir: z.string().optional().nullable(),
   status_pernikahan: z.string().optional().nullable(),
-  foto_url: z.string().optional().nullable(),
-});
+  foto_url: z.string().optional().nullable() });
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,9 +45,7 @@ export async function POST(req: NextRequest) {
         mata_pelajaran: validatedData.mata_pelajaran || null,
         pendidikan_terakhir: validatedData.pendidikan_terakhir || null,
         status_pernikahan: validatedData.status_pernikahan || null,
-        foto_url: validatedData.foto_url || null,
-      },
-    });
+        foto_url: validatedData.foto_url || null } });
 
     return NextResponse.json({ success: true, data: newPegawai }, { status: 201 });
   } catch (error: any) {

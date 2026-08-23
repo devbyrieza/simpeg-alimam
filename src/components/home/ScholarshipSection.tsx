@@ -30,8 +30,7 @@ export default function ScholarshipSection({ variant = "maroon" }: ScholarshipSe
     badgeBg: isMaroon ? "bg-maroon-50" : "bg-teal-50",
     badgeText: isMaroon ? "text-maroon-700" : "text-teal-700",
     cardBorder: isMaroon ? "border-maroon-100" : "border-teal-100",
-    iconBg: isMaroon ? "bg-maroon-600" : "bg-teal-600",
-  };
+    iconBg: isMaroon ? "bg-maroon-600" : "bg-teal-600" };
 
   const EASE = [0.16, 1, 0.3, 1] as const;
 

@@ -37,8 +37,7 @@ const translateStatus = (status: string, dataLengkap?: any) => {
     mengundurkan_diri: "Mengundurkan Diri",
     enrolled: "Proses Daftar Ulang",
     enrolled_full: "Lunas Daftar Ulang",
-    pindah_keluar: "Pindah Keluar",
-  };
+    pindah_keluar: "Pindah Keluar" };
   return statusMap[s] || status.toUpperCase();
 };
 
@@ -85,8 +84,7 @@ export async function GET(req: NextRequest) {
     // Build query - fetch ALL records (no pagination for export)
     const baseWhere = getAdminWhereClause(tahunAjaran || undefined) as any;
     const where: Prisma.PendaftarWhereInput = {
-      ...baseWhere,
-    };
+      ...baseWhere };
 
     // Search filter
     if (search) {
@@ -136,11 +134,8 @@ export async function GET(req: NextRequest) {
         tipe_pendaftaran: true,
         created_at: true,
         tahun_ajaran: {
-          select: { nama: true },
-        },
-      },
-      orderBy: { created_at: "desc" },
-    });
+          select: { nama: true } } },
+      orderBy: { created_at: "desc" } });
 
     // Convert to CSV
     const headers = [
@@ -193,8 +188,7 @@ export async function GET(req: NextRequest) {
       "Tahun Ajaran": item.tahun_ajaran?.nama || "-",
       "Tanggal Daftar": item.created_at
         ? new Date(item.created_at).toLocaleDateString("id-ID")
-        : "-",
-    }));
+        : "-" }));
 
     return NextResponse.json({ data: exportData });
   } catch (error) {
@@ -254,8 +248,7 @@ function query_status(status: string, where: any) {
     hasil_ujian: ["passed", "announced", "accepted", "enrolled"],
     diterima: ["accepted", "passed", "enrolled"],
     belum_daftar_ulang: ["accepted"],
-    sudah_daftar_ulang: ["enrolled"],
-  };
+    sudah_daftar_ulang: ["enrolled"] };
 
   const statusValues = filterMapping[status];
   if (statusValues && statusValues.length > 0) {

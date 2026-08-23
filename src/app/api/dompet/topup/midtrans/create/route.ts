@@ -55,31 +55,26 @@ export async function POST(request: NextRequest) {
     const transactionData = {
       transaction_details: {
         order_id: orderId,
-        gross_amount: nominal,
-      },
+        gross_amount: nominal },
       item_details: [
         {
           id: "TOPUP_DOMPET",
           price: nominal,
           quantity: 1,
-          name: `Top Up Kartu Jajan - ${dompet.pendaftar.nama_lengkap}`,
-        },
+          name: `Top Up Kartu Jajan - ${dompet.pendaftar.nama_lengkap}` },
       ],
       customer_details: {
         first_name: dompet.pendaftar.nama_lengkap,
         email: dompet.pendaftar.email || "noemail@ponpesalimam.sch.id",
-        phone: dompet.pendaftar.no_hp || "",
-      },
+        phone: dompet.pendaftar.no_hp || "" },
       callbacks: {
         finish: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/dashboard/pendaftar/kartu-jajan?status=finish`,
         error: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/dashboard/pendaftar/kartu-jajan?status=error`,
-        pending: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/dashboard/pendaftar/kartu-jajan?status=pending`,
-      },
+        pending: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/dashboard/pendaftar/kartu-jajan?status=pending` },
       expiry: {
         unit: "hours",
         duration: 24, // 24 hours expiry for topup
-      },
-    };
+      } };
 
     const midtransUrl = isProduction
       ? "https://app.midtrans.com/snap/v1/transactions"
@@ -91,10 +86,8 @@ export async function POST(request: NextRequest) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Basic ${authString}`,
-      },
-      body: JSON.stringify(transactionData),
-    });
+        Authorization: `Basic ${authString}` },
+      body: JSON.stringify(transactionData) });
 
     const midtransData = await midtransResponse.json();
 
@@ -114,9 +107,7 @@ export async function POST(request: NextRequest) {
         midtrans_order_id: orderId,
         midtrans_response_json: midtransData,
         status_pembayaran: "pending",
-        expired_at: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      },
-    });
+        expired_at: new Date(Date.now() + 24 * 60 * 60 * 1000) } });
 
     return NextResponse.json({
       success: true,
@@ -126,9 +117,7 @@ export async function POST(request: NextRequest) {
         order_id: orderId,
         snap_token: midtransData.token,
         redirect_url: midtransData.redirect_url,
-        gross_amount: nominal,
-      },
-    });
+        gross_amount: nominal } });
   } catch (error: any) {
     console.error("Error creating topup:", error);
     return NextResponse.json({ success: false, error: "Terjadi kesalahan internal" }, { status: 500 });

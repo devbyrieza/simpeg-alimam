@@ -41,8 +41,7 @@ export async function POST() {
 
     // 2. Ambil data pendaftar
     const pendaftar = await prisma.pendaftar.findUnique({
-      where: { id: pendaftarId },
-    });
+      where: { id: pendaftarId } });
 
     if (!pendaftar) {
       return NextResponse.json(
@@ -60,17 +59,14 @@ export async function POST() {
       where: { id: pendaftarId },
       data: {
         status_pendaftaran: "data_completed",
-        updated_at: new Date(),
-      },
-    });
+        updated_at: new Date() } });
 
     // 4. Kirim notifikasi WA (Optional/Async)
     if (updatedPendaftar.no_hp) {
       try {
         await notifyDataComplete({
           phone: updatedPendaftar.no_hp,
-          nama: updatedPendaftar.nama_lengkap,
-        });
+          nama: updatedPendaftar.nama_lengkap });
       } catch (err) {
         console.error("Gagal mengirim notifikasi WA:", err);
       }
@@ -78,8 +74,7 @@ export async function POST() {
 
     return NextResponse.json({
       success: true,
-      message: "Data berhasil dikonfirmasi dan dikunci.",
-    });
+      message: "Data berhasil dikonfirmasi dan dikunci." });
   } catch (error: any) {
     console.error("Error in POST /api/pendaftar/konfirmasi-data:", error);
     return NextResponse.json(

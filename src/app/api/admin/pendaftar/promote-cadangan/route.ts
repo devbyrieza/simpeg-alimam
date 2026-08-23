@@ -53,11 +53,7 @@ export async function POST(req: NextRequest) {
         orang_tua: {
           select: {
             no_hp_ayah: true,
-            no_hp_ibu: true,
-          },
-        },
-      },
-    });
+            no_hp_ibu: true } } } });
 
     if (candidates.length === 0) {
       return NextResponse.json(
@@ -75,9 +71,7 @@ export async function POST(req: NextRequest) {
         where: { id: { in: candidateIds } },
         data: {
           status_pendaftaran: "accepted",
-          updated_at: new Date(),
-        },
-      });
+          updated_at: new Date() } });
 
       // 2. Upsert tabel pengumuman agar dashboard santri juga berubah
       for (const candidate of candidates) {
@@ -86,16 +80,13 @@ export async function POST(req: NextRequest) {
           update: {
             status_kelulusan: "Diterima",
             is_published: true,
-            published_at: new Date(),
-          },
+            published_at: new Date() },
           create: {
             pendaftar_id: candidate.id,
             status_kelulusan: "Diterima",
             is_published: true,
             published_at: new Date(),
-            tahun_ajaran_id: candidate.tahun_ajaran_id,
-          },
-        });
+            tahun_ajaran_id: candidate.tahun_ajaran_id } });
       }
     });
 
@@ -113,8 +104,7 @@ export async function POST(req: NextRequest) {
             phone,
             nama: candidate.nama_lengkap,
             status: "DITERIMA",
-            jenjang: candidate.jenjang,
-          });
+            jenjang: candidate.jenjang });
           notifiedCount++;
         }
       }
@@ -142,16 +132,13 @@ export async function POST(req: NextRequest) {
         promoted_count: candidates.length,
         notified_count: notifiedCount,
         mode: promoteAll ? "all" : "selected",
-        ids: candidateIds,
-      },
-    });
+        ids: candidateIds } });
 
     return NextResponse.json({
       success: true,
       updated_count: candidates.length,
       notified_count: notifiedCount,
-      message: `${candidates.length} Pendaftar berhasil dipindahkan dari Cadangan ke Diterima. Notifikasi WhatsApp telah diantrekan.`,
-    });
+      message: `${candidates.length} Pendaftar berhasil dipindahkan dari Cadangan ke Diterima. Notifikasi WhatsApp telah diantrekan.` });
   } catch (error) {
     console.error("Promote cadangan error:", error);
     return NextResponse.json(

@@ -21,8 +21,7 @@ export default function BuatSuratPage() {
     judul: "",
     perihal: "",
     penerima: "",
-    isi_singkat: "",
-  });
+    isi_singkat: "" });
 
   // Fetch preview nomor setiap kali jenis, divisi, atau tanggal berubah
   useEffect(() => {
@@ -31,8 +30,7 @@ export default function BuatSuratPage() {
         const params = new URLSearchParams({
           jenis: formData.jenis_surat,
           divisi: formData.kode_divisi,
-          tanggal: formData.tanggal_surat,
-        });
+          tanggal: formData.tanggal_surat });
         const res = await fetch(`/api/admin/surat-keluar/nomor?${params}`);
         const json = await res.json();
         if (json.data) {
@@ -77,8 +75,7 @@ export default function BuatSuratPage() {
       const res = await fetch("/api/admin/surat-keluar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, status }),
-      });
+        body: JSON.stringify({ ...formData, status }) });
       
       if (res.ok) {
         localStorage.removeItem("arsip_surat_buat_draft");

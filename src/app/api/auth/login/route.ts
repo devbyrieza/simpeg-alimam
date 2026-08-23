@@ -22,8 +22,7 @@ export async function POST(request: NextRequest) {
           { username: { equals: email, mode: "insensitive" } },
           { phone: email }
         ]
-      },
-    });
+      } });
 
     if (!profile || !profile.password_hash) {
       return NextResponse.json(
@@ -46,8 +45,7 @@ export async function POST(request: NextRequest) {
       success: true,
       message: "Login berhasil",
       role: profile.role,
-      is_default_password: isDefaultPassword,
-    });
+      is_default_password: isDefaultPassword });
 
     const maxAge = 60 * 60 * 24 * 90; // 90 Days
     responseJson.cookies.set(
@@ -57,8 +55,7 @@ export async function POST(request: NextRequest) {
         id: profile.id,
         full_name: profile.full_name,
         email: profile.email,
-        is_default_password: isDefaultPassword,
-      }),
+        is_default_password: isDefaultPassword }),
       {
         path: "/",
         httpOnly: true,
@@ -66,8 +63,7 @@ export async function POST(request: NextRequest) {
         sameSite: "lax",
       domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN || undefined,
         maxAge,
-        expires: new Date(Date.now() + maxAge * 1000),
-      }
+        expires: new Date(Date.now() + maxAge * 1000) }
     );
 
     return responseJson;

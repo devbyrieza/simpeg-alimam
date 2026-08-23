@@ -56,8 +56,7 @@ export default function ArsipSuratPage() {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Ya, Hapus",
-      cancelButtonText: "Batal",
-    });
+      cancelButtonText: "Batal" });
 
     if (result.isConfirmed) {
       try {

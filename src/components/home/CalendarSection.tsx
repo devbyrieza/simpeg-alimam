@@ -12,21 +12,18 @@ const IMPORTANT_DATES = [
     title: "Pendaftaran PPDB",
     description:
       "Pendaftaran santri baru dibuka secara online melalui website resmi.",
-    accent: "maroon" as const,
-  },
+    accent: "maroon" as const },
   {
     date: "Sesuai Jadwal",
     title: "Seleksi",
     description:
       "Ujian lisan dan tertulis dilaksanakan setelah verifikasi berkas.",
-    accent: "gold" as const,
-  },
+    accent: "gold" as const },
   {
     date: "15 Juli 2026",
     title: "Hari Pertama KBM",
     description: "Khutbah Ta'aruf dan awal pengenalan lingkungan.",
-    accent: "maroon" as const,
-  },
+    accent: "maroon" as const },
 ] as const;
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -35,14 +32,11 @@ const ACCENT_MAP = {
   maroon: {
     number: "bg-primary-700 text-white",
     badge: "bg-primary-50 text-primary-700 border-primary-100",
-    title: "group-hover:text-primary-700",
-  },
+    title: "group-hover:text-primary-700" },
   gold: {
     number: "bg-gold-50 text-gold-700 border border-gold-200",
     badge: "bg-gold-50 text-gold-700 border-gold-200",
-    title: "group-hover:text-gold-700",
-  },
-};
+    title: "group-hover:text-gold-700" } };
 
 // ─── Main ─────────────────────────────────────────────
 export default function CalendarSection() {
@@ -89,8 +83,7 @@ export default function CalendarSection() {
                       transition={{
                         delay: idx * 0.1,
                         duration: 0.5,
-                        ease: EASE,
-                      }}
+                        ease: EASE }}
                       className="relative flex items-start gap-5 sm:gap-7 group"
                     >
                       {/* Number Bubble */}

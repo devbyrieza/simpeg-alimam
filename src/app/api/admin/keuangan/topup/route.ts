@@ -26,8 +26,7 @@ export async function POST(req: Request) {
           data: {
             pendaftar_id: pendaftar.id,
             qr_code_string: pendaftar.nomor_pendaftaran,
-            saldo: 0,
-          }
+            saldo: 0 }
         });
       }
 
@@ -54,8 +53,7 @@ export async function POST(req: Request) {
           jenis_transaksi: 'TOPUP',
           nominal: Number(nominal),
           saldo_akhir: saldoAkhir,
-          keterangan: keterangan || "Top Up via Admin",
-        }
+          keterangan: keterangan || "Top Up via Admin" }
       });
 
       return { updatedDompet, riwayat };

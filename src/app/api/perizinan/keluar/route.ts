@@ -13,8 +13,7 @@ export async function POST(request: Request) {
     // 1. Cari dompet berdasarkan QR Code untuk mendapatkan pendaftar_id (sebagai identitas kartu)
     const dompet = await prisma.dompetSantri.findUnique({
       where: { qr_code_string },
-      include: { pendaftar: true },
-    });
+      include: { pendaftar: true } });
 
     if (!dompet) {
       return NextResponse.json({ error: "Kartu tidak terdaftar" }, { status: 404 });
@@ -41,8 +40,7 @@ export async function POST(request: Request) {
         waktu_keluar: new Date(),
         batas_kembali: batas_kembali ? new Date(batas_kembali) : null,
         status: "DI_LUAR",
-        pemberi_izin_id: pemberi_izin_id,
-      }
+        pemberi_izin_id: pemberi_izin_id }
     });
 
     return NextResponse.json({
@@ -50,9 +48,7 @@ export async function POST(request: Request) {
       message: "Izin keluar berhasil dicatat",
       data: {
         nama: dompet.pendaftar.nama_lengkap,
-        waktu_keluar: izinBaru.waktu_keluar,
-      },
-    });
+        waktu_keluar: izinBaru.waktu_keluar } });
 
   } catch (error: any) {
     console.error("Izin Keluar Error:", error);

@@ -41,9 +41,7 @@ export async function GET(
     return new NextResponse(fileBuffer, {
       headers: {
         "Content-Type": contentType,
-        "Cache-Control": "public, max-age=31536000, immutable",
-      },
-    });
+        "Cache-Control": "public, max-age=31536000, immutable" } });
   } catch (error: any) {
     console.error("Error serving file in SIMPEG:", error);
     return NextResponse.json({ error: "File tidak ditemukan", details: error?.message }, { status: 404 });

@@ -4,8 +4,7 @@ import {
   enqueueWhatsapp,
   buildMessagePaymentVerified,
   buildMessageDaftarUlangVerified,
-  buildMessagePaymentRejected,
-} from "@/lib/whatsapp-queue";
+  buildMessagePaymentRejected } from "@/lib/whatsapp-queue";
 import { getServerSession } from "@/lib/session";
 import { logAdminAction } from "@/lib/audit";
 import { getAdminWhereClause } from "@/lib/utils/admin";
@@ -39,9 +38,7 @@ export async function GET(request: NextRequest) {
     const where: any = {
       // Use global admin filter to exclude tests and soft-deleted records
       pendaftar: {
-        is: getAdminWhereClause(),
-      },
-    };
+        is: getAdminWhereClause() } };
     if (status === "all") {
       // No additional filter
     } else if (status === "pending") {
@@ -83,15 +80,9 @@ export async function GET(request: NextRequest) {
             pembayaran: {
               where: {
                 status_pembayaran: "verified",
-                jenis_pembayaran: { in: ["DAFTAR_ULANG", "SPP"] as any },
-              },
-              select: { id: true, jenis_pembayaran: true },
-            },
-          },
-        },
-      },
-      orderBy: { created_at: "desc" },
-    });
+                jenis_pembayaran: { in: ["DAFTAR_ULANG", "SPP"] as any } },
+              select: { id: true, jenis_pembayaran: true } } } } },
+      orderBy: { created_at: "desc" } });
 
     // Generate URLs (Mock for now as we removed Supabase Storage)
     const dataWithUrls = data.map((pembayaran) => {
@@ -118,13 +109,11 @@ export async function GET(request: NextRequest) {
           jenjang: pembayaran.pendaftar?.jenjang,
           no_hp: pembayaran.pendaftar?.no_hp,
           jenis_kelamin: pembayaran.pendaftar?.jenis_kelamin,
-          tipe_pendaftaran: pembayaran.pendaftar?.tipe_pendaftaran,
-        },
+          tipe_pendaftaran: pembayaran.pendaftar?.tipe_pendaftaran },
         tipe_cicilan: pembayaran.tipe_cicilan,
         cicilan_ke: pembayaran.cicilan_ke,
         total_tagihan: pembayaran.total_tagihan,
-        verified_count: pembayaran.pendaftar?.pembayaran.length || 0,
-      };
+        verified_count: pembayaran.pendaftar?.pembayaran.length || 0 };
     });
 
     // Fetch counts for pending status explicitly
@@ -157,8 +146,7 @@ export async function GET(request: NextRequest) {
     const counts = {
       PENDAFTARAN: countPendaftaran,
       DAFTAR_ULANG: countDaftarUlang,
-      SPP: countSpp,
-    };
+      SPP: countSpp };
 
     return NextResponse.json({ data: dataWithUrls, counts });
   } catch (error) {
@@ -216,19 +204,14 @@ export async function PATCH(request: NextRequest) {
         catatan_verifikasi: catatan,
         jumlah: jumlah ? Number(jumlah) : undefined,
         tipe_cicilan: tipe_cicilan || undefined,
-        cicilan_ke: cicilan_ke !== undefined ? Number(cicilan_ke) : undefined,
-      },
+        cicilan_ke: cicilan_ke !== undefined ? Number(cicilan_ke) : undefined },
       include: {
         pendaftar: {
           select: {
             nama_lengkap: true,
             no_hp: true,
             status_pendaftaran: true,
-            nomor_pendaftaran: true,
-          },
-        },
-      },
-    });
+            nomor_pendaftaran: true } } } });
 
     // Also update pendaftar status
     const { getStatusIndex } = await import("@/lib/access-control");
@@ -242,23 +225,18 @@ export async function PATCH(request: NextRequest) {
           where: {
             pendaftar_id: pembayaran.pendaftar_id,
             jenis_pembayaran: "DAFTAR_ULANG",
-            status_pembayaran: "verified",
-          },
-        });
+            status_pembayaran: "verified" } });
         // Fetch ALL verified SPP payments
         const allSppVerified = await prisma.pembayaran.findMany({
           where: {
             pendaftar_id: pembayaran.pendaftar_id,
             jenis_pembayaran: "SPP" as any,
-            status_pembayaran: "verified",
-          },
-        });
+            status_pembayaran: "verified" } });
 
         // Fetch pendaftar data for keringanan info
         const pendaftarData = await prisma.pendaftar.findUnique({
           where: { id: pembayaran.pendaftar_id },
-          select: { data_lengkap: true },
-        });
+          select: { data_lengkap: true } });
         let expectedDU = 7500000;
         if (pendaftarData?.data_lengkap) {
           try {
@@ -302,9 +280,7 @@ export async function PATCH(request: NextRequest) {
         where: { id: pembayaran.pendaftar_id },
         data: {
           status_pendaftaran: newPendaftarStatus,
-          updated_at: new Date(),
-        },
-      });
+          updated_at: new Date() } });
     }
 
     // Logging audit action
@@ -314,8 +290,7 @@ export async function PATCH(request: NextRequest) {
       adminName: session.full_name || session.name || "Admin",
       targetId: pembayaran.pendaftar_id,
       targetName: pembayaran.pendaftar.nama_lengkap,
-      details: { status_pembayaran, payment_id: pembayaran_id },
-    });
+      details: { status_pembayaran, payment_id: pembayaran_id } });
 
     // Send WhatsApp notification via Queue
     try {
@@ -337,9 +312,7 @@ export async function PATCH(request: NextRequest) {
             where: {
               pendaftar_id: pembayaran.pendaftar_id,
               jenis_notif: activeJenisNotif,
-              status: { in: ["pending", "processing", "sent"] },
-            },
-          });
+              status: { in: ["pending", "processing", "sent"] } } });
           if (existingVerifiedNotif) {
             shouldSendNotif = false;
           }
@@ -395,8 +368,7 @@ export async function PATCH(request: NextRequest) {
             pendaftarId: pembayaran.pendaftar_id,
             phone: pembayaran.pendaftar.no_hp,
             jenisNotif: activeJenisNotif as any,
-            messageContent: finalMessage,
-          });
+            messageContent: finalMessage });
         }
       }
     } catch (error) {
@@ -407,8 +379,7 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: pembayaran,
-      pendaftar_status: newPendaftarStatus,
-    });
+      pendaftar_status: newPendaftarStatus });
   } catch (error) {
     console.error("Error in pembayaran verification update API:", error);
     return NextResponse.json(

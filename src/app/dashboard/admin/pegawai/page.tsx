@@ -79,8 +79,7 @@ const INITIAL_FORM = {
   mata_pelajaran: "",
   pendidikan_terakhir: "",
   status_pernikahan: "BELUM_MENIKAH",
-  foto_url: null as string | null,
-};
+  foto_url: null as string | null };
 
 const DRAFT_KEY = "simpeg_admin_pegawai_draft";
 
@@ -210,8 +209,7 @@ export default function AdminPegawaiPage() {
       mata_pelajaran: pegawai.mata_pelajaran || "",
       pendidikan_terakhir: pegawai.pendidikan_terakhir || "",
       status_pernikahan: pegawai.status_pernikahan || "BELUM_MENIKAH",
-      foto_url: pegawai.foto_url || null,
-    });
+      foto_url: pegawai.foto_url || null });
     setCustomKategoriInput("");
     setModalOpen(true);
   };
@@ -277,9 +275,7 @@ export default function AdminPegawaiPage() {
         confirmButtonColor: "#3b0a0a",
         customClass: {
           popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
-          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
-        },
-      });
+          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md" } });
       return;
     }
 
@@ -290,8 +286,7 @@ export default function AdminPegawaiPage() {
       fd.append("foto", file);
       const res = await fetch("/api/pendataan/upload-foto", {
         method: "POST",
-        body: fd,
-      });
+        body: fd });
 
       if (res.ok) {
         const resData = await res.json();
@@ -303,9 +298,7 @@ export default function AdminPegawaiPage() {
             background: "#1e293b",
             color: "#fff",
             fontWeight: "bold",
-            fontSize: "13px",
-          },
-        });
+            fontSize: "13px" } });
       } else {
         toast.dismiss(loadingToast);
         Swal.fire({
@@ -316,9 +309,7 @@ export default function AdminPegawaiPage() {
           confirmButtonColor: "#3b0a0a",
           customClass: {
             popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
-            confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
-          },
-        });
+            confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md" } });
       }
     } catch (err) {
       console.error(err);
@@ -331,9 +322,7 @@ export default function AdminPegawaiPage() {
         confirmButtonColor: "#3b0a0a",
         customClass: {
           popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
-          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
-        },
-      });
+          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md" } });
     } finally {
       setUploadingFoto(false);
     }
@@ -350,9 +339,7 @@ export default function AdminPegawaiPage() {
         confirmButtonColor: "#3b0a0a",
         customClass: {
           popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
-          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
-        },
-      });
+          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md" } });
       return;
     }
 
@@ -364,8 +351,7 @@ export default function AdminPegawaiPage() {
         res = await fetch("/api/admin/pegawai", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+          body: JSON.stringify(formData) });
       } else {
         // Edit existing
         if (!selectedPegawai) return;
@@ -374,9 +360,7 @@ export default function AdminPegawaiPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             id: selectedPegawai.id,
-            ...formData,
-          }),
-        });
+            ...formData }) });
       }
 
       if (res.ok) {
@@ -401,11 +385,9 @@ export default function AdminPegawaiPage() {
           confirmButtonColor: "#3b0a0a",
           customClass: {
             popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
-            confirmButton: "px-8 py-3 rounded-2xl font-black text-sm shadow-lg shadow-primary-950/20 hover:scale-[1.02] transition-transform cursor-pointer",
-          },
+            confirmButton: "px-8 py-3 rounded-2xl font-black text-sm shadow-lg shadow-primary-950/20 hover:scale-[1.02] transition-transform cursor-pointer" },
           timer: 3000,
-          timerProgressBar: true,
-        });
+          timerProgressBar: true });
       } else {
         const err = await res.json().catch(() => ({ message: "Gagal menyimpan data" }));
         Swal.fire({
@@ -416,9 +398,7 @@ export default function AdminPegawaiPage() {
           confirmButtonColor: "#3b0a0a",
           customClass: {
             popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
-            confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
-          },
-        });
+            confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md" } });
       }
     } catch (e) {
       console.error(e);
@@ -430,9 +410,7 @@ export default function AdminPegawaiPage() {
         confirmButtonColor: "#3b0a0a",
         customClass: {
           popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
-          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
-        },
-      });
+          confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md" } });
     } finally {
       setSaving(false);
     }
@@ -459,16 +437,13 @@ export default function AdminPegawaiPage() {
       customClass: {
         popup: "rounded-3xl shadow-2xl border border-slate-100 p-6",
         confirmButton: "px-6 py-2.5 rounded-xl font-bold text-sm shadow-md",
-        cancelButton: "px-6 py-2.5 rounded-xl font-bold text-sm",
-      },
-    });
+        cancelButton: "px-6 py-2.5 rounded-xl font-bold text-sm" } });
 
     if (confirmResult.isConfirmed) {
       const deleteToast = toast.loading("Menghapus data civitas...");
       try {
         const res = await fetch(`/api/admin/pegawai?id=${pegawai.id}`, {
-          method: "DELETE",
-        });
+          method: "DELETE" });
 
         if (res.ok) {
           toast.dismiss(deleteToast);
@@ -482,9 +457,7 @@ export default function AdminPegawaiPage() {
               background: "#1e293b",
               color: "#fff",
               fontWeight: "bold",
-              fontSize: "13px",
-            },
-          });
+              fontSize: "13px" } });
         } else {
           toast.dismiss(deleteToast);
           const err = await res.json().catch(() => ({ message: "Gagal menghapus" }));
@@ -493,8 +466,7 @@ export default function AdminPegawaiPage() {
             title: "<span class='text-slate-800 font-extrabold text-lg'>Gagal Menghapus</span>",
             html: `<p class='text-slate-500 text-sm'>${err.message || "Terjadi kesalahan saat menghapus data."}</p>`,
             confirmButtonText: "Tutup",
-            confirmButtonColor: "#3b0a0a",
-          });
+            confirmButtonColor: "#3b0a0a" });
         }
       } catch (e) {
         console.error(e);
@@ -522,8 +494,7 @@ export default function AdminPegawaiPage() {
         Jabatan: d.jabatan || "-",
         "Mata Pelajaran": d.mata_pelajaran || "-",
         "Pendidikan Terakhir": d.pendidikan_terakhir || "-",
-        "Status Pernikahan": d.status_pernikahan ? d.status_pernikahan.replace("_", " ") : "-",
-      }))
+        "Status Pernikahan": d.status_pernikahan ? d.status_pernikahan.replace("_", " ") : "-" }))
     );
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Data Pegawai Lengkap");

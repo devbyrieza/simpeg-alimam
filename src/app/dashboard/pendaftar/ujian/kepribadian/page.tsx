@@ -77,8 +77,7 @@ export default function KepribadianTestPage() {
       confirmButtonColor: "#004A99",
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Ya, Kirim",
-      cancelButtonText: "Batal",
-    });
+      cancelButtonText: "Batal" });
     if (!result.isConfirmed) return;
 
     try {
@@ -86,16 +85,14 @@ export default function KepribadianTestPage() {
       const res = await fetch("/api/pendaftar/ujian/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "kepribadian", answers }),
-      });
+        body: JSON.stringify({ type: "kepribadian", answers }) });
       if (!res.ok) throw new Error("Gagal mengirim");
 
       await Swal.fire({
         icon: "success",
         title: "Alhamdulillah!",
         text: "Seleksi Kepribadian berhasil diselesaikan.",
-        confirmButtonColor: "#004A99",
-      });
+        confirmButtonColor: "#004A99" });
       router.push("/dashboard/pendaftar/undangan-seleksi");
     } catch (err: any) {
       Swal.fire("Error", err.message, "error");
@@ -212,8 +209,7 @@ export default function KepribadianTestPage() {
           <div
             className="h-full bg-linear-to-r from-primary-500 to-primary-700 rounded-full transition-all duration-500 shadow-sm shadow-primary-200"
             style={{
-              width: `${(Object.keys(answers).length / KEPRIBADIAN_QUESTIONS.length) * 100}%`,
-            }}
+              width: `${(Object.keys(answers).length / KEPRIBADIAN_QUESTIONS.length) * 100}%` }}
           />
         </div>
       </div>

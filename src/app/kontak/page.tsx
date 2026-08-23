@@ -20,8 +20,7 @@ import {
   Map as MapIcon,
   Award,
   ShieldCheck,
-  GraduationCap,
-} from "lucide-react";
+  GraduationCap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ========================================
@@ -34,8 +33,7 @@ const ContactInfoCard = ({
   content,
   href,
   subContent,
-  delay = 0,
-}: {
+  delay = 0 }: {
   icon: any;
   title: string;
   content: string;
@@ -118,8 +116,7 @@ export default function ContactPage() {
     nama: "",
     email: "",
     telepon: "",
-    pesan: "",
-  });
+    pesan: "" });
 
   useEffect(() => {
     try {
@@ -165,16 +162,14 @@ export default function ContactPage() {
       url: "https://www.instagram.com/alandalusalimam/",
       icon: Instagram,
       textColor: "text-pink-600",
-      bgLight: "bg-pink-50",
-    },
+      bgLight: "bg-pink-50" },
     {
       name: "Facebook",
       username: "Wahab Rajasam",
       url: "https://www.facebook.com/wahab.rajasam/",
       icon: Facebook,
       textColor: "text-primary-600",
-      bgLight: "bg-primary-50",
-    },
+      bgLight: "bg-primary-50" },
   ];
 
   return (

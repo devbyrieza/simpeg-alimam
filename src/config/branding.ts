@@ -25,5 +25,4 @@ export const BRANDING = {
   ytUrl: process.env.NEXT_PUBLIC_YT_URL || "#",
   fbUrl:
     process.env.NEXT_PUBLIC_FB_URL || "https://www.facebook.com/wahab.rajasam/",
-  twitterUrl: process.env.NEXT_PUBLIC_TWITTER_URL || "#",
-};
+  twitterUrl: process.env.NEXT_PUBLIC_TWITTER_URL || "#" };

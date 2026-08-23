@@ -6,8 +6,7 @@ import {
   buildMessageKonfirmasiJadwalPendaftar,
   buildMessageKonfirmasiJadwalInterviewer,
   buildMessageReminderH1Santri,
-  buildMessageReminderH1Penguji,
-} from "@/lib/whatsapp-queue";
+  buildMessageReminderH1Penguji } from "@/lib/whatsapp-queue";
 import { generateMagicToken } from "@/lib/utils/magic-link";
 import { getLeastLoadedExaminerFromPool } from "@/lib/utils/assignment";
 
@@ -50,10 +49,8 @@ export async function GET() {
     const jadwal = await prisma.jadwalUjian.findMany({
       where: { pendaftar_id: session.id },
       include: {
-        exam_session: true,
-      },
-      orderBy: { created_at: "desc" },
-    });
+        exam_session: true },
+      orderBy: { created_at: "desc" } });
 
     // Transform to match front-end expectation
     const data = jadwal.map((item) => ({
@@ -98,8 +95,7 @@ export async function POST(request: Request) {
     // 1. Validate Session First
     const examSession = await prisma.examSession.findUnique({
       where: { id: exam_session_id },
-      include: { _count: { select: { bookings: true } } },
-    });
+      include: { _count: { select: { bookings: true } } } });
 
     if (!examSession)
       return NextResponse.json(
@@ -115,8 +111,7 @@ export async function POST(request: Request) {
     // 2. Check for categorical duplication (Quran, Santri, Ortu)
     const existingBookings = await prisma.jadwalUjian.findMany({
       where: { pendaftar_id: session.id },
-      include: { exam_session: true },
-    });
+      include: { exam_session: true } });
 
     const currentCategory = getExamCategory(examSession.title || "");
 
@@ -142,16 +137,14 @@ export async function POST(request: Request) {
 
       return NextResponse.json(
         {
-          error: `Anda sudah memiliki jadwal untuk ${categoryLabel}.`,
-        },
+          error: `Anda sudah memiliki jadwal untuk ${categoryLabel}.` },
         { status: 400 },
       );
     }
 
     // Fetch pendaftar first (outside transaction to avoid deadlocks)
     const pendaftar = await prisma.pendaftar.findUnique({
-      where: { id: session.id },
-    });
+      where: { id: session.id } });
     if (!pendaftar) {
       return NextResponse.json(
         { error: "Data pendaftar tidak ditemukan" },
@@ -172,8 +165,7 @@ export async function POST(request: Request) {
       // Increment count first to lock
       const updatedSession = await tx.examSession.update({
         where: { id: exam_session_id },
-        data: { booked_count: { increment: 1 } },
-      });
+        data: { booked_count: { increment: 1 } } });
 
       if (updatedSession.booked_count > updatedSession.quota) {
         throw new Error("Kuota penuh (race condition)");
@@ -187,34 +179,28 @@ export async function POST(request: Request) {
       if (finalExaminerId) {
         const interviewer = await tx.profile.findUnique({
           where: { id: finalExaminerId },
-          select: { google_meet_link: true, full_name: true, phone: true },
-        });
+          select: { google_meet_link: true, full_name: true, phone: true } });
 
         if (currentCategory === "HAFALAN") {
             pengujiFields = {
               penguji_hafalan_id: finalExaminerId,
-              zoom_link_hafalan: interviewer?.google_meet_link || null,
-            };
+              zoom_link_hafalan: interviewer?.google_meet_link || null };
           } else if (currentCategory === "LISAN_ARAB") {
             pengujiFields = {
               penguji_arab_id: finalExaminerId,
-              zoom_link_arab: interviewer?.google_meet_link || null,
-            };
+              zoom_link_arab: interviewer?.google_meet_link || null };
           } else if (currentCategory === "QURAN") {
           pengujiFields = {
             penguji_quran_id: finalExaminerId,
-            google_meet_link: interviewer?.google_meet_link || null,
-          };
+            google_meet_link: interviewer?.google_meet_link || null };
         } else if (currentCategory === "W_SANTRI") {
           pengujiFields = {
             penguji_santri_id: finalExaminerId,
-            google_meet_link: interviewer?.google_meet_link || null,
-          };
+            google_meet_link: interviewer?.google_meet_link || null };
         } else if (currentCategory === "W_ORTU") {
           pengujiFields = {
             penguji_ortu_id: finalExaminerId,
-            google_meet_link: interviewer?.google_meet_link || null,
-          };
+            google_meet_link: interviewer?.google_meet_link || null };
         }
       }
 
@@ -234,23 +220,18 @@ export async function POST(request: Request) {
           status_quran: "scheduled",
           status_ortu: "scheduled",
           status_online_test: "pending",
-          ...pengujiFields,
-        },
-      });
+          ...pengujiFields } });
 
       // 1.5. Update pendaftar status to 'scheduled'
       await tx.pendaftar.update({
         where: { id: session.id },
-        data: { status_pendaftaran: "scheduled" },
-      });
+        data: { status_pendaftaran: "scheduled" } });
 
       // 2. Initialize NilaiUjian
       await tx.nilaiUjian.create({
         data: {
           pendaftar_id: session.id,
-          jadwal_ujian_id: jadwal.id,
-        },
-      });
+          jadwal_ujian_id: jadwal.id } });
 
       // 3. Trigger immediate merge/recalculation to absorb any existing scores
       const { recalculateNilaiUjian } = await import("@/lib/scoring");
@@ -264,8 +245,7 @@ export async function POST(request: Request) {
     // Send WhatsApp via Queue (Layer 2: Non-blocking, through queue)
     const pendaftarInfo = await prisma.pendaftar.findUnique({
       where: { id: session.id },
-      select: { nama_lengkap: true, no_hp: true, nomor_pendaftaran: true },
-    });
+      select: { nama_lengkap: true, no_hp: true, nomor_pendaftaran: true } });
 
     if (pendaftarInfo && pendaftarInfo.no_hp) {
       const startTime = new Date(examSession.start_time);
@@ -274,14 +254,12 @@ export async function POST(request: Request) {
         day: "numeric",
         month: "long",
         year: "numeric",
-        timeZone: "Asia/Jakarta",
-      });
+        timeZone: "Asia/Jakarta" });
       const timeStr =
         startTime.toLocaleTimeString("id-ID", {
           hour: "2-digit",
           minute: "2-digit",
-          timeZone: "Asia/Jakarta",
-        }) + " WIB";
+          timeZone: "Asia/Jakarta" }) + " WIB";
       const lokasi = examSession.location || "Pesantren Al Andalus Al Imam";
       const jenisUjian = sanitizeTitle(
         examSession.title || "Seleksi Santri Baru",
@@ -299,8 +277,7 @@ export async function POST(request: Request) {
         pendaftarId: session.id,
         phone: pendaftarInfo.no_hp,
         jenisNotif: "konfirmasi_jadwal_pendaftar",
-        messageContent: konfirmasiMsg,
-      }).catch((err: any) => console.error("Failed to enqueue jadwal confirmation to pendaftar:", err));
+        messageContent: konfirmasiMsg }).catch((err: any) => console.error("Failed to enqueue jadwal confirmation to pendaftar:", err));
 
       // 2. Notify Interviewer — SEGERA setelah booking (delay 1 menit Anti-BAN)
       const finalId =
@@ -311,8 +288,7 @@ export async function POST(request: Request) {
       if (finalId) {
         const interviewer = await prisma.profile.findUnique({
           where: { id: finalId },
-          select: { full_name: true, phone: true, google_meet_link: true },
-        });
+          select: { full_name: true, phone: true, google_meet_link: true } });
 
         if (interviewer && interviewer.phone) {
           // Generate Magic Link for this interviewer
@@ -350,8 +326,7 @@ export async function POST(request: Request) {
             phone: interviewer.phone,
             jenisNotif: "konfirmasi_jadwal_interviewer",
             messageContent: intMessage,
-            scheduledAt: scheduledAtInt,
-          }).catch((err: any) => console.error("Failed to enqueue interviewer notification:", err));
+            scheduledAt: scheduledAtInt }).catch((err: any) => console.error("Failed to enqueue interviewer notification:", err));
         }
       }
 
@@ -379,8 +354,7 @@ export async function POST(request: Request) {
         if (finalIdForLink) {
           const interviewerInfo = await prisma.profile.findUnique({
             where: { id: finalIdForLink },
-            select: { google_meet_link: true },
-          });
+            select: { google_meet_link: true } });
           interviewerGoogleMeetLink = interviewerInfo?.google_meet_link;
         }
 
@@ -404,15 +378,13 @@ export async function POST(request: Request) {
           phone: pendaftarInfo.no_hp,
           jenisNotif: "reminder_h1",
           messageContent: remSantriMsg,
-          scheduledAt: finalScheduledAt,
-        })
+          scheduledAt: finalScheduledAt })
           .then(async () => {
             // Update flag safely - using try catch to avoid crash if DB not pushed yet
             try {
               await prisma.jadwalUjian.update({
                 where: { id: jadwal.id },
-                data: { notif_h1_pendaftar_terkirim: true },
-              });
+                data: { notif_h1_pendaftar_terkirim: true } });
             } catch (e) {
               console.warn(
                 "Could not update H1 santri flag (DB sync might be pending)",
@@ -432,8 +404,7 @@ export async function POST(request: Request) {
         if (finalIdRem) {
           const interviewer = await prisma.profile.findUnique({
             where: { id: finalIdRem },
-            select: { full_name: true, phone: true, google_meet_link: true },
-          });
+            select: { full_name: true, phone: true, google_meet_link: true } });
 
           if (interviewer && interviewer.phone) {
             // Generate Magic Link for this interviewer
@@ -487,15 +458,13 @@ export async function POST(request: Request) {
               phone: interviewer.phone,
               jenisNotif: "reminder_h1", // Keep same key for DB compatibility or use a new one
               messageContent: remIntMessage,
-              scheduledAt: finalScheduledAtInt,
-            })
+              scheduledAt: finalScheduledAtInt })
               .then(async () => {
                 // Update flag safely
                 try {
                   await prisma.jadwalUjian.update({
                     where: { id: jadwal.id },
-                    data: { notif_h1_penguji_terkirim: true },
-                  });
+                    data: { notif_h1_penguji_terkirim: true } });
                 } catch (e) {
                   console.warn(
                     "Could not update H1 interviewer flag (DB sync might be pending)",

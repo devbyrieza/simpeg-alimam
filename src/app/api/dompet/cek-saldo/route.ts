@@ -17,11 +17,9 @@ export async function GET(request: Request) {
           select: {
             nama_lengkap: true,
             nomor_pendaftaran: true,
-            kelas_masuk: true,
-          }
+            kelas_masuk: true }
         }
-      },
-    });
+      } });
 
     if (!dompet) {
       return NextResponse.json({ error: "Kartu tidak terdaftar" }, { status: 404 });
@@ -37,9 +35,7 @@ export async function GET(request: Request) {
         nama: dompet.pendaftar.nama_lengkap,
         nis: dompet.pendaftar.nomor_pendaftaran,
         kelas: dompet.pendaftar.kelas_masuk,
-        saldo: dompet.saldo,
-      },
-    });
+        saldo: dompet.saldo } });
 
   } catch (error: any) {
     console.error("Cek Saldo Error:", error);

@@ -7,8 +7,7 @@ const prisma = new PrismaClient();
 
 export default async function AdminPendataanPage() {
   const data = await prisma.pegawai.findMany({
-    orderBy: { created_at: "desc" },
-  });
+    orderBy: { created_at: "desc" } });
 
   return (
     <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-6">

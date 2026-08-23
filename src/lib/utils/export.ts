@@ -27,10 +27,8 @@ export const exportToExcel = async (
         title: sheetName,
         subTitle: `Tanggal Ekspor: ${new Date().toLocaleDateString("id-ID")}`,
         header,
-        data: rows,
-      },
-    ],
-  });
+        data: rows },
+    ] });
 };
 
 
@@ -40,8 +38,7 @@ export const exportToExcel = async (
  */
 export const exportToExcelProfessional = async ({
   fileName,
-  sheets,
-}: {
+  sheets }: {
   fileName: string;
   sheets: {
     name: string;
@@ -179,8 +176,7 @@ export const exportToExcelProfessional = async ({
   // Generate Buffer
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  });
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = window.URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
@@ -207,8 +203,7 @@ export const exportToPDF = (
   const doc = new jsPDF({
     orientation: orientation,
     unit: "mm",
-    format: "a4",
-  });
+    format: "a4" });
 
   // Title
   doc.setFontSize(18);

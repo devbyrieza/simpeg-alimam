@@ -30,8 +30,7 @@ export async function GET() {
     // Fetch user profile to see if they're an admin
     const userProfile = await prisma.profile.findUnique({
       where: { id: userId },
-      select: { role: true, secondary_roles: true },
-    });
+      select: { role: true, secondary_roles: true } });
     const allRoles = userProfile
       ? [userProfile.role, ...(userProfile.secondary_roles || [])]
       : [];
@@ -47,8 +46,7 @@ export async function GET() {
           { penguji_quran_id: userId }, // Tes Quran
           { penguji_ortu_id: userId }, // Seleksi Wawancara Orang Tua
           { exam_session: { created_by: userId } }, // Sessions created by this penguji
-        ],
-      };
+        ] };
     }
 
     const assigned = await prisma.jadwalUjian.findMany({
@@ -61,13 +59,9 @@ export async function GET() {
             nomor_pendaftaran: true,
             jenjang: true,
             nilai_ujian: true, // Fetch scores directly from pendaftar
-            created_at: true,
-          },
-        },
-        exam_session: { select: { title: true, created_by: true } },
-      },
-      orderBy: { tanggal_ujian: "asc" },
-    });
+            created_at: true } },
+        exam_session: { select: { title: true, created_by: true } } },
+      orderBy: { tanggal_ujian: "asc" } });
 
     // Fetch ALL jadwal records for the exam sessions we're dealing with
     // This is needed to properly match scores to their jadwal records
@@ -82,13 +76,10 @@ export async function GET() {
       examSessionIds.length > 0
         ? await prisma.jadwalUjian.findMany({
             where: {
-              exam_session_id: { in: examSessionIds },
-            },
+              exam_session_id: { in: examSessionIds } },
             select: {
               id: true,
-              exam_session_id: true,
-            },
-          })
+              exam_session_id: true } })
         : [];
 
     // Helper to check if an object is effectively empty
@@ -258,8 +249,7 @@ export async function GET() {
           input_at_ortu: scoreData.input_at_ortu,
           input_at_hafalan: scoreData.input_at_hafalan,
           input_at_arab: scoreData.input_at_arab,
-          created_at: item.pendaftar.created_at,
-        });
+          created_at: item.pendaftar.created_at });
       }
     }
 
@@ -270,35 +260,24 @@ export async function GET() {
           {
             detail_akademik: {
               path: ["assigned_examiners", "quran"],
-              equals: userId,
-            },
-          },
+              equals: userId } },
           {
             detail_akademik: {
               path: ["assigned_examiners", "wawancara_santri"],
-              equals: userId,
-            },
-          },
+              equals: userId } },
           {
             detail_akademik: {
               path: ["assigned_examiners", "wawancara_ortu"],
-              equals: userId,
-            },
-          },
+              equals: userId } },
           {
             detail_akademik: {
               path: ["assigned_examiners", "hafalan"],
-              equals: userId,
-            },
-          },
+              equals: userId } },
           {
             detail_akademik: {
               path: ["assigned_examiners", "lisan_arab"],
-              equals: userId,
-            },
-          },
-        ],
-      },
+              equals: userId } },
+        ] },
       include: {
         pendaftar: {
           select: {
@@ -307,11 +286,7 @@ export async function GET() {
             nomor_pendaftaran: true,
             jenjang: true,
             nilai_ujian: true,
-            created_at: true,
-          },
-        },
-      },
-    });
+            created_at: true } } } });
 
     for (const item of assignedByJSON) {
       if (!item.pendaftar) continue;
@@ -371,8 +346,7 @@ export async function GET() {
           input_at_ortu: scoreData.input_at_ortu,
           input_at_hafalan: scoreData.input_at_hafalan,
           input_at_arab: scoreData.input_at_arab,
-          created_at: item.pendaftar.created_at,
-        });
+          created_at: item.pendaftar.created_at });
       }
     }
 

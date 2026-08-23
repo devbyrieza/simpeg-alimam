@@ -10,8 +10,7 @@ import {
   FileText,
   Calendar,
   Award,
-  AlertCircle,
-} from "lucide-react";
+  AlertCircle } from "lucide-react";
 
 export default function DashboardPendaftarPage() {
   const router = useRouter();

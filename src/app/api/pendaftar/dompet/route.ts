@@ -23,30 +23,25 @@ export async function GET(request: NextRequest) {
     }
 
     const dompet = await prisma.dompetSantri.findUnique({
-      where: { pendaftar_id: session.id },
-    });
+      where: { pendaftar_id: session.id } });
 
     if (!dompet) {
       return NextResponse.json({
         success: true,
         data: null,
-        message: "Dompet belum dibuat",
-      });
+        message: "Dompet belum dibuat" });
     }
 
     const transaksi = await prisma.transaksiDompet.findMany({
       where: { dompet_id: dompet.id },
       orderBy: { created_at: "desc" },
-      take: 20,
-    });
+      take: 20 });
 
     return NextResponse.json({
       success: true,
       data: {
         dompet,
-        transaksi,
-      },
-    });
+        transaksi } });
   } catch (error: any) {
     console.error("Error GET /api/pendaftar/dompet:", error);
     return NextResponse.json({ success: false, error: "Terjadi kesalahan internal" }, { status: 500 });

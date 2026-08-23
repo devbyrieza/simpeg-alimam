@@ -34,11 +34,8 @@ export async function GET() {
     const profiles = await prisma.profile.findMany({
       where: {
         role: {
-          not: "pendaftar",
-        },
-      },
-      orderBy: { created_at: "desc" },
-    });
+          not: "pendaftar" } },
+      orderBy: { created_at: "desc" } });
 
     return NextResponse.json({ data: profiles });
   } catch (error: any) {
@@ -80,8 +77,7 @@ export async function POST(request: Request) {
 
     // Check if email already exists
     const existing = await prisma.profile.findFirst({
-      where: { email },
-    });
+      where: { email } });
 
     if (existing) {
       const adminRoles = [
@@ -114,9 +110,7 @@ export async function POST(request: Request) {
           secondary_roles: Array.isArray(secondary_roles) ? secondary_roles : [],
           phone: phone || existing.phone || "-",
           password_hash,
-          updated_at: new Date(),
-        },
-      });
+          updated_at: new Date() } });
 
       if (isExaminerOrInterviewer && updatedProfile.phone && updatedProfile.phone !== "-") {
         const { notifyNewStaffAccess } = await import("@/lib/wablas");
@@ -125,8 +119,7 @@ export async function POST(request: Request) {
             phone: updatedProfile.phone,
             nama: updatedProfile.full_name,
             role: updatedProfile.role,
-            profileId: updatedProfile.id,
-          });
+            profileId: updatedProfile.id });
         } catch (err) {
           console.error("Wablas notifyNewStaffAccess error:", err);
         }
@@ -150,9 +143,7 @@ export async function POST(request: Request) {
         secondary_roles: Array.isArray(secondary_roles) ? secondary_roles : [],
         phone: phone || "-",
         jenis_kelamin: jenis_kelamin || null,
-        password_hash,
-      },
-    });
+        password_hash } });
 
     if (isExaminerOrInterviewer && profile.phone && profile.phone !== "-") {
       const { notifyNewStaffAccess } = await import("@/lib/wablas");
@@ -161,8 +152,7 @@ export async function POST(request: Request) {
           phone: profile.phone,
           nama: profile.full_name,
           role: profile.role,
-          profileId: profile.id,
-        });
+          profileId: profile.id });
       } catch (err) {
         console.error("Wablas notifyNewStaffAccess error:", err);
       }
@@ -173,8 +163,7 @@ export async function POST(request: Request) {
     console.error("POST /api/admin/users ERROR:", error);
     return NextResponse.json(
       {
-        error: error.message || "Database error",
-      },
+        error: error.message || "Database error" },
       { status: 500 },
     );
   }
@@ -199,8 +188,7 @@ export async function PUT(request: Request) {
     }
 
     const existingProfile = await prisma.profile.findUnique({
-      where: { id },
-    });
+      where: { id } });
 
     if (!existingProfile) {
       return NextResponse.json(
@@ -240,9 +228,7 @@ export async function PUT(request: Request) {
       const existing = await prisma.profile.findFirst({
         where: {
           email: cleanEmail,
-          NOT: { id: id },
-        },
-      });
+          NOT: { id: id } } });
 
       if (existing) {
         return NextResponse.json(
@@ -259,8 +245,7 @@ export async function PUT(request: Request) {
 
     const updatedProfile = await prisma.profile.update({
       where: { id },
-      data,
-    });
+      data });
 
     if (isExaminerOrInterviewer && (roleChanged || phoneChanged)) {
       if (updatedProfile.phone && updatedProfile.phone !== "-") {
@@ -270,8 +255,7 @@ export async function PUT(request: Request) {
             phone: updatedProfile.phone,
             nama: updatedProfile.full_name,
             role: updatedProfile.role,
-            profileId: updatedProfile.id,
-          });
+            profileId: updatedProfile.id });
         } catch (err) {
           console.error("Wablas notifyNewStaffAccess error:", err);
         }

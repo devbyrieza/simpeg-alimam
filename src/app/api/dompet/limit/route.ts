@@ -28,8 +28,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const dompet = await prisma.dompetSantri.findUnique({
-      where: { pendaftar_id: session.id },
-    });
+      where: { pendaftar_id: session.id } });
 
     if (!dompet) {
       return NextResponse.json({ success: false, error: "Dompet Santri belum aktif" }, { status: 404 });

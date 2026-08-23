@@ -36,8 +36,7 @@ const translateStatus = (status: string, dataLengkap?: any) => {
     mengundurkan_diri: "Mengundurkan Diri",
     enrolled: "Proses Daftar Ulang",
     enrolled_full: "Lunas Daftar Ulang",
-    pindah_keluar: "Pindah Keluar",
-  };
+    pindah_keluar: "Pindah Keluar" };
   return statusMap[s] || status.toUpperCase();
 };
 
@@ -48,8 +47,7 @@ const translatePaymentStatus = (status: string) => {
     pending: "Menunggu Verifikasi",
     verified: "Lunas / Terverifikasi",
     rejected: "Ditolak",
-    belum_bayar: "Belum Bayar",
-  };
+    belum_bayar: "Belum Bayar" };
   return statusMap[s] || status.toUpperCase();
 };
 
@@ -109,14 +107,10 @@ export async function GET(request: NextRequest) {
             metode_pembayaran: true,
             status_pembayaran: true,
             created_at: true,
-            verified_at: true,
-          },
+            verified_at: true },
           orderBy: { created_at: "desc" },
-          take: 1,
-        },
-      },
-      orderBy: { created_at: "desc" },
-    });
+          take: 1 } },
+      orderBy: { created_at: "desc" } });
 
     // Process data
     const processedData = data.map((p) => {
@@ -141,8 +135,7 @@ export async function GET(request: NextRequest) {
           : "-",
         tanggal_verifikasi: pembayaran?.verified_at
           ? new Date(pembayaran.verified_at).toLocaleDateString("id-ID")
-          : "-",
-      };
+          : "-" };
     });
 
     // Filter by type
@@ -309,9 +302,7 @@ export async function GET(request: NextRequest) {
         headers: {
           "Content-Type":
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          "Content-Disposition": `attachment; filename="${filename}"`,
-        },
-      });
+          "Content-Disposition": `attachment; filename="${filename}"` } });
     }
 
     // Default: Generate CSV
@@ -368,9 +359,7 @@ export async function GET(request: NextRequest) {
       status: 200,
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
-        "Content-Disposition": `attachment; filename="${filename}"`,
-      },
-    });
+        "Content-Disposition": `attachment; filename="${filename}"` } });
   } catch (error) {
     console.error("Export error:", error);
     return NextResponse.json(

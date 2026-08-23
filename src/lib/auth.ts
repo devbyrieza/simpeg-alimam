@@ -99,7 +99,7 @@ export const formatNIKDisplay = (nik: string): string => {
 export const formatNoHPDisplay = (no_hp: string): string => {
   const clean = no_hp.replace(/[\s\-\(\)]/g, "");
   let displayHP = clean.startsWith("628") ? "0" + clean.substring(2) : clean;
-  return displayHP.replace(/(\d{4})(\d{4})(\d{4,})/, "$1-$2-$3");
+  return displayHP.replace(/(\d{4})(\d{4})(\d{4 })/, "$1-$2-$3");
 };
 
 /**

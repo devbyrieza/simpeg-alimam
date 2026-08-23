@@ -25,8 +25,7 @@ export async function GET(
 
     const surat = await prisma.suratKeluar.findUnique({
       where: { id: resolvedParams.id },
-      include: { pembuat: { select: { full_name: true } } },
-    });
+      include: { pembuat: { select: { full_name: true } } } });
 
     if (!surat) {
       return NextResponse.json({ error: "Surat tidak ditemukan" }, { status: 404 });
@@ -54,8 +53,7 @@ export async function PATCH(
     const { status, file_path, file_name, judul, perihal, isi_singkat, penerima } = body;
 
     const existingSurat = await prisma.suratKeluar.findUnique({
-      where: { id: resolvedParams.id },
-    });
+      where: { id: resolvedParams.id } });
 
     if (!existingSurat) {
       return NextResponse.json({ error: "Surat tidak ditemukan" }, { status: 404 });
@@ -78,8 +76,7 @@ export async function PATCH(
 
     const surat = await prisma.suratKeluar.update({
       where: { id: resolvedParams.id },
-      data: updateData,
-    });
+      data: updateData });
 
     return NextResponse.json({ success: true, data: surat });
   } catch (error) {
@@ -101,8 +98,7 @@ export async function DELETE(
     const resolvedParams = await params;
 
     const existingSurat = await prisma.suratKeluar.findUnique({
-      where: { id: resolvedParams.id },
-    });
+      where: { id: resolvedParams.id } });
 
     if (!existingSurat) {
       return NextResponse.json({ error: "Surat tidak ditemukan" }, { status: 404 });
@@ -116,8 +112,7 @@ export async function DELETE(
     }
 
     await prisma.suratKeluar.delete({
-      where: { id: resolvedParams.id },
-    });
+      where: { id: resolvedParams.id } });
 
     return NextResponse.json({ success: true, message: "Surat berhasil dihapus" });
   } catch (error) {

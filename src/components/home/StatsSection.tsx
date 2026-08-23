@@ -10,8 +10,7 @@ import {
   GraduationCap,
   Award,
   TrendingUp,
-  ShieldCheck,
-} from "lucide-react";
+  ShieldCheck } from "lucide-react";
 import { BRANDING } from "@/config/branding";
 import InfiniteMarquee from "@/components/ui/InfiniteMarquee";
 
@@ -39,8 +38,7 @@ const STATS: Stat[] = [
     color: "maroon",
     suffix: "",
     sublabel: "Tahun Ajaran 2026/2027",
-    description: "Momen bersejarah pembukaan",
-  },
+    description: "Momen bersejarah pembukaan" },
   {
     id: "quality",
     label: "Kurikulum Terintegrasi",
@@ -49,8 +47,7 @@ const STATS: Stat[] = [
     color: "cream",
     suffix: "%",
     sublabel: "Tahfidz, Syar'i, Akademik, Leadership & Entrepreneurship",
-    description: "Lima pilar pendidikan utama",
-  },
+    description: "Lima pilar pendidikan utama" },
   {
     id: "levels",
     label: "Jenjang Pendidikan",
@@ -59,8 +56,7 @@ const STATS: Stat[] = [
     color: "maroon",
     suffix: "",
     sublabel: "MTs · IL",
-    description: "Pendidikan menengah lengkap",
-  },
+    description: "Pendidikan menengah lengkap" },
   {
     id: "quota",
     label: "Kuota Terbatas",
@@ -69,16 +65,14 @@ const STATS: Stat[] = [
     color: "cream",
     suffix: "",
     sublabel: "Per Jenjang (Eksklusif)",
-    description: "Seleksi ketat, kualitas terjaga",
-  },
+    description: "Seleksi ketat, kualitas terjaga" },
 ];
 
 // ─── Animated Counter ────────────────────────────────
 function AnimatedCounter({
   value,
   trigger,
-  delay = 0,
-}: {
+  delay = 0 }: {
   value: number;
   trigger: boolean;
   delay?: number;
@@ -94,8 +88,7 @@ function AnimatedCounter({
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => {
         if (ref.current) ref.current.textContent = String(Math.floor(v));
-      },
-    });
+      } });
     return controls.stop;
   }, [trigger, value, delay, motionVal]);
 
@@ -110,8 +103,7 @@ function AnimatedCounter({
 function StatCard({
   stat,
   index,
-  trigger,
-}: {
+  trigger }: {
   stat: Stat;
   index: number;
   trigger: boolean;
@@ -128,8 +120,7 @@ function StatCard({
       transition={{
         delay: index * 0.08,
         duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      }}
+        ease: [0.16, 1, 0.3, 1] }}
       className="group relative h-full hover-lift-sm"
     >
       <div className="glass-panel relative flex flex-col items-center text-center px-6 py-8 md:px-8 md:py-10 rounded-2xl overflow-hidden h-full">
@@ -139,8 +130,7 @@ function StatCard({
           style={{
             background: isMaroon
               ? "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(128,0,0,0.04) 0%, transparent 70%)"
-              : "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,253,240,0.06) 0%, transparent 70%)",
-          }}
+              : "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,253,240,0.06) 0%, transparent 70%)" }}
         />
 
         {/* Icon */}

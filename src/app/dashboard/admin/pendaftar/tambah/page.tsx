@@ -25,8 +25,7 @@ function AdminTambahPendaftarContent() {
     kelas_masuk: "",
     asal_institusi: "",
     nomor_induk_lama: "",
-    catatan_pindahan: "",
-  });
+    catatan_pindahan: "" });
 
   // AUTOSAVE
   useEffect(() => {
@@ -63,8 +62,7 @@ function AdminTambahPendaftarContent() {
       const res = await fetch("/api/admin/pendaftar/tambah", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+        body: JSON.stringify(formData) });
 
       const data = await res.json();
 
@@ -84,8 +82,7 @@ function AdminTambahPendaftarContent() {
             <p class="font-medium">No HP: ${formData.no_hp}</p>
           </div>
         `,
-        confirmButtonColor: "#059669",
-      }).then(() => {
+        confirmButtonColor: "#059669" }).then(() => {
         localStorage.removeItem("pendaftar_tambah_draft");
         router.push("/dashboard/admin/pendaftar");
         router.refresh();

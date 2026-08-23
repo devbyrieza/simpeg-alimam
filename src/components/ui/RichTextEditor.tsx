@@ -22,8 +22,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
       [{ 'align': [] }],
       ['link'],
       ['clean']
-    ],
-  }), []);
+    ] }), []);
 
   return (
     <div className="bg-white rounded-xl overflow-hidden [&_.quill]:rounded-xl [&_.ql-toolbar]:bg-slate-50 [&_.ql-toolbar]:border-slate-200 [&_.ql-toolbar]:rounded-t-xl [&_.ql-container]:border-slate-200 [&_.ql-container]:rounded-b-xl [&_.ql-editor]:min-h-[200px] [&_.ql-editor]:text-sm">

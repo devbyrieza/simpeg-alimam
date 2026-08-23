@@ -14,8 +14,7 @@ import { prisma } from "@/lib/prisma";
 import {
   enqueueWhatsapp,
   buildMessageJadwalBelum,
-  buildMessageJadwalLangsungTersedia,
-} from "@/lib/whatsapp-queue";
+  buildMessageJadwalLangsungTersedia } from "@/lib/whatsapp-queue";
 
 function getExamCategory(title: string): string {
   const t = title.toLowerCase();
@@ -85,9 +84,7 @@ export async function GET() {
         jenis_kelamin: true,
         notif_belum_jadwal_terkirim: true,
         notif_jadwal_tersedia_terkirim: true,
-        notif_hasil_tes_terkirim: true,
-      },
-    });
+        notif_hasil_tes_terkirim: true } });
 
     if (!pendaftar) {
       return NextResponse.json(
@@ -116,9 +113,7 @@ export async function GET() {
           locked: true,
           message:
             "Tahap Seleksi & Seleksi Online akan terbuka secara otomatis setelah seluruh dokumen Anda diverifikasi oleh Admin.",
-          current_status: pendaftar.status_pendaftaran,
-        },
-      });
+          current_status: pendaftar.status_pendaftaran } });
     }
 
     // ── EARLY EXIT: Seleksi sudah selesai & pendaftar sudah accepted/enrolled ──
@@ -132,12 +127,9 @@ export async function GET() {
           grupA: {
             akademik: { completed: true, label: "Kemampuan Dasar Akademik" },
             kepribadian: { completed: true, label: "Identifikasi Kepribadian" },
-            kesiapan: { completed: true, label: "Seleksi Kesiapan" },
-          },
+            kesiapan: { completed: true, label: "Seleksi Kesiapan" } },
           grupB: { hasSchedules: false, availableSlots: [], booked: [] },
-          progress: { completed: 6, total: 6, percentage: 100 },
-        },
-      });
+          progress: { completed: 6, total: 6, percentage: 100 } } });
     }
 
     // 2. Fetch Grup A — Online test completion status
@@ -149,9 +141,7 @@ export async function GET() {
         score_kesiapan: true,
         detail_akademik: true,
         detail_kepribadian: true,
-        detail_kesiapan: true,
-      },
-    });
+        detail_kesiapan: true } });
 
     // Combine to check completion
     const hasAkademik = nilaiUjian.some(
@@ -168,22 +158,17 @@ export async function GET() {
       akademik: { completed: hasAkademik, label: "Kemampuan Dasar Akademik" },
       kepribadian: {
         completed: hasKepribadian,
-        label: "Identifikasi Kepribadian",
-      },
-      kesiapan: { completed: hasKesiapan, label: "Seleksi Kesiapan" },
-    };
+        label: "Identifikasi Kepribadian" },
+      kesiapan: { completed: hasKesiapan, label: "Seleksi Kesiapan" } };
 
     // 3. Fetch Grup B — Available exam sessions (future, active)
     const availableSessions = await prisma.examSession.findMany({
       where: {
         is_active: true,
-        start_time: { gte: new Date() },
-      },
+        start_time: { gte: new Date() } },
       include: {
-        _count: { select: { bookings: true } },
-      },
-      orderBy: { start_time: "asc" },
-    });
+        _count: { select: { bookings: true } } },
+      orderBy: { start_time: "asc" } });
 
     // 4. Fetch booked schedules for this pendaftar
     const bookedJadwal = await prisma.jadwalUjian.findMany({
@@ -196,13 +181,9 @@ export async function GET() {
             start_time: true,
             end_time: true,
             location: true,
-            notes: true,
-          },
-        },
-        nilai_ujian: true,
-      },
-      orderBy: { created_at: "desc" },
-    });
+            notes: true } },
+        nilai_ujian: true },
+      orderBy: { created_at: "desc" } });
 
     // 5. Determine condition
     const hasGrupBSessions = availableSessions.length > 0;
@@ -222,8 +203,7 @@ export async function GET() {
           pendaftarId: pendaftar.id,
           phone: pendaftar.no_hp,
           jenisNotif: "jadwal_belum",
-          messageContent: message,
-        }).catch((err) => console.error("Enqueue jadwal_belum error:", err));
+          messageContent: message }).catch((err) => console.error("Enqueue jadwal_belum error:", err));
       } else if (
         hasGrupBSessions &&
         !pendaftar.notif_jadwal_tersedia_terkirim
@@ -236,8 +216,7 @@ export async function GET() {
           pendaftarId: pendaftar.id,
           phone: pendaftar.no_hp,
           jenisNotif: "jadwal_langsung_tersedia",
-          messageContent: message,
-        }).catch((err) =>
+          messageContent: message }).catch((err) =>
           console.error("Enqueue jadwal_langsung_tersedia error:", err),
         );
       }
@@ -256,8 +235,7 @@ export async function GET() {
         booked: s._count.bookings,
         location: s.location,
         notes: s.notes,
-        isFull: s._count.bookings >= s.quota,
-      }));
+        isFull: s._count.bookings >= s.quota }));
 
     // Transform booked jadwal
     const booked = bookedJadwal.map((j) => {
@@ -287,8 +265,7 @@ export async function GET() {
         online_test_link: j.online_test_link,
         status_santri: hasScoreSantri ? "completed" : j.status_santri,
         status_quran: hasScoreQuran ? "completed" : j.status_quran,
-        status_ortu: hasScoreOrtu ? "completed" : j.status_ortu,
-      };
+        status_ortu: hasScoreOrtu ? "completed" : j.status_ortu };
     });
 
     // Calculate overall progress
@@ -333,16 +310,12 @@ export async function GET() {
         grupB: {
           hasSchedules: hasGrupBSessions,
           availableSlots: openSlots,
-          booked,
-        },
+          booked },
         progress: {
           completed: completedTests,
           total: totalTests,
-          percentage: Math.min(progress, 100),
-        },
-        condition: hasGrupBSessions ? "jadwal_tersedia" : "jadwal_belum",
-      },
-    });
+          percentage: Math.min(progress, 100) },
+        condition: hasGrupBSessions ? "jadwal_tersedia" : "jadwal_belum" } });
   } catch (error: any) {
     console.error("GET undangan-seleksi error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

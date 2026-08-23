@@ -58,8 +58,7 @@ export default function POSKoperasi() {
           nominal: Number(nominal),
           kasir_id: "00000000-0000-0000-0000-000000000000", // TODO: Ambil dari session login admin
           keterangan: "Belanja Koperasi"
-        }),
-      });
+        }) });
 
       const data = await res.json();
       

@@ -36,9 +36,7 @@ export default function TambahAgendaPage() {
       tanggal_selesai: new Date().toISOString().split("T")[0],
       kategori: "AKADEMIK",
       is_libur: false,
-      deskripsi: "",
-    },
-  });
+      deskripsi: "" } });
 
   const { reset } = useForm<FormValues>(); // not used directly, using setValue below? Wait, reset is provided by useForm
   // Autosave
@@ -76,8 +74,7 @@ export default function TambahAgendaPage() {
       const res = await fetch("/api/kalender", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, is_libur: isLibur, warna_label: warnaLabel }),
-      });
+        body: JSON.stringify({ ...data, is_libur: isLibur, warna_label: warnaLabel }) });
       
       const responseData = await res.json();
       
@@ -90,8 +87,7 @@ export default function TambahAgendaPage() {
         title: "Agenda Tersimpan!",
         text: `Agenda ${data.nama_kegiatan} berhasil ditambahkan ke kalender.`,
         confirmButtonColor: "#c9983a",
-        timer: 2000,
-      });
+        timer: 2000 });
 
       router.push("/admin/kalender");
     } catch (error: any) {
@@ -99,8 +95,7 @@ export default function TambahAgendaPage() {
         icon: "error",
         title: "Gagal",
         text: error.message,
-        confirmButtonColor: "#c9983a",
-      });
+        confirmButtonColor: "#c9983a" });
     } finally {
       setSaving(false);
     }

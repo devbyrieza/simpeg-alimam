@@ -73,9 +73,7 @@ export async function GET() {
           nip: nipProfile,
           role: role,
           secondary_roles: secondaryRoles,
-          password_hash: passwordHash,
-        },
-      });
+          password_hash: passwordHash } });
 
       results.push({
         action: 'updated',
@@ -91,8 +89,7 @@ export async function GET() {
       success: true,
       message: 'Berhasil mengonfigurasi profil civitas guru & multi-role secara dinamis di database SIMPEG/PPDB!',
       total: results.length,
-      data: results,
-    });
+      data: results });
   } catch (error: any) {
     console.error('Error provisioning simpeg profiles:', error);
     return NextResponse.json(

@@ -84,9 +84,7 @@ export default function TambahSuratPage() {
       perihal: "",
       tanggal_surat: new Date().toISOString().split("T")[0],
       penerima: "",
-      isi_singkat: "",
-    },
-  });
+      isi_singkat: "" } });
 
   const formValues = watch();
 
@@ -116,8 +114,7 @@ export default function TambahSuratPage() {
         text: "Ketikan surat Anda yang ada saat ini akan dihapus dan diganti dengan template. Lanjutkan?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#c9983a",
-      }).then((res) => {
+        confirmButtonColor: "#c9983a" }).then((res) => {
         if (res.isConfirmed) setValue("isi_singkat", templateContent);
       });
     } else {
@@ -131,8 +128,7 @@ export default function TambahSuratPage() {
       const res = await fetch("/api/surat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, status: "PUBLISHED" }),
-      });
+        body: JSON.stringify({ ...data, status: "PUBLISHED" }) });
       
       const responseData = await res.json();
       
@@ -145,8 +141,7 @@ export default function TambahSuratPage() {
         icon: "success",
         title: "Surat Berhasil Dibuat!",
         html: `Nomor Surat: <b>${responseData.data.nomor_surat}</b>`,
-        confirmButtonColor: "#c9983a",
-      });
+        confirmButtonColor: "#c9983a" });
 
       router.push("/admin/surat");
     } catch (error: any) {
@@ -154,8 +149,7 @@ export default function TambahSuratPage() {
         icon: "error",
         title: "Gagal",
         text: error.message,
-        confirmButtonColor: "#c9983a",
-      });
+        confirmButtonColor: "#c9983a" });
     } finally {
       setSaving(false);
     }

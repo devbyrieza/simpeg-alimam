@@ -86,8 +86,7 @@ export default function FloatingWhatsApp() {
         onClick={() => { setShowTooltip(false); setDismissed(true); }}
         style={{
           background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)",
-          boxShadow: "0 4px 20px rgba(37, 211, 102, 0.45), 0 2px 8px rgba(0,0,0,0.12)",
-        }}
+          boxShadow: "0 4px 20px rgba(37, 211, 102, 0.45), 0 2px 8px rgba(0,0,0,0.12)" }}
       >
         <span className="absolute inset-0 rounded-full animate-ping opacity-25" style={{ backgroundColor: "#25D366" }} aria-hidden />
         <span className="absolute inset-[-6px] rounded-full animate-ping opacity-15"

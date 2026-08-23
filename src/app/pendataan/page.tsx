@@ -35,8 +35,7 @@ const formSchema = z.object({
   jabatan: z.string().optional(),
   mata_pelajaran: z.string().optional(),
   pendidikan_terakhir: z.string().min(1, "Pendidikan terakhir harus dipilih"),
-  status_pernikahan: z.string().min(1, "Status pernikahan harus dipilih"),
-});
+  status_pernikahan: z.string().min(1, "Status pernikahan harus dipilih") });
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -118,8 +117,7 @@ export default function PendataanPage() {
 
   const { register, handleSubmit, formState: { errors }, reset, watch, setValue, getValues } = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: { kategori_pegawai: [] },
-  });
+    defaultValues: { kategori_pegawai: [] } });
 
   // Load draft from localStorage on mount
   useEffect(() => {
@@ -236,8 +234,7 @@ export default function PendataanPage() {
         kategori_pegawai: Array.isArray(data.kategori_pegawai)
           ? data.kategori_pegawai.join(",")
           : data.kategori_pegawai,
-        foto_url,
-      };
+        foto_url };
 
       // Delete temporary field so backend Zod schema doesn't reject it
       delete (submitData as any).divisiLainnya;
@@ -245,8 +242,7 @@ export default function PendataanPage() {
       const response = await fetch("/api/pendataan/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(submitData),
-      });
+        body: JSON.stringify(submitData) });
 
       if (response.ok) {
         localStorage.removeItem("eoffice_pendataan_draft");

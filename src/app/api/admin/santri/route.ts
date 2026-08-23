@@ -14,8 +14,7 @@ export async function GET(request: NextRequest) {
         id: true,
         nomor_pendaftaran: true,
         nama_lengkap: true,
-        jenjang: true,
-      },
+        jenjang: true },
       orderBy: {
         nama_lengkap: "asc"
       }

@@ -14,8 +14,7 @@ import LiveActivityToast from "@/components/ui/LiveActivityToast";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 
 export default function LayoutWrapper({
-  children,
-}: {
+  children }: {
   children: React.ReactNode;
 }) {
   const pathname = usePathname();

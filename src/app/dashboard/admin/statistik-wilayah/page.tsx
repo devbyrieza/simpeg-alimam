@@ -5,8 +5,7 @@ import { getServerSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Statistik Wilayah | Admin Dashboard",
-};
+  title: "Statistik Wilayah | Admin Dashboard" };
 
 export default async function StatistikWilayahPage() {
   const session = (await getServerSession()) as any;
@@ -21,9 +20,7 @@ export default async function StatistikWilayahPage() {
       data_lengkap: true,
       jenjang: true,
       jenis_kelamin: true,
-      status_pendaftaran: true,
-    },
-  });
+      status_pendaftaran: true } });
 
   const statsProvinsi: Record<string, number> = {};
   const statsKabupaten: Record<string, number> = {};

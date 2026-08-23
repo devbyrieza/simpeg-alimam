@@ -17,8 +17,7 @@ import {
   Coffee,
   MapPin,
   ArrowRight,
-  ChevronRight,
-} from "lucide-react";
+  ChevronRight } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { motion, type Variants, type Transition } from "framer-motion";
 
@@ -43,36 +42,31 @@ const FACILITY_IMAGES = [
     label: "Masjid Jami'",
     sub: "Kapasitas 1.000 Jamaah",
     span: "col-span-2 row-span-2",
-    priority: true,
-  },
+    priority: true },
   {
     src: "/images/gedung-utama-dan-lapangan-basket.webp",
     label: "Gedung Utama",
     sub: "& Lapangan Basket",
     span: "col-span-1 row-span-1",
-    priority: true,
-  },
+    priority: true },
   {
     src: "/images/gedung-kelas.webp",
     label: "Gedung Kelas",
     sub: "Modern & Representatif",
     span: "col-span-1 row-span-1",
-    priority: false,
-  },
+    priority: false },
   {
     src: "/images/asrama.webp",
     label: "Asrama Santri",
     sub: "Nyaman & Teratur",
     span: "col-span-1 row-span-1",
-    priority: false,
-  },
+    priority: false },
   {
     src: "/images/kelas-dari-dalam.webp",
     label: "Ruang Kelas",
     sub: "Kondusif & Lengkap",
     span: "col-span-1 row-span-1",
-    priority: false,
-  },
+    priority: false },
 ] as const;
 
 /* ── Icon colour mapping ── */
@@ -86,24 +80,20 @@ const iconClasses: Record<string, string> = {
   amber: "bg-secondary-50 text-secondary-600 ring-secondary-100",
   emerald: "bg-emerald-50 text-emerald-600 ring-emerald-100",
   cyan: "bg-cyan-50 text-cyan-600 ring-cyan-100",
-  ink: "bg-secondary-50 text-ink-600 ring-secondary-200",
-};
+  ink: "bg-secondary-50 text-ink-600 ring-secondary-200" };
 
 /* ── Easing & transition helpers ── */
 const SPRING_EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const springTransition: Transition = {
   duration: 0.6,
-  ease: SPRING_EASE,
-};
+  ease: SPRING_EASE };
 
 /* ── Framer Motion variants ── */
 const containerVariants: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.04, delayChildren: 0.05 },
-  },
-};
+    transition: { staggerChildren: 0.04, delayChildren: 0.05 } } };
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 16, scale: 0.98 },
@@ -113,10 +103,7 @@ const itemVariants: Variants = {
     scale: 1,
     transition: {
       duration: 0.45,
-      ease: SPRING_EASE,
-    },
-  },
-};
+      ease: SPRING_EASE } } };
 
 const photoVariants: Variants = {
   hidden: { opacity: 0, scale: 0.98, y: 16 },
@@ -124,9 +111,7 @@ const photoVariants: Variants = {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: springTransition,
-  },
-};
+    transition: springTransition } };
 
 export default function FacilitiesSection() {
   return (
@@ -194,8 +179,7 @@ export default function FacilitiesSection() {
               transition={{
                 duration: 0.6,
                 delay: idx * 0.08,
-                ease: SPRING_EASE,
-              }}
+                ease: SPRING_EASE }}
               className={`${img.span} relative rounded-[1.5rem] overflow-hidden group shadow-premium-sm ring-1 ring-secondary-200`}
             >
               <Image

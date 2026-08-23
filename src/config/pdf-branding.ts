@@ -21,8 +21,7 @@ export const PDF_BRANDING = {
   assets: {
     logo: "/images/kop-surat.png",
     stamp: "/images/stempel-pesantren.jpg",
-    signature: "/images/ttd-mudir.png",
-  },
+    signature: "/images/ttd-mudir.png" },
 
   // Precise Coordinate Standards (jsPDF based)
   coords: {
@@ -34,22 +33,16 @@ export const PDF_BRANDING = {
         y_thick: 45,
         y_thin: 46.5,
         thickness_thick: 1.2,
-        thickness_thin: 0.3,
-      },
-    },
+        thickness_thin: 0.3 } },
     signature: {
       stamp: { w: 35, h: 35 },
       ttd: { w: 35, h: 35 },
       margin_right: 80,
-      y_offset_ttd: 5,
-    },
-  },
+      y_offset_ttd: 5 } },
 
   // Official Mudir / Authority
   authority: {
     name: "Wahab Rajasam, M.Pd",
     role: "Mudir",
-    city: "Kab. Sukabumi",
-  },
-};
+    city: "Kab. Sukabumi" } };
 

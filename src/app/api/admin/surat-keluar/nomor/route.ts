@@ -6,8 +6,7 @@ import { prisma } from "@/lib/prisma";
 
 const BULAN_ROMAWI: Record<number, string> = {
   1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI",
-  7: "VII", 8: "VIII", 9: "IX", 10: "X", 11: "XI", 12: "XII",
-};
+  7: "VII", 8: "VIII", 9: "IX", 10: "X", 11: "XI", 12: "XII" };
 
 function getTahunAjaran(date: Date): string {
   const month = date.getMonth() + 1; // 1-indexed
@@ -50,8 +49,7 @@ export async function GET(request: NextRequest) {
     const last = await prisma.suratKeluar.findFirst({
       where: { tahun_ajaran: tahunAjaran },
       orderBy: { nomor_urut: "desc" },
-      select: { nomor_urut: true },
-    });
+      select: { nomor_urut: true } });
 
     const nomorUrut = (last?.nomor_urut ?? 0) + 1;
     const nomorUrut3Digit = String(nomorUrut).padStart(3, "0");

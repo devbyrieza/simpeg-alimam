@@ -13,15 +13,13 @@ import {
   Settings,
   Lock,
   ChevronRight,
-  Download,
-} from "lucide-react";
+  Download } from "lucide-react";
 import {
   canAccessTab,
   calculateProgressToUnlock,
   getUnlockMessage,
   type TabName,
-  type StatusProses,
-} from "@/lib/access-control";
+  type StatusProses } from "@/lib/access-control";
 
 interface DashboardTabsProps {
   statusProses: StatusProses;
@@ -35,56 +33,47 @@ export default function DashboardTabs({ statusProses }: DashboardTabsProps) {
       id: "data-pribadi",
       label: "Beranda",
       icon: User,
-      href: "/dashboard/pendaftar",
-    },
+      href: "/dashboard/pendaftar" },
     {
       id: "pembayaran-pendaftaran",
       label: "Pembayaran",
       icon: CreditCard,
-      href: "/dashboard/pendaftar/pembayaran-pendaftaran",
-    },
+      href: "/dashboard/pendaftar/pembayaran-pendaftaran" },
     {
       id: "kelengkapan-berkas",
       label: "Isi Data",
       icon: ClipboardList,
-      href: "/dashboard/pendaftar/isi-data-lengkap",
-    },
+      href: "/dashboard/pendaftar/isi-data-lengkap" },
     {
       id: "upload-berkas",
       label: "Upload",
       icon: Upload,
-      href: "/dashboard/pendaftar/upload-berkas",
-    },
+      href: "/dashboard/pendaftar/upload-berkas" },
     {
       id: "undangan-seleksi",
       label: "Ujian",
       icon: Calendar,
-      href: "/dashboard/pendaftar/undangan-seleksi",
-    },
+      href: "/dashboard/pendaftar/undangan-seleksi" },
     {
       id: "pengumuman",
       label: "Hasil",
       icon: Trophy,
-      href: "/dashboard/pendaftar/pengumuman",
-    },
+      href: "/dashboard/pendaftar/pengumuman" },
     {
       id: "daftar-ulang",
       label: "Daftar Ulang",
       icon: CheckCircle,
-      href: "/dashboard/pendaftar/daftar-ulang",
-    },
+      href: "/dashboard/pendaftar/daftar-ulang" },
     {
       id: "kartu-jajan" as TabName, // Using kartu-jajan id for access control rule
       label: "ZAD",
       icon: CreditCard,
-      href: "/dashboard/pendaftar/keuangan",
-    },
+      href: "/dashboard/pendaftar/keuangan" },
     {
       id: "profil",
       label: "Profil",
       icon: Settings,
-      href: "/dashboard/pendaftar/profil",
-    },
+      href: "/dashboard/pendaftar/profil" },
   ];
 
   return (

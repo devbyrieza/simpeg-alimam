@@ -11,13 +11,11 @@ import {
   GraduationCap,
   CreditCard,
   Target,
-  CheckCircle,
-} from "lucide-react";
+  CheckCircle } from "lucide-react";
 import {
   getStatusIndex,
   type StatusProses,
-  formatStatusDisplay,
-} from "@/lib/access-control";
+  formatStatusDisplay } from "@/lib/access-control";
 import { motion } from "framer-motion";
 
 interface ProgressTrackerProps {
@@ -25,8 +23,7 @@ interface ProgressTrackerProps {
 }
 
 export default function ProgressTracker({
-  currentStatus,
-}: ProgressTrackerProps) {
+  currentStatus }: ProgressTrackerProps) {
   const currentIndex = getStatusIndex(currentStatus);
   const statusInfo = formatStatusDisplay(currentStatus);
 
@@ -37,32 +34,28 @@ export default function ProgressTracker({
       sub: "Awal & Bayar",
       icon: CreditCard,
       requiredStatus: "verified",
-      description: "Pendaftaran & Pembayaran",
-    },
+      description: "Pendaftaran & Pembayaran" },
     {
       id: "dokumen",
       label: "Berkas",
       sub: "Isi Data & Upload",
       icon: FileText,
       requiredStatus: "docs_verified",
-      description: "Kelengkapan Berkas",
-    },
+      description: "Kelengkapan Berkas" },
     {
       id: "ujian",
       label: "Seleksi",
       sub: "Ujian & Wawancara",
       icon: Target,
       requiredStatus: "tested",
-      description: "Pelaksanaan Ujian",
-    },
+      description: "Pelaksanaan Ujian" },
     {
       id: "pengumuman",
       label: "Kelulusan",
       sub: "Hasil & Daftar Ulang",
       icon: GraduationCap,
       requiredStatus: "enrolled",
-      description: "Pengumuman Hasil",
-    },
+      description: "Pengumuman Hasil" },
   ];
 
   // Calculate overall progress percentage for the progress bar

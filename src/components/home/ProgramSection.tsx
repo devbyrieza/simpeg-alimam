@@ -8,8 +8,7 @@ import {
   ArrowRight,
   School,
   Users,
-  type LucideIcon,
-} from "lucide-react";
+  type LucideIcon } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { motion, Variants } from "framer-motion";
 
@@ -41,8 +40,7 @@ const PROGRAMS: ProgramItem[] = [
     ],
     quotaLabel: "Putra 25 · Putri Belum Dibuka",
     icon: School,
-    variant: "maroon",
-  },
+    variant: "maroon" },
   {
     title: "I'dad Lughowi (IL)",
     subtitle: "Persiapan + Menengah Atas · Total 4 Tahun",
@@ -57,16 +55,13 @@ const PROGRAMS: ProgramItem[] = [
     ],
     quotaLabel: "Putra 25 · Putri Belum Dibuka",
     icon: BookOpen,
-    variant: "gold",
-  },
+    variant: "gold" },
 ];
 
 const containerVariants: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.1 },
-  },
-};
+    transition: { staggerChildren: 0.1 } } };
 
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 24, scale: 0.98 },
@@ -74,18 +69,14 @@ const cardVariants: Variants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.6, ease: EASE },
-  },
-};
+    transition: { duration: 0.6, ease: EASE } } };
 
 const featureVariants: Variants = {
   hidden: { opacity: 0, x: -8 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.4, ease: EASE },
-  },
-};
+    transition: { duration: 0.4, ease: EASE } } };
 
 function getTokens(variant: ProgramVariant) {
   switch (variant) {
@@ -102,8 +93,7 @@ function getTokens(variant: ProgramVariant) {
           "group-hover/item:bg-primary-600 group-hover/item:border-primary-600",
         checkIcon: "text-primary-600 group-hover/item:text-white",
         ctaBtn:
-          "bg-white border-primary-200 text-primary-800 hover:bg-primary-700 hover:border-primary-700 hover:text-white shadow-sm hover:shadow-md",
-      };
+          "bg-white border-primary-200 text-primary-800 hover:bg-primary-700 hover:border-primary-700 hover:text-white shadow-sm hover:shadow-md" };
     case "gold":
       return {
         accentBar: "bg-gradient-to-r from-primary-600 via-primary-400 to-primary-200",
@@ -116,8 +106,7 @@ function getTokens(variant: ProgramVariant) {
           "group-hover/item:bg-primary-500 group-hover/item:border-primary-500",
         checkIcon: "text-primary-600 group-hover/item:text-white",
         ctaBtn:
-          "bg-white border-primary-300 text-primary-800 hover:bg-primary-500 hover:border-primary-500 hover:text-white shadow-sm hover:shadow-md",
-      };
+          "bg-white border-primary-300 text-primary-800 hover:bg-primary-500 hover:border-primary-500 hover:text-white shadow-sm hover:shadow-md" };
     case "cream":
       return {
         accentBar: "bg-gradient-to-r from-primary-800 via-primary-600 to-primary-400",
@@ -130,8 +119,7 @@ function getTokens(variant: ProgramVariant) {
           "group-hover/item:bg-primary-900 group-hover/item:border-primary-900",
         checkIcon: "text-primary-700 group-hover/item:text-white",
         ctaBtn:
-          "bg-white border-primary-100 text-primary-800 hover:bg-primary-900 hover:border-primary-900 hover:text-white shadow-sm hover:shadow-md",
-      };
+          "bg-white border-primary-100 text-primary-800 hover:bg-primary-900 hover:border-primary-900 hover:text-white shadow-sm hover:shadow-md" };
   }
 }
 
@@ -201,8 +189,7 @@ export default function ProgramSection() {
                 variants={cardVariants}
                 whileHover={{
                   y: -4,
-                  transition: { duration: 0.3, ease: EASE },
-                }}
+                  transition: { duration: 0.3, ease: EASE } }}
                 className="group h-full"
               >
                 <div className="relative h-full flex flex-col bg-white rounded-[1.5rem] border border-secondary-200 overflow-hidden shadow-premium-sm group-hover:shadow-premium-md group-hover:border-primary-200 transition-all duration-400">

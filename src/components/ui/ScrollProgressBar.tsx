@@ -38,8 +38,7 @@ export default function ScrollProgressBar({ height = 2, zIndex = 100 }: ScrollPr
           // Maroon → Cream gradient (Al Imam brand colors)
           background: "linear-gradient(90deg, var(--color-primary-600, #800000) 0%, var(--color-secondary-300, #f5e6d0) 100%)",
           transition: "width 0.1s linear",
-          borderRadius: "0 999px 999px 0",
-        }}
+          borderRadius: "0 999px 999px 0" }}
       />
     </div>
   );

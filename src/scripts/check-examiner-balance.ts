@@ -11,20 +11,15 @@ async function main() {
               "penguji_calsan",
               "pewawancara_calsan",
               "pewawancara_cawalsan",
-            ],
-          },
-        },
+            ] } },
         {
           secondary_roles: {
             hasSome: [
               "penguji_calsan",
               "pewawancara_calsan",
               "pewawancara_cawalsan",
-            ],
-          },
-        },
-      ],
-    },
+            ] } },
+      ] },
     select: {
       id: true,
       full_name: true,
@@ -33,11 +28,7 @@ async function main() {
         select: {
           jadwal_penguji_quran: true,
           jadwal_penguji_santri: true,
-          jadwal_penguji_ortu: true,
-        },
-      },
-    },
-  });
+          jadwal_penguji_ortu: true } } } });
 
   console.log(JSON.stringify(recap, null, 2));
 }

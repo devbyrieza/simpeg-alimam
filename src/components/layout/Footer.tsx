@@ -10,8 +10,7 @@ import {
   Mail,
   Twitter,
   Globe,
-  ArrowUpRight,
-} from "lucide-react";
+  ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { BRANDING } from "@/config/branding";
@@ -46,31 +45,27 @@ export default function Footer() {
       style={{
         background:
           "linear-gradient(160deg, var(--color-primary-900) 0%, var(--color-primary-950) 60%, #2A0505 100%)",
-        borderTop: "1px solid rgba(255,255,255,0.05)",
-      }}
+        borderTop: "1px solid rgba(255,255,255,0.05)" }}
     >
       {/* ── Decorative orbs — maroon-warm ── */}
       <div
         className="absolute top-0 right-0 w-[480px] h-[480px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/3"
         style={{
           background:
-            "radial-gradient(circle, rgba(176,64,64,0.18) 0%, transparent 70%)",
-        }}
+            "radial-gradient(circle, rgba(176,64,64,0.18) 0%, transparent 70%)" }}
       />
       <div
         className="absolute bottom-0 left-0 w-[320px] h-[320px] rounded-full pointer-events-none translate-y-1/2 -translate-x-1/3"
         style={{
           background:
-            "radial-gradient(circle, rgba(228,193,111,0.08) 0%, transparent 70%)",
-        }}
+            "radial-gradient(circle, rgba(228,193,111,0.08) 0%, transparent 70%)" }}
       />
       {/* Topline shimmer */}
       <div
         className="absolute top-0 left-0 right-0 h-px pointer-events-none"
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.10) 50%, transparent 100%)",
-        }}
+            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.10) 50%, transparent 100%)" }}
       />
 
       <Container className="relative z-10">
@@ -83,8 +78,7 @@ export default function Footer() {
                 style={{
                   background:
                     "linear-gradient(135deg, var(--color-secondary-100) 0%, var(--color-secondary-200) 100%)",
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.20)",
-                }}
+                  boxShadow: "0 4px 16px rgba(0,0,0,0.20)" }}
               >
                 <Image
                   src={BRANDING.logoPath}
@@ -126,8 +120,7 @@ export default function Footer() {
                   style={{
                     background: "rgba(255,255,255,0.06)",
                     border: "1px solid rgba(255,255,255,0.10)",
-                    color: "var(--color-secondary-300)",
-                  }}
+                    color: "var(--color-secondary-300)" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.background =
                       "var(--color-secondary-200)";
@@ -235,8 +228,7 @@ export default function Footer() {
                   style={{
                     background: "rgba(255,255,255,0.06)",
                     border: "1px solid rgba(255,255,255,0.10)",
-                    color: "var(--color-gold-400)",
-                  }}
+                    color: "var(--color-gold-400)" }}
                 >
                   <MapPin className="w-4 h-4" />
                 </div>
@@ -244,8 +236,7 @@ export default function Footer() {
                   className="text-sm font-medium leading-relaxed pt-1"
                   style={{ color: "rgba(253,248,238,0.85)" }}
                   dangerouslySetInnerHTML={{
-                    __html: BRANDING.address.replace(/,/g, ",<br />"),
-                  }}
+                    __html: BRANDING.address.replace(/,/g, ",<br />") }}
                 />
               </div>
 
@@ -256,8 +247,7 @@ export default function Footer() {
                   style={{
                     background: "rgba(255,255,255,0.06)",
                     border: "1px solid rgba(255,255,255,0.10)",
-                    color: "var(--color-gold-400)",
-                  }}
+                    color: "var(--color-gold-400)" }}
                 >
                   <Phone className="w-4 h-4" />
                 </div>
@@ -281,8 +271,7 @@ export default function Footer() {
                   style={{
                     background: "rgba(255,255,255,0.06)",
                     border: "1px solid rgba(255,255,255,0.10)",
-                    color: "var(--color-gold-400)",
-                  }}
+                    color: "var(--color-gold-400)" }}
                 >
                   <Mail className="w-4 h-4" />
                 </div>
@@ -333,8 +322,7 @@ export default function Footer() {
               style={{
                 background: "rgba(255,255,255,0.06)",
                 border: "1px solid rgba(255,255,255,0.10)",
-                color: "rgba(253,248,238,0.50)",
-              }}
+                color: "rgba(253,248,238,0.50)" }}
             >
               <Globe className="w-3.5 h-3.5" />
               <span>ID / AR</span>

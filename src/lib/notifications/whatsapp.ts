@@ -43,9 +43,7 @@ Jazakumullahu khairan
           message_content: `Assalamu'alaikum ${nama}, Kode OTP Anda adalah: ${otp}`,
           sent_at: result.status ? new Date() : null,
           error_message: result.status ? null : result.message,
-          response_data: JSON.stringify(result),
-        },
-      });
+          response_data: JSON.stringify(result) } });
     } catch (dbError) {
       console.error("❌ Failed to log WhatsApp OTP to DB:", dbError);
     }
@@ -53,8 +51,7 @@ Jazakumullahu khairan
     if (result.status) {
       return {
         success: true,
-        messageId: result.data?.id || `wa_${Date.now()}`,
-      };
+        messageId: result.data?.id || `wa_${Date.now()}` };
     }
 
     // Fallback: only if explicitly skipped
@@ -62,14 +59,12 @@ Jazakumullahu khairan
       console.log("📱 [SKIP] WhatsApp OTP (Simulated):", otp, "untuk", phone);
       return {
         success: true,
-        messageId: `wa_sim_${Date.now()}`,
-      };
+        messageId: `wa_sim_${Date.now()}` };
     }
 
     return {
       success: false,
-      error: result.message || "Gagal mengirim WhatsApp OTP",
-    };
+      error: result.message || "Gagal mengirim WhatsApp OTP" };
   } catch (error: any) {
     console.error("❌ WhatsApp error:", error.message);
 
@@ -81,9 +76,7 @@ Jazakumullahu khairan
           jenis_notif: "otp_verification",
           status: "failed",
           message_content: `Assalamu'alaikum ${nama}, Kode OTP Anda adalah: ${otp}`,
-          error_message: error.message,
-        },
-      });
+          error_message: error.message } });
     } catch (dbError) {}
 
     // Fallback simulation only if explicitly requested
@@ -93,13 +86,11 @@ Jazakumullahu khairan
       return {
         success: true,
         messageId: `wa_fallback_${Date.now()}`,
-        error: error.message,
-      };
+        error: error.message };
     }
 
     return {
       success: false,
-      error: error.message,
-    };
+      error: error.message };
   }
 }

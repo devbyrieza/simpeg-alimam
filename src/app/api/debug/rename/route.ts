@@ -34,8 +34,7 @@ export async function GET(req: Request) {
         abdil_aziz: u1.count,
         muhammad_iqbal: u2.count,
         thoriq: u3.count,
-        arifin: u4.count,
-      }
+        arifin: u4.count }
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

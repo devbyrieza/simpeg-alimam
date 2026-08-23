@@ -31,8 +31,7 @@ export async function generateNomorPendaftaran(
     // Use provided tahun ajaran ID
     const data = await prisma.tahunAjaran.findUnique({
       where: { id: tahunAjaranId },
-      select: { id: true, tahun_mulai: true },
-    });
+      select: { id: true, tahun_mulai: true } });
 
     if (!data) {
       throw new Error("Tahun ajaran tidak ditemukan");
@@ -42,8 +41,7 @@ export async function generateNomorPendaftaran(
     // Get active tahun ajaran
     const data = await prisma.tahunAjaran.findFirst({
       where: { is_active: true },
-      select: { id: true, tahun_mulai: true },
-    });
+      select: { id: true, tahun_mulai: true } });
 
     if (!data) {
       throw new Error("Tahun ajaran aktif tidak ditemukan");
@@ -62,16 +60,11 @@ export async function generateNomorPendaftaran(
     where: {
       tahun_ajaran_id: tahunAjaranData.id,
       nomor_pendaftaran: {
-        startsWith: `${prefix}${tahun}`,
-      },
-    },
+        startsWith: `${prefix}${tahun}` } },
     orderBy: {
-      nomor_pendaftaran: "desc",
-    },
+      nomor_pendaftaran: "desc" },
     select: {
-      nomor_pendaftaran: true,
-    },
-  });
+      nomor_pendaftaran: true } });
 
   let nextNumber = 1;
 
@@ -206,8 +199,7 @@ export function parseNomorPendaftaran(nomorPendaftaran: string): {
     jenis_kelamin,
     tahun,
     sequence,
-    fullYear,
-  };
+    fullYear };
 }
 
 // ===================================
@@ -225,8 +217,7 @@ export async function isNomorPendaftaranExists(
 ): Promise<boolean> {
   const data = await prisma.pendaftar.findFirst({
     where: { nomor_pendaftaran: nomorPendaftaran },
-    select: { id: true },
-  });
+    select: { id: true } });
 
   return !!data;
 }
@@ -240,8 +231,7 @@ export async function isNomorPendaftaranExists(
 export async function isNIKExists(nik: string): Promise<boolean> {
   const data = await prisma.pendaftar.findFirst({
     where: { nik: nik },
-    select: { id: true },
-  });
+    select: { id: true } });
 
   return !!data;
 }
@@ -264,8 +254,7 @@ export async function getRegistrationStats(): Promise<{
   // Get active tahun ajaran
   const tahunAjaran = await prisma.tahunAjaran.findFirst({
     where: { is_active: true },
-    select: { id: true },
-  });
+    select: { id: true } });
 
   if (!tahunAjaran) {
     return { total: 0, byJenjang: {}, byGender: {}, byPrefix: {} };
@@ -277,9 +266,7 @@ export async function getRegistrationStats(): Promise<{
     select: {
       jenjang: true,
       jenis_kelamin: true,
-      nomor_pendaftaran: true,
-    },
-  });
+      nomor_pendaftaran: true } });
 
   // Calculate statistics
   const total = pendaftar.length;
@@ -323,8 +310,7 @@ export function getPrefixLabel(prefix: string): string {
   const labels: Record<string, string> = {
     MTA: "MTs Putra (Laki-laki)",
     ILA: "I'dad Lughowi Putra (Laki-laki)",
-    MAA: "MA Langsung Putra (Laki-laki)",
-  };
+    MAA: "MA Langsung Putra (Laki-laki)" };
 
   return labels[prefix] || prefix;
 }
@@ -389,16 +375,11 @@ export async function getNextSequence(
     where: {
       tahun_ajaran_id: tahunAjaranId,
       nomor_pendaftaran: {
-        startsWith: `${prefix}${tahun}`,
-      },
-    },
+        startsWith: `${prefix}${tahun}` } },
     orderBy: {
-      nomor_pendaftaran: "desc",
-    },
+      nomor_pendaftaran: "desc" },
     select: {
-      nomor_pendaftaran: true,
-    },
-  });
+      nomor_pendaftaran: true } });
 
   if (lastPendaftar?.nomor_pendaftaran) {
     const match = lastPendaftar.nomor_pendaftaran.match(/\d{5}$/);
@@ -432,8 +413,7 @@ export async function generateBatchNomorPendaftaran(
   // Get active tahun ajaran
   const tahunAjaran = await prisma.tahunAjaran.findFirst({
     where: { is_active: true },
-    select: { id: true, tahun_mulai: true },
-  });
+    select: { id: true, tahun_mulai: true } });
 
   if (!tahunAjaran) {
     throw new Error("Tahun ajaran aktif tidak ditemukan");

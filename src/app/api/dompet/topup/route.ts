@@ -13,8 +13,7 @@ export async function POST(request: Request) {
     // 1. Cari dompet berdasarkan QR Code
     const dompet = await prisma.dompetSantri.findUnique({
       where: { qr_code_string },
-      include: { pendaftar: true },
-    });
+      include: { pendaftar: true } });
 
     if (!dompet) {
       return NextResponse.json({ error: "Kartu tidak terdaftar" }, { status: 404 });
@@ -31,10 +30,7 @@ export async function POST(request: Request) {
         where: { id: dompet.id },
         data: {
           saldo: {
-            increment: nominal,
-          },
-        },
-      });
+            increment: nominal } } });
 
       // Catat transaksi
       const transaksi = await tx.transaksiDompet.create({
@@ -44,9 +40,7 @@ export async function POST(request: Request) {
           nominal: nominal,
           saldo_akhir: updatedDompet.saldo,
           keterangan: "Top-up Saldo",
-          kasir_id: kasir_id,
-        },
-      });
+          kasir_id: kasir_id } });
 
       return { updatedDompet, transaksi };
     });
@@ -56,9 +50,7 @@ export async function POST(request: Request) {
       message: "Top-up berhasil",
       data: {
         nama: dompet.pendaftar.nama_lengkap,
-        saldo_baru: result.updatedDompet.saldo,
-      },
-    });
+        saldo_baru: result.updatedDompet.saldo } });
 
   } catch (error: any) {
     console.error("Topup Error:", error);

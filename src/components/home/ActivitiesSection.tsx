@@ -18,8 +18,7 @@ import {
   Palette,
   Sparkles,
   ArrowRight,
-  Calendar as CalendarIcon,
-} from "lucide-react";
+  Calendar as CalendarIcon } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { motion } from "framer-motion";
 
@@ -46,29 +45,25 @@ const ACTIVITIES: Activity[] = [
     badge: "Akademik & Syar'i",
     description:
       "Metode pembelajaran interaktif yang memadukan keunggulan akademik umum dengan pendalaman bahasa Arab dan ilmu syar'i secara komprehensif.",
-    image: "/images/pembelajaran-kitab-turotz.webp",
-  },
+    image: "/images/pembelajaran-kitab-turotz.webp" },
   {
     name: "Kegiatan Rutin Harian",
     badge: "Spiritual",
     description:
       "Pembiasaan ibadah melalui sholat berjamaah tepat waktu dan halaqah tahfidz Al-Qur'an setiap hari secara konsisten.",
-    image: "/images/tahfidz.webp",
-  },
+    image: "/images/tahfidz.webp" },
   {
     name: "Ekstrakurikuler Unggulan",
     badge: "15+ Pilihan",
     description:
       "Tersedia 15+ pilihan kegiatan mulai dari beladiri hingga Desain Grafis untuk mengasah minat dan bakat santri.",
-    image: "/images/extra-karate.webp",
-  },
+    image: "/images/extra-karate.webp" },
   {
     name: "Kemandirian, Skill & Leadership",
     badge: "Life Skills",
     description:
       "Program pelatihan entrepreneurship, leadership, dan keterampilan hidup mandiri guna mencetak santri yang siap berdikari di masa depan.",
-    image: "/images/luar-kelas.webp",
-  },
+    image: "/images/luar-kelas.webp" },
 ];
 
 const EXTRA_ACTIVITIES: ExtraActivity[] = [
@@ -92,8 +87,7 @@ const EXTRA_ACTIVITIES: ExtraActivity[] = [
 // ─── Activity Card ────────────────────────────────────
 function ActivityCard({
   activity,
-  index,
-}: {
+  index }: {
   activity: Activity;
   index: number;
 }) {
@@ -105,8 +99,7 @@ function ActivityCard({
       transition={{
         delay: index * 0.09,
         duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      }}
+        ease: [0.16, 1, 0.3, 1] }}
       className="group flex flex-col bg-white rounded-2xl border border-primary-100 shadow-premium-sm overflow-hidden transition-all duration-500 ease-spring hover:-translate-y-2 hover:shadow-premium-md hover:border-primary-200"
     >
       {/* Image */}
@@ -158,8 +151,7 @@ function ExtraChip({ item, index }: { item: ExtraActivity; index: number }) {
       "bg-primary-50 text-primary-600 group-hover:bg-primary-100 ring-primary-200",
     cream:
       "bg-secondary-100 text-primary-700 group-hover:bg-secondary-200 ring-secondary-300",
-    gold: "bg-gold-50 text-gold-600 group-hover:bg-gold-100 ring-gold-200",
-  };
+    gold: "bg-gold-50 text-gold-600 group-hover:bg-gold-100 ring-gold-200" };
 
   return (
     <motion.div
@@ -169,8 +161,7 @@ function ExtraChip({ item, index }: { item: ExtraActivity; index: number }) {
       transition={{
         delay: index * 0.025,
         duration: 0.4,
-        ease: [0.16, 1, 0.3, 1],
-      }}
+        ease: [0.16, 1, 0.3, 1] }}
       className="group flex flex-col items-center justify-center gap-3 p-5 md:p-6 bg-white rounded-2xl border border-secondary-200 hover:border-primary-200 hover:shadow-premium-sm hover:bg-secondary-50/50 transition-all duration-400 cursor-default"
     >
       <div
@@ -201,8 +192,7 @@ export default function ActivitiesSection() {
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23800000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23800000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }}
       />
 
       {/* Ambient glow */}
@@ -210,8 +200,7 @@ export default function ActivitiesSection() {
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] -translate-y-1/2 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse, rgba(253,242,242,0.7) 0%, transparent 70%)",
-        }}
+            "radial-gradient(ellipse, rgba(253,242,242,0.7) 0%, transparent 70%)" }}
       />
 
       <Container className="relative z-10">

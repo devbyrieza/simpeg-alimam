@@ -13,8 +13,7 @@ export async function POST(request: Request) {
     // 1. Cari dompet/kartu
     const dompet = await prisma.dompetSantri.findUnique({
       where: { qr_code_string },
-      include: { pendaftar: true },
-    });
+      include: { pendaftar: true } });
 
     if (!dompet) {
       return NextResponse.json({ error: "Kartu tidak terdaftar" }, { status: 404 });
@@ -59,8 +58,7 @@ export async function POST(request: Request) {
         nama: dompet.pendaftar.nama_lengkap,
         waktu_kembali: izinDiupdate.waktu_kembali,
         keterlambatan: statusKembali === "TERLAMBAT"
-      },
-    });
+      } });
 
   } catch (error: any) {
     console.error("Izin Kembali Error:", error);

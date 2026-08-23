@@ -11,22 +11,19 @@ const CONTACT_INFO = [
     title: "Lokasi Pesantren",
     content: "Jl. Pelabuhan II KM 18",
     detail: "Kampung Pupunjul, Cikembar, Sukabumi",
-    accent: "maroon" as const,
-  },
+    accent: "maroon" as const },
   {
     icon: Phone,
     title: "Layanan Telepon",
     content: "+62 851-1152-4441",
     detail: "Senin-Sabtu (08.00 - 16.00)",
-    accent: "maroon" as const,
-  },
+    accent: "maroon" as const },
   {
     icon: Mail,
     title: "Email Resmi",
     content: "alandalusalimam@gmail.com",
     detail: "Kirim pertanyaan kapan saja",
-    accent: "gold" as const,
-  },
+    accent: "gold" as const },
 ] as const;
 
 const EASE = [0.16, 1, 0.3, 1] as const;

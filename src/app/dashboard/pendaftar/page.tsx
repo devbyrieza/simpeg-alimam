@@ -13,16 +13,14 @@ import {
   ShieldCheck,
   TrendingUp,
   FileText,
-  Target,
-} from "lucide-react";
+  Target } from "lucide-react";
 
 // ─── COMPONENTS & UTILS ───
 import ProgressTracker from "./components/ProgressTracker";
 import {
   getNextStep,
   formatStatusDisplay,
-  type StatusProses,
-} from "@/lib/access-control";
+  type StatusProses } from "@/lib/access-control";
 
 /**
  * DashboardPendaftarPage
@@ -40,8 +38,7 @@ export default function DashboardPendaftarPage() {
     tipePendaftaran: "",
     lastUpdate: new Date().toISOString(),
     schedulesAvailable: false,
-    pengumuman: null as any,
-  });
+    pengumuman: null as any });
 
   /**
    * Side Effect: Mengambil data status pendaftaran secara real-time dari API.
@@ -71,8 +68,7 @@ export default function DashboardPendaftarPage() {
             tipePendaftaran: statusData.tipe_pendaftaran || "",
             lastUpdate: statusData.updated_at || new Date().toISOString(),
             schedulesAvailable: !!statusData.schedules_available,
-            pengumuman: statusData.pengumuman || null,
-          });
+            pengumuman: statusData.pengumuman || null });
         }
       } catch (e: any) {
         setError(e.message);
@@ -136,8 +132,7 @@ function HeroBanner({ nama, nomorPendaftaran, lastUpdate }: any) {
               {new Date(lastUpdate).toLocaleDateString("id-ID", {
                 day: "numeric",
                 month: "long",
-                year: "numeric",
-              })}
+                year: "numeric" })}
             </span>
           </div>
           <h1 className="text-3xl md:text-6xl lg:text-7xl font-black leading-[1.1] font-display tracking-tight text-white italic">
@@ -215,8 +210,7 @@ function StatusGrid({ status, statusLabel, pengumuman }: any) {
       desc: "Tahap pendaftaran Anda saat ini",
       icon: ShieldCheck,
       color: "text-primary-600",
-      bg: "bg-primary-50",
-    },
+      bg: "bg-primary-50" },
     {
       label: "Ujian Seleksi",
       val: ["tested", "announced", "accepted", "enrolled"].includes(status)
@@ -225,16 +219,14 @@ function StatusGrid({ status, statusLabel, pengumuman }: any) {
       desc: "Jadwal dan hasil ujian",
       icon: Target,
       color: "text-purple-600",
-      bg: "bg-purple-50",
-    },
+      bg: "bg-purple-50" },
     {
       label: "Hasil Akhir",
       val: (pengumuman && isFinalStatus) ? pengumuman.status_kelulusan : "Belum Dirilis",
       desc: "Hasil penerimaan santri",
       icon: CheckCircle,
       color: "text-emerald-600",
-      bg: "bg-emerald-50",
-    },
+      bg: "bg-emerald-50" },
   ];
 
   return (

@@ -106,8 +106,7 @@ export async function POST(req: NextRequest) {
             data: {
               status_pendaftaran: newStatus,
               data_lengkap: safeDataLengkap,
-              updated_at: new Date(),
-            }
+              updated_at: new Date() }
           });
         })
       );
@@ -115,25 +114,20 @@ export async function POST(req: NextRequest) {
       await invalidateAdminPendaftarCache();
       return NextResponse.json({
         success: true,
-        updated_count: ids.length,
-      });
+        updated_count: ids.length });
     } else {
       // Bulk update
       const result = await prisma.pendaftar.updateMany({
         where: {
-          id: { in: ids },
-        },
+          id: { in: ids } },
         data: {
           status_pendaftaran: newStatus,
-          updated_at: new Date(),
-        },
-      });
+          updated_at: new Date() } });
 
       await invalidateAdminPendaftarCache();
       return NextResponse.json({
         success: true,
-        updated_count: result.count,
-      });
+        updated_count: result.count });
     }
   } catch (error) {
     console.error("Bulk update error:", error);

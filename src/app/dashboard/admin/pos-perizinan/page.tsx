@@ -73,8 +73,7 @@ export default function POSPerizinan() {
           jenis_izin: jenisIzin,
           alasan: alasan,
           batas_kembali: batasKembali ? new Date(batasKembali).toISOString() : null
-        }),
-      });
+        }) });
 
       const data = await res.json();
       
@@ -97,8 +96,7 @@ export default function POSPerizinan() {
       const res = await fetch("/api/perizinan/kembali", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ qr_code_string: scannedQr }),
-      });
+        body: JSON.stringify({ qr_code_string: scannedQr }) });
 
       const data = await res.json();
       

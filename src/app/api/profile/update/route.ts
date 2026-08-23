@@ -75,9 +75,7 @@ export async function POST(request: Request) {
         full_name,
         email: email.toLowerCase().trim(),
         phone: phone || "",
-        username: username ? username.toLowerCase().trim() : null,
-      },
-    });
+        username: username ? username.toLowerCase().trim() : null } });
 
     // Update the session cookie with new info
     const newSession = {
@@ -85,8 +83,7 @@ export async function POST(request: Request) {
       full_name: updatedProfile.full_name,
       email: updatedProfile.email,
       phone: updatedProfile.phone,
-      username: updatedProfile.username,
-    };
+      username: updatedProfile.username };
 
     const cookieStore = await cookies();
     cookieStore.set("app_session", JSON.stringify(newSession), {
@@ -100,8 +97,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       message: "Profil Anda berhasil diperbarui.",
-      data: updatedProfile,
-    });
+      data: updatedProfile });
   } catch (error: any) {
     console.error("POST profile/update error:", error);
     return NextResponse.json(

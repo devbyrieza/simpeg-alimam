@@ -6,8 +6,7 @@ const prisma = new PrismaClient();
 export async function GET(req: NextRequest) {
   try {
     const data = await prisma.pegawai.findMany({
-      orderBy: { created_at: "desc" },
-    });
+      orderBy: { created_at: "desc" } });
 
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
@@ -35,8 +34,7 @@ export async function POST(req: NextRequest) {
       mata_pelajaran,
       pendidikan_terakhir,
       status_pernikahan,
-      foto_url,
-    } = body;
+      foto_url } = body;
 
     if (!nama_lengkap || !nama_lengkap.trim()) {
       return NextResponse.json({ success: false, message: "Nama lengkap wajib diisi." }, { status: 400 });
@@ -59,9 +57,7 @@ export async function POST(req: NextRequest) {
         mata_pelajaran: (kategori_pegawai || "").toUpperCase().includes("GURU") ? (mata_pelajaran?.trim() || null) : null,
         pendidikan_terakhir: pendidikan_terakhir || null,
         status_pernikahan: status_pernikahan || null,
-        foto_url: foto_url || null,
-      },
-    });
+        foto_url: foto_url || null } });
 
     return NextResponse.json({ success: true, data: newPegawai }, { status: 201 });
   } catch (error: any) {
@@ -90,8 +86,7 @@ export async function PATCH(req: NextRequest) {
       mata_pelajaran,
       pendidikan_terakhir,
       status_pernikahan,
-      foto_url,
-    } = body;
+      foto_url } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, message: "ID Pegawai wajib diisi." }, { status: 400 });
@@ -102,8 +97,7 @@ export async function PATCH(req: NextRequest) {
       jabatan: jabatan ?? null,
       unit_kerja: unit_kerja ?? null,
       divisi: divisi ?? null,
-      mata_pelajaran: (kategori_pegawai || "").toUpperCase().includes("GURU") ? (mata_pelajaran ?? null) : null,
-    };
+      mata_pelajaran: (kategori_pegawai || "").toUpperCase().includes("GURU") ? (mata_pelajaran ?? null) : null };
 
     if (nama_lengkap !== undefined) updateData.nama_lengkap = nama_lengkap;
     if (nik !== undefined) updateData.nik = nik || null;
@@ -125,8 +119,7 @@ export async function PATCH(req: NextRequest) {
 
     const updated = await prisma.pegawai.update({
       where: { id },
-      data: updateData,
-    });
+      data: updateData });
 
     return NextResponse.json({ success: true, data: updated }, { status: 200 });
   } catch (error: any) {
@@ -145,8 +138,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     await prisma.pegawai.delete({
-      where: { id },
-    });
+      where: { id } });
 
     return NextResponse.json({ success: true, message: "Data civitas berhasil dihapus." }, { status: 200 });
   } catch (error: any) {
