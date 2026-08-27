@@ -332,10 +332,10 @@ export default function PendataanPage() {
             <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">SIMPEG · Pesantren Al-Imam Al-Islami</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-3 tracking-tight">
-            Pendataan Civitas Pesantren
+            Pendataan Pegawai Pesantren
           </h1>
           <p className="text-slate-500 text-base font-medium">
-            Formulir resmi untuk segenap Asatidz dan seluruh Civitas Pesantren Al-Imam Al-Islami.
+            Formulir resmi untuk segenap Asatidz dan seluruh Pegawai Pesantren Al-Imam Al-Islami.
           </p>
         </motion.div>
 

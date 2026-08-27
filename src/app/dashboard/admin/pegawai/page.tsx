@@ -35,7 +35,7 @@ interface PegawaiData {
 const KATEGORI_OPTIONS = [
   { value: "GURU", label: "Guru / Asatidz", desc: "Pengajar kelas & kajian", color: "blue" },
   { value: "MUSYRIF", label: "Musyrif / Pengasuh", desc: "Pembina asrama & santri", color: "purple" },
-  { value: "STAF", label: "Staf Pegawai", desc: "Keuangan, Sapras, IT, Media", color: "emerald" },
+  { value: "STAF", label: "Staf", desc: "Keuangan, Sapras, IT, Media", color: "emerald" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Konsumsi & dapur santri", color: "amber" },
   { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Bidang (Kabid), dll", color: "rose" },
 ];
@@ -129,7 +129,7 @@ export default function AdminPegawaiPage() {
     fetchPegawai();
   }, []);
 
-  // Autosave draft when adding new civitas
+  // Autosave draft when adding new Pegawai
   useEffect(() => {
     if (isAddingNew && modalOpen) {
       try {
@@ -334,7 +334,7 @@ export default function AdminPegawaiPage() {
       Swal.fire({
         icon: "warning",
         title: "<span class='text-slate-800 font-extrabold text-lg'>Nama Lengkap Wajib Diisi</span>",
-        html: "<p class='text-slate-500 text-sm'>Silakan lengkapi nama lengkap civitas / pegawai.</p>",
+        html: "<p class='text-slate-500 text-sm'>Silakan lengkapi nama lengkap Pegawai / pegawai.</p>",
         confirmButtonText: "Lengkapi Sekarang",
         confirmButtonColor: "#3b0a0a",
         customClass: {
@@ -374,10 +374,10 @@ export default function AdminPegawaiPage() {
 
         Swal.fire({
           icon: "success",
-          title: `<span class='text-primary-950 font-extrabold text-xl'>${isAddingNew ? "Civitas Berhasil Ditambahkan!" : "Perubahan Berhasil Disimpan!"}</span>`,
+          title: `<span class='text-primary-950 font-extrabold text-xl'>${isAddingNew ? "Pegawai Berhasil Ditambahkan!" : "Perubahan Berhasil Disimpan!"}</span>`,
           html: `
             <div class='text-slate-600 text-sm space-y-2 pt-1'>
-              <p>Data profil civitas <b>${formData.nama_lengkap}</b> telah tersimpan di database induk SIMPEG & SIKAP.</p>
+              <p>Data profil Pegawai <b>${formData.nama_lengkap}</b> telah tersimpan di database induk SIMPEG & SIKAP.</p>
               ${formData.mata_pelajaran ? `<div class='mt-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 font-medium text-left'><b>Mapel Ditugaskan:</b> ${formData.mata_pelajaran}</div>` : ""}
             </div>
           `,
@@ -420,10 +420,10 @@ export default function AdminPegawaiPage() {
   const handleDeletePegawai = async (pegawai: PegawaiData) => {
     const confirmResult = await Swal.fire({
       icon: "warning",
-      title: "<span class='text-red-950 font-extrabold text-xl'>Hapus Data Civitas?</span>",
+      title: "<span class='text-red-950 font-extrabold text-xl'>Hapus Data Pegawai?</span>",
       html: `
         <div class='text-slate-600 text-sm space-y-2 pt-1'>
-          <p>Apakah Anda yakin ingin menghapus data civitas <b>${pegawai.nama_lengkap}</b>?</p>
+          <p>Apakah Anda yakin ingin menghapus data Pegawai <b>${pegawai.nama_lengkap}</b>?</p>
           <p class='text-xs text-red-600 font-semibold bg-red-50 p-2.5 rounded-xl border border-red-200'>
             Peringatan: Data yang dihapus tidak dapat dipulihkan kembali.
           </p>
@@ -440,7 +440,7 @@ export default function AdminPegawaiPage() {
         cancelButton: "px-6 py-2.5 rounded-xl font-bold text-sm" } });
 
     if (confirmResult.isConfirmed) {
-      const deleteToast = toast.loading("Menghapus data civitas...");
+      const deleteToast = toast.loading("Menghapus data Pegawai...");
       try {
         const res = await fetch(`/api/admin/pegawai?id=${pegawai.id}`, {
           method: "DELETE" });
@@ -511,18 +511,18 @@ export default function AdminPegawaiPage() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">Database Pegawai &amp; Asatidz</h1>
-            <p className="text-slate-500 text-xs sm:text-sm">Data induk civitas untuk absensi, kurikulum, dan SIAKAD</p>
+            <p className="text-slate-500 text-xs sm:text-sm">Data induk Pegawai untuk absensi, kurikulum, dan SIAKAD</p>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
-          {/* Tambah Civitas Baru Button */}
+          {/* Tambah Pegawai Baru Button */}
           <button
             onClick={openAddModal}
             className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-800 to-primary-950 hover:from-primary-700 hover:to-primary-900 text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-primary-950/20 active:scale-[0.98] cursor-pointer"
           >
             <UserPlus className="w-4 h-4 text-amber-400" />
-            <span>+ Tambah Civitas</span>
+            <span>+ Tambah Pegawai</span>
           </button>
 
           {/* Export Excel Button */}
@@ -544,7 +544,7 @@ export default function AdminPegawaiPage() {
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
             <input
               type="text"
-              placeholder="Cari nama civitas, kategori, jabatan, unit kerja..."
+              placeholder="Cari nama Pegawai, kategori, jabatan, unit kerja..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all placeholder:text-slate-400"
@@ -573,15 +573,15 @@ export default function AdminPegawaiPage() {
                 <tr>
                   <td colSpan={6} className="px-6 py-16 text-center text-slate-400">
                     <Loader2 className="w-8 h-8 mx-auto mb-2 animate-spin text-primary-600" />
-                    <p className="font-semibold text-sm">Memuat data civitas...</p>
+                    <p className="font-semibold text-sm">Memuat data Pegawai...</p>
                   </td>
                 </tr>
               ) : filteredData.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-16 text-center text-slate-500">
                     <ShieldAlert className="w-10 h-10 mx-auto mb-3 text-slate-300" />
-                    <p className="font-bold text-base text-slate-700">Tidak ada data civitas ditemukan</p>
-                    <p className="text-xs text-slate-400 mt-1">Coba sesuaikan kata kunci pencarian atau tambahkan civitas baru.</p>
+                    <p className="font-bold text-base text-slate-700">Tidak ada data Pegawai ditemukan</p>
+                    <p className="text-xs text-slate-400 mt-1">Coba sesuaikan kata kunci pencarian atau tambahkan Pegawai baru.</p>
                   </td>
                 </tr>
               ) : (
@@ -654,7 +654,7 @@ export default function AdminPegawaiPage() {
                           type="button"
                           onClick={() => handleDeletePegawai(pegawai)}
                           className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg border border-transparent hover:border-red-200 transition-colors"
-                          title="Hapus Civitas"
+                          title="Hapus Pegawai"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -689,17 +689,17 @@ export default function AdminPegawaiPage() {
                   <div>
                     <h2 className="text-lg sm:text-xl font-bold">
                       {isAddingNew 
-                        ? "Input & Tambah Civitas Baru (Admin Super)" 
+                        ? "Input & Tambah Pegawai Baru (Admin Super)" 
                         : isEditing 
-                        ? "Edit Lengkap Data Civitas (Admin Super)" 
-                        : "Detail Profil Civitas"}
+                        ? "Edit Lengkap Data Pegawai (Admin Super)" 
+                        : "Detail Profil Pegawai"}
                     </h2>
                     <p className="text-xs text-primary-200/80">
                       {isAddingNew 
                         ? "Bantu daftarkan data guru, musyrif, atau staf yang belum mengisi pendataan" 
                         : isEditing 
                         ? "Admin Super memiliki kewenangan penuh mengubah foto, jabatan, mapel & seluruh data identitas" 
-                        : "Informasi lengkap data kepegawaian civitas"}
+                        : "Informasi lengkap data kepegawaian Pegawai"}
                     </p>
                   </div>
                 </div>
@@ -1196,7 +1196,7 @@ export default function AdminPegawaiPage() {
                       ) : (
                         <>
                           <Check className="w-4 h-4" />
-                          <span>{isAddingNew ? "Simpan Civitas Baru" : "Simpan Perubahan"}</span>
+                          <span>{isAddingNew ? "Simpan Pegawai Baru" : "Simpan Perubahan"}</span>
                         </>
                       )}
                     </button>
@@ -1210,7 +1210,7 @@ export default function AdminPegawaiPage() {
                         className="px-6 py-2.5 bg-primary-700 hover:bg-primary-800 text-white font-bold rounded-xl transition-all text-sm flex items-center gap-2 shadow-sm cursor-pointer"
                       >
                         <Edit3 className="w-4 h-4" />
-                        <span>Edit Data Civitas</span>
+                        <span>Edit Data Pegawai</span>
                       </button>
                       {selectedPegawai && (
                         <button
