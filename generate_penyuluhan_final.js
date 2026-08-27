@@ -55,9 +55,9 @@ async function processExcel() {
   sheet.getCell('J20').value = { formula: 'SUM(J10:J19)', result: 1062000 };
   
   // Signatures have moved down by 3 rows.
-  // Original Mudir was B21, now B24. Original Kabid IT was E21, now E24.
+  // Original Mudir was B21, now B24. Original Kadiv IT was E21, now E24.
   sheet.getCell('E24').value = 'Mengetahui,';
-  sheet.getCell('E29').value = 'Kepala Bidang Terkait';
+  sheet.getCell('E29').value = 'Kepala Divisi Terkait';
   
   sheet.getCell('H29').value = 'Ketua Panitia';
   sheet.getCell('K29').value = 'Ketua Panitia';

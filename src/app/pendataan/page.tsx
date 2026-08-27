@@ -575,7 +575,7 @@ export default function PendataanPage() {
                   </Field>
                 </div>
 
-                <Field label="Bidang Kerja" hint="Pilih jika tergabung dalam bidang tertentu" error={errors.divisi?.message}>
+                <Field label="Divisi Kerja" hint="Pilih jika tergabung dalam divisi tertentu" error={errors.divisi?.message}>
                   <select {...register("divisi")} className={selectClass}>
                     <option value="">Tidak Ada / Belum Ditentukan</option>
                     {DIVISI_OPTIONS.map((div) => (
@@ -592,7 +592,7 @@ export default function PendataanPage() {
                       exit={{ opacity: 0, height: 0, marginTop: 0 }}
                       className="overflow-hidden"
                     >
-                      <Field label="Nama Bidang Lainnya" hint="Tulis nama bidang Anda jika tidak ada di pilihan di atas (tidak wajib)" error={errors.divisiLainnya?.message}>
+                      <Field label="Nama Divisi Lainnya" hint="Tulis nama divisi Anda jika tidak ada di pilihan di atas (tidak wajib)" error={errors.divisiLainnya?.message}>
                         <input
                           type="text"
                           {...register("divisiLainnya")}
@@ -604,15 +604,15 @@ export default function PendataanPage() {
                   )}
                 </AnimatePresence>
 
-                <Field label="Amanah / Jabatan" hint="Opsional â€” isi jika mendapat amanah memimpin bidang tertentu" error={errors.jabatan?.message}>
-                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kabid Pengasuhan, Kabid Asrama, Kabid Kurikulum, Bendahara..." />
+                <Field label="Amanah / Jabatan" hint="Opsional â€” isi jika mendapat amanah memimpin divisi tertentu" error={errors.jabatan?.message}>
+                  <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kadiv Pengasuhan, Kadiv Asrama, Kadiv Kurikulum, Bendahara..." />
                 </Field>
 
                   {isGuru && (
                     <div className="col-span-1 md:col-span-2">
                       <div className="bg-amber-50/50 p-4 rounded-xl border border-amber-200/50">
                         <label className="text-xs font-black text-amber-800 uppercase tracking-wider block mb-1">Mata Pelajaran (Ditugaskan SIKAP)</label>
-                        <p className="text-xs text-amber-700/80 font-medium">Jadwal jenjang, kelas, dan mata pelajaran Anda akan dikelola langsung oleh <b>Kabid Kurikulum</b>. Anda cukup melengkapi identitas pribadi di atas.</p>
+                        <p className="text-xs text-amber-700/80 font-medium">Jadwal jenjang, kelas, dan mata pelajaran Anda akan dikelola langsung oleh <b>Kadiv Kurikulum</b>. Anda cukup melengkapi identitas pribadi di atas.</p>
                       </div>
                     </div>
                   )}

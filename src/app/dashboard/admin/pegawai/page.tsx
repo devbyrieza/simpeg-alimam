@@ -37,10 +37,10 @@ const KATEGORI_OPTIONS = [
   { value: "MUSYRIF", label: "Musyrif / Pengasuh", desc: "Pembina asrama & santri", color: "purple" },
   { value: "STAF", label: "Staf", desc: "Keuangan, Sapras, IT, Media", color: "emerald" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Konsumsi & dapur santri", color: "amber" },
-  { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Bidang (Kabid), dll", color: "rose" },
+  { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Divisi (Kadiv), dll", color: "rose" },
 ];
 
-const BIDANG_OPTIONS = [
+const DIVISI_OPTIONS = [
   "Kepengasuhan",
   "Asrama",
   "Kurikulum",
@@ -563,7 +563,7 @@ export default function AdminPegawaiPage() {
                 <th className="px-4 py-3.5 whitespace-nowrap w-14 text-center">No</th>
                 <th className="px-4 py-3.5 whitespace-nowrap min-w-[260px]">Nama Lengkap</th>
                 <th className="px-4 py-3.5 whitespace-nowrap min-w-[180px]">Kategori</th>
-                <th className="px-4 py-3.5 whitespace-nowrap min-w-[180px]">Jabatan / Bidang</th>
+                <th className="px-4 py-3.5 whitespace-nowrap min-w-[180px]">Jabatan / Divisi</th>
                 <th className="px-4 py-3.5 whitespace-nowrap min-w-[150px]">Kontak</th>
                 <th className="px-6 py-3.5 whitespace-nowrap w-48 text-right">Aksi</th>
               </tr>
@@ -916,19 +916,19 @@ export default function AdminPegawaiPage() {
                               type="text" 
                               value={formData.jabatan}
                               onChange={(e) => setFormData({ ...formData, jabatan: e.target.value })}
-                              placeholder="Contoh: Kabid Kurikulum"
+                              placeholder="Contoh: Kadiv Kurikulum"
                               className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 font-semibold"
                             />
                           </div>
                           <div>
-                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Bidang Kerja</label>
+                            <label className="text-xs font-bold text-slate-700 uppercase block mb-1">Divisi Kerja</label>
                             <select
                               value={formData.divisi}
                               onChange={(e) => setFormData({ ...formData, divisi: e.target.value })}
                               className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 font-semibold"
                             >
-                              <option value="">â€” Pilih Bidang â€”</option>
-                              {BIDANG_OPTIONS.map((d) => (
+                              <option value="">â€” Pilih Divisi â€”</option>
+                              {DIVISI_OPTIONS.map((d) => (
                                 <option key={d} value={d}>{d}</option>
                               ))}
                             </select>
@@ -953,7 +953,7 @@ export default function AdminPegawaiPage() {
                               Distribusi Mengajar (Khusus Guru)
                             </label>
                             <p className="text-xs text-amber-700/80 leading-relaxed font-medium">
-                              Penugasan Jenjang, Kelas, dan Mata Pelajaran kini <b>dikelola terpusat oleh Kabid Kurikulum melalui aplikasi SIKAP</b> untuk meminimalisir kesalahan data.
+                              Penugasan Jenjang, Kelas, dan Mata Pelajaran kini <b>dikelola terpusat oleh Kadiv Kurikulum melalui aplikasi SIKAP</b> untuk meminimalisir kesalahan data.
                             </p>
                             <div className="mt-3 p-3 bg-white rounded-xl border border-amber-100 text-sm font-semibold text-slate-700 min-h-[44px] flex items-center">
                               {formData.mata_pelajaran ? formData.mata_pelajaran : <span className="text-slate-400 font-normal italic">Belum ada tugas mengajar / Sinkronisasi kosong</span>}

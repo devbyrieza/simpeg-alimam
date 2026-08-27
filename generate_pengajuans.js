@@ -41,7 +41,7 @@ async function processExcelKekurangan() {
   
   sheet.getCell('J17').value = { formula: 'SUM(J10:J16)', result: 184996 };
   
-  sheet.getCell('E21').value = 'Kepala Bidang IT';
+  sheet.getCell('E21').value = 'Kepala Divisi IT';
   sheet.getCell('E26').value = 'Rieza Eka Tomara, S.Kom';
   sheet.getCell('H26').value = 'Rieza Eka Tomara, S.Kom';
   sheet.getCell('K26').value = 'Rieza Eka Tomara, S.Kom';
@@ -92,7 +92,7 @@ async function processExcelSpeaker() {
   
   sheet.getCell('J17').value = { formula: 'SUM(J10:J16)', result: 338160 };
   
-  sheet.getCell('E21').value = 'Kepala Bidang Terkait';
+  sheet.getCell('E21').value = 'Kepala Divisi Terkait';
   sheet.getCell('E26').value = 'Teguh Hudaya, Lc, M.M';
   sheet.getCell('H26').value = 'Imam Wahyudi';
   sheet.getCell('K26').value = 'Imam Wahyudi';
