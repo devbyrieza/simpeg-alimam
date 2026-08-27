@@ -57,9 +57,9 @@ const DIVISI_OPTIONS = [
 function normalizeName(input: string): string {
   if (!input) return input;
   let result = input.trim();
-  // Pindahkan spasi sebelum koma: "Nama , Gelar" → "Nama, Gelar"
+  // Pindahkan spasi sebelum koma: "Nama , Gelar" â†’ "Nama, Gelar"
   result = result.replace(/\s+,/g, ",");
-  // Pastikan tepat satu spasi setelah setiap koma: "Nama,Gelar" → "Nama, Gelar"
+  // Pastikan tepat satu spasi setelah setiap koma: "Nama,Gelar" â†’ "Nama, Gelar"
   result = result.replace(/,\s*/g, ", ");
   // Buang spasi di akhir
   result = result.trimEnd();
@@ -329,7 +329,7 @@ export default function PendataanPage() {
           </div>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 rounded-full mb-4">
             <BookOpen className="w-4 h-4 text-primary-600" />
-            <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">SIMPEG · Pesantren Al-Imam Al-Islami</span>
+            <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">SIMPEG Â· Pesantren Al-Imam Al-Islami</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-3 tracking-tight">
             Pendataan Pegawai Pesantren
@@ -352,7 +352,7 @@ export default function PendataanPage() {
             <div className="absolute bottom-0 left-0 w-full h-px bg-white/20" />
             <h2 className="text-xl sm:text-2xl font-bold text-white relative z-10">Formulir Data Diri</h2>
             <p className="text-white/80 mt-1.5 text-xs sm:text-sm relative z-10 leading-relaxed">
-              Digunakan untuk database Absensi & Sistem Informasi Akademik dan Pengasuhan (SIKAP) · Semua data dijaga kerahasiaannya
+              Digunakan untuk database Absensi & Sistem Informasi Akademik dan Pengasuhan (SIKAP) Â· Semua data dijaga kerahasiaannya
             </p>
           </div>
 
@@ -386,7 +386,7 @@ export default function PendataanPage() {
 
           <form onSubmit={handleSubmit(onSubmit, onError)} className="p-4 sm:p-8 space-y-10">
 
-            {/* ── SECTION 1: Identitas ── */}
+            {/* â”€â”€ SECTION 1: Identitas â”€â”€ */}
             <section id="identitas">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
                 <div className="w-9 h-9 bg-primary-900 rounded-xl flex items-center justify-center">
@@ -439,7 +439,7 @@ export default function PendataanPage() {
                       {fotoPreview ? "Ganti Foto" : "Pilih Foto"}
                     </button>
                     <input ref={fotoInputRef} type="file" accept="image/*" className="hidden" onChange={handleFotoChange} />
-                    <p className="text-xs text-slate-400 mt-2">Format: JPG, PNG · Maks 5MB</p>
+                    <p className="text-xs text-slate-400 mt-2">Format: JPG, PNG Â· Maks 5MB</p>
                   </div>
                 </div>
               </div>
@@ -504,7 +504,7 @@ export default function PendataanPage() {
               </div>
             </section>
 
-            {/* ── SECTION 2: Kontak ── */}
+            {/* â”€â”€ SECTION 2: Kontak â”€â”€ */}
             <section id="kontak">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
                 <div className="w-9 h-9 bg-primary-900 rounded-xl flex items-center justify-center">
@@ -523,14 +523,14 @@ export default function PendataanPage() {
                   <input type="email" {...register("email")} className={inputClass} placeholder="nama@email.com" />
                 </Field>
                 <div className="col-span-1 md:col-span-2">
-                  <Field label="Alamat Asal / Domisili" hint="Opsional — kosongkan jika tinggal di asrama/rumah dinas pesantren" error={errors.alamat?.message}>
+                  <Field label="Alamat Asal / Domisili" hint="Opsional â€” kosongkan jika tinggal di asrama/rumah dinas pesantren" error={errors.alamat?.message}>
                     <textarea {...register("alamat")} rows={2} className={inputClass + " resize-none"} placeholder="Isi jika tidak tinggal di lingkungan pesantren..." />
                   </Field>
                 </div>
               </div>
             </section>
 
-            {/* ── SECTION 3: Jabatan ── */}
+            {/* â”€â”€ SECTION 3: Jabatan â”€â”€ */}
             <section id="jabatan">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
                 <div className="w-9 h-9 bg-primary-900 rounded-xl flex items-center justify-center">
@@ -604,7 +604,7 @@ export default function PendataanPage() {
                   )}
                 </AnimatePresence>
 
-                <Field label="Amanah / Jabatan" hint="Opsional — isi jika mendapat amanah memimpin bidang tertentu" error={errors.jabatan?.message}>
+                <Field label="Amanah / Jabatan" hint="Opsional â€” isi jika mendapat amanah memimpin bidang tertentu" error={errors.jabatan?.message}>
                   <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kabid Pengasuhan, Kabid Asrama, Kabid Kurikulum, Bendahara..." />
                 </Field>
 
@@ -646,7 +646,7 @@ export default function PendataanPage() {
         </motion.div>
 
         <p className="text-center text-xs text-slate-400 mt-8">
-          © 2026 Pesantren Al Imam Al Islami · Sistem SIMPEG v1.0
+          Â© 2026 Pesantren Al Imam Al Islami Â· Sistem SIMPEG v1.0
         </p>
       </div>
     </div>
