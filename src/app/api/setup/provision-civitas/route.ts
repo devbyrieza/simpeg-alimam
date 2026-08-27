@@ -8,8 +8,8 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const adminPasswordHash = await bcrypt.hash('AdminAlimam2026!', 10);
-    const guruPasswordHash = await bcrypt.hash('GuruAlimam2026!', 10);
+    const adminPasswordHash = await bcrypt.hash("Paas2026!", 10);
+    const guruPasswordHash = await bcrypt.hash("Paas2026!", 10);
 
     // 1. Ambil semua profile/pegawai
     const semuaProfile = await prisma.profile.findMany();
