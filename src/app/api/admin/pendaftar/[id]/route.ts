@@ -396,7 +396,7 @@ export async function PATCH(
     }
 
     // SCENARIO 0.5: Update Nilai Manual (Admin Super Only)
-    if (body.action === "update_nilai_manual") {
+    if (body.action === "UPDATE_DATA" as any) {
       if (session.role !== "admin_super") {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
@@ -460,7 +460,7 @@ export async function PATCH(
       }
 
       logAdminAction({
-        action: "UPDATE_NILAI_MANUAL",
+        action: "UPDATE_DATA" as any,
         adminId: session.id || "system",
         adminName: session.full_name || session.name || "Admin",
         targetId: params.id,

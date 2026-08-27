@@ -1,4 +1,4 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -19,7 +19,7 @@ export async function GET() {
       results.push('Dihapus Permanen dari SIMPEG: ' + p.nama_lengkap);
 
       if (p.user_id) {
-        await prisma.user.delete({ where: { id: p.user_id } }).catch(() => {});
+        await prisma.profile.delete({ where: { id: p.user_id } }).catch(() => {});
       }
     }
 
