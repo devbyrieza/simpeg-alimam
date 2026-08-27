@@ -608,16 +608,14 @@ export default function PendataanPage() {
                   <input {...register("jabatan")} className={inputClass} placeholder="Contoh: Kabid Pengasuhan, Kabid Asrama, Kabid Kurikulum, Bendahara..." />
                 </Field>
 
-                {isGuru && (
-                  <div className="col-span-1 md:col-span-2">
-                    <Field label="Mata Pelajaran / Bidang Mengajar" hint="Khusus Guru / Pengajar (Bisa tambah lebih dari 1)" error={errors.mata_pelajaran?.message}>
-                      <MapelSelector 
-                        value={watch("mata_pelajaran") || ""} 
-                        onChange={(val) => setValue("mata_pelajaran", val, { shouldValidate: true })} 
-                      />
-                    </Field>
-                  </div>
-                )}
+                  {isGuru && (
+                    <div className="col-span-1 md:col-span-2">
+                      <div className="bg-amber-50/50 p-4 rounded-xl border border-amber-200/50">
+                        <label className="text-xs font-black text-amber-800 uppercase tracking-wider block mb-1">Mata Pelajaran (Ditugaskan SIKAP)</label>
+                        <p className="text-xs text-amber-700/80 font-medium">Jadwal jenjang, kelas, dan mata pelajaran Anda akan dikelola langsung oleh <b>Kabid Kurikulum</b>. Anda cukup melengkapi identitas pribadi di atas.</p>
+                      </div>
+                    </div>
+                  )}
               </div>
             </section>
 

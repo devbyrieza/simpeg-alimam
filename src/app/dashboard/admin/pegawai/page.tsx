@@ -947,14 +947,17 @@ export default function AdminPegawaiPage() {
 
                         {/* PENUGASAN MAPEL (JIKA KATEGORI GURU AKTIF) */}
                         {selectedKategoriList.includes("GURU") && (
-                          <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-2 shadow-sm">
-                            <label className="text-xs font-black text-slate-800 uppercase tracking-wider block">
-                              Penugasan Mata Pelajaran Mengajar (Khusus Guru / Asatidz)
+                          <div className="bg-amber-50/50 p-4 rounded-2xl border border-amber-200/50 space-y-2 shadow-sm">
+                            <label className="text-xs font-black text-amber-800 uppercase tracking-wider block flex items-center gap-2">
+                              <ShieldAlert className="w-4 h-4" />
+                              Distribusi Mengajar (Khusus Guru)
                             </label>
-                            <MapelSelector 
-                              value={formData.mata_pelajaran || ""} 
-                              onChange={(val) => setFormData({ ...formData, mata_pelajaran: val })} 
-                            />
+                            <p className="text-xs text-amber-700/80 leading-relaxed font-medium">
+                              Penugasan Jenjang, Kelas, dan Mata Pelajaran kini <b>dikelola terpusat oleh Kabid Kurikulum melalui aplikasi SIKAP</b> untuk meminimalisir kesalahan data.
+                            </p>
+                            <div className="mt-3 p-3 bg-white rounded-xl border border-amber-100 text-sm font-semibold text-slate-700 min-h-[44px] flex items-center">
+                              {formData.mata_pelajaran ? formData.mata_pelajaran : <span className="text-slate-400 font-normal italic">Belum ada tugas mengajar / Sinkronisasi kosong</span>}
+                            </div>
                           </div>
                         )}
                       </div>
