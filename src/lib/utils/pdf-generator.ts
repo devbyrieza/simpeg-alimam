@@ -111,7 +111,7 @@ const drawFooter = (doc: jsPDF) => {
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
   doc.text(
-    `Dicetak secara sistem melalui website PPDB Al Andalus Al Imam pada: ${new Date().toLocaleString("id-ID")}`,
+    `Dicetak secara sistem melalui website SPMB Al Andalus Al Imam pada: ${new Date().toLocaleString("id-ID")}`,
     pageWidth / 2,
     pageHeight - 10,
     { align: "center" },

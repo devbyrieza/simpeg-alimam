@@ -265,7 +265,7 @@ function SupportCenter() {
           <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 rounded-full border border-white/10">
             <span className="w-2 h-2 rounded-full bg-gold-400 animate-pulse" />
             <span className="text-[10px] font-black uppercase tracking-widest">
-              Pusat Bantuan PPDB
+              Pusat Bantuan SPMB
             </span>
           </div>
           <h3 className="font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display leading-tight">

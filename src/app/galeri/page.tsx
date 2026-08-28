@@ -23,7 +23,7 @@ const GALLERY_CATEGORIES = [
       {
         src: "/images/lapangan-minisoccer.webp",
         label: "Lapangan Mini Soccer" },
-      { src: "/images/kantor-ppdb-tamu.webp", label: "Kantor PPDB & Tamu" },
+      { src: "/images/kantor-ppdb-tamu.webp", label: "Kantor SPMB & Tamu" },
       { src: "/images/depot-galon-gratis.webp", label: "Depot Galon Gratis" },
     ] },
   {
@@ -171,7 +171,7 @@ export default function GaleriPage() {
                 </Link>
                 <Link href="/ppdb">
                   <button className="w-full sm:w-auto px-6 md:px-10 py-3.5 sm:py-4 md:py-5 rounded-pill bg-white/10 text-white font-bold border border-white/20 hover:bg-white/20 transition-all flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base md:text-lg min-h-[48px] sm:min-h-[52px]">
-                    Info PPDB
+                    Info SPMB
                   </button>
                 </Link>
               </div>

@@ -299,7 +299,7 @@ export default function Navbar() {
                     href="/ppdb"
                     className="btn-primary flex items-center gap-2 group text-sm px-5 py-2.5 glow-ring-primary"
                   >
-                    Daftar PPDB
+                    Daftar SPMB
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </>
@@ -475,7 +475,7 @@ export default function Navbar() {
                         className="btn-primary w-full justify-center gap-2 min-h-[52px]"
                       >
                         <GraduationCap className="w-4 h-4" />
-                        Daftar PPDB Online
+                        Daftar SPMB Online
                       </Link>
                     </>
                   )}

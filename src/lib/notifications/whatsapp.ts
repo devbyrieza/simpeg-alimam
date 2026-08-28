@@ -13,7 +13,7 @@ export async function sendWhatsAppOTP(
 ): Promise<{ success: boolean; messageId?: string; error?: string }> {
   try {
     // OTP Message Template
-    const message = `🔐 *Kode Verifikasi PPDB Al Andalus Al Imam*
+    const message = `🔐 *Kode Verifikasi SPMB Al Andalus Al Imam*
 
 Assalamu'alaikum *${nama}*,
 
@@ -29,7 +29,7 @@ Kode ini berlaku selama *5 menit*.
 
 Jazakumullahu khairan
 ---
-*Panitia PPDB Al Andalus Al Imam*`;
+*Panitia SPMB Al Andalus Al Imam*`;
 
     const result = await sendMessage({ phone, message });
 

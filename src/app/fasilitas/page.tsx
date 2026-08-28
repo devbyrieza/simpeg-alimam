@@ -761,7 +761,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
               </motion.div>
             </div>
 
-            {/* 7. Kantor PPDB & Tamu */}
+            {/* 7. Kantor SPMB & Tamu */}
             <div className="grid lg:grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
@@ -779,7 +779,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
                   </div>
 
                   <h3 className="text-3xl sm:text-2xl md:text-4xl lg:text-3xl font-black text-ink-950 mb-6 leading-[1.1]">
-                    Kantor PPDB <br className="hidden sm:block" /> & Tamu
+                    Kantor SPMB <br className="hidden sm:block" /> & Tamu
                   </h3>
                   <p className="text-base sm:text-lg lg:text-xl text-ink-600 mb-8 sm:mb-10 leading-relaxed font-medium">
                     Pusat informasi dan pendaftaran santri baru. Dilengkapi
@@ -828,7 +828,7 @@ Mohon konfirmasi kesediaan waktu kunjungan tersebut. Terima kasih.`;
                   <div className="relative w-full h-full rounded-[2.5rem] sm:rounded-[3.2rem] overflow-hidden">
                     <Image
                       src="/images/kantor-ppdb-tamu.webp"
-                      alt="Kantor PPDB Al Imam"
+                      alt="Kantor SPMB Al Imam"
                       fill
                       className="object-cover transition-transform duration-700 hover:scale-110"
                     />

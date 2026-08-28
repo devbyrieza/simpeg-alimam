@@ -160,7 +160,7 @@ export default function PengaturanPage() {
             </div>
             <div>
               <h2 className="text-3xl font-black text-slate-900 tracking-tight">Pengaturan</h2>
-              <p className="text-slate-500 font-medium mt-1">Konfigurasi sistem PPDB</p>
+              <p className="text-slate-500 font-medium mt-1">Konfigurasi sistem SPMB</p>
             </div>
           </div>
           <button
