@@ -35,6 +35,7 @@ interface PegawaiData {
 const KATEGORI_OPTIONS = [
   { value: "GURU", label: "Guru / Asatidz", desc: "Pengajar kelas & kajian", color: "blue" },
   { value: "MUSYRIF", label: "Musyrif / Pengasuh", desc: "Pembina asrama & santri", color: "purple" },
+    { value: "PENGAMPU", label: "Pengampu Halaqoh", desc: "Membimbing tahfidz", color: "indigo" },
   { value: "STAF", label: "Staf", desc: "Keuangan, Sapras, IT, Media", color: "emerald" },
   { value: "IBU_DAPUR", label: "Ibu Dapur", desc: "Konsumsi & dapur santri", color: "amber" },
   { value: "PIMPINAN", label: "Pimpinan / Manajemen", desc: "Mudir, Kepala Divisi (Kadiv), dll", color: "rose" },
@@ -503,7 +504,7 @@ export default function AdminPegawaiPage() {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto w-full">
-      {/* â”€â”€â”€ HEADER BAR â”€â”€â”€ */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ HEADER BAR Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
         <div className="flex items-center gap-4">
           <div className="p-3.5 bg-primary-100 text-primary-800 rounded-2xl shrink-0 shadow-inner">
@@ -536,7 +537,7 @@ export default function AdminPegawaiPage() {
         </div>
       </div>
 
-      {/* â”€â”€â”€ KONTEN TABEL PEGAWAI (RESPONSIF & RAPI) â”€â”€â”€ */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ KONTEN TABEL PEGAWAI (RESPONSIF & RAPI) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden w-full">
         {/* Search & Counter Toolbar */}
         <div className="p-4 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 bg-slate-50/50">
@@ -668,7 +669,7 @@ export default function AdminPegawaiPage() {
         </div>
       </div>
 
-      {/* â”€â”€â”€ DETAIL, ADD & FULL EDIT MODAL (PLATINUM STANDARD) â”€â”€â”€ */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ DETAIL, ADD & FULL EDIT MODAL (PLATINUM STANDARD) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <AnimatePresence>
         {modalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain bg-primary-950/60 backdrop-blur-md custom-scrollbar" onClick={closeModal}>
@@ -715,7 +716,7 @@ export default function AdminPegawaiPage() {
               {/* Body Modal (Scrollable with Touchpad Support & Clean Scrollbar) */}
               <div className="p-5 sm:p-8 overflow-y-auto space-y-6 overscroll-contain custom-scrollbar flex-1">
                 
-                {/* â”€â”€â”€ BAGIAN ATAS: FOTO & NAMA UTAMA â”€â”€â”€ */}
+                {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ BAGIAN ATAS: FOTO & NAMA UTAMA Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
                 <div className="flex flex-col md:flex-row gap-6 items-center md:items-start bg-slate-50/70 p-6 rounded-2xl border border-slate-200">
                   
                   {/* Foto Pasfoto + Upload / Ganti / Hapus */}
@@ -796,7 +797,7 @@ export default function AdminPegawaiPage() {
                           ))}
                         </div>
                         <p className="text-slate-500 text-sm font-medium">
-                          {selectedPegawai.jabatan || "Staf"} Â· {selectedPegawai.divisi || "Umum"} ({selectedPegawai.unit_kerja || "Pesantren Al-Imam"})
+                          {selectedPegawai.jabatan || "Staf"} Ã‚Â· {selectedPegawai.divisi || "Umum"} ({selectedPegawai.unit_kerja || "Pesantren Al-Imam"})
                         </p>
                       </>
                     ) : (
@@ -927,7 +928,7 @@ export default function AdminPegawaiPage() {
                               onChange={(e) => setFormData({ ...formData, divisi: e.target.value })}
                               className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 font-semibold"
                             >
-                              <option value="">â€” Pilih Divisi â€”</option>
+                              <option value="">Ã¢â‚¬â€ Pilih Divisi Ã¢â‚¬â€</option>
                               {DIVISI_OPTIONS.map((d) => (
                                 <option key={d} value={d}>{d}</option>
                               ))}
@@ -965,7 +966,7 @@ export default function AdminPegawaiPage() {
                   </div>
                 </div>
 
-                {/* â”€â”€â”€ BAGIAN BAWAH: DATA INDUK & IDENTITAS â”€â”€â”€ */}
+                {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ BAGIAN BAWAH: DATA INDUK & IDENTITAS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
                 <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                     <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
@@ -1101,7 +1102,7 @@ export default function AdminPegawaiPage() {
                           onChange={(e) => setFormData({ ...formData, pendidikan_terakhir: e.target.value })}
                           className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-primary-500/20 font-semibold"
                         >
-                          <option value="">â€” Pilih Pendidikan â€”</option>
+                          <option value="">Ã¢â‚¬â€ Pilih Pendidikan Ã¢â‚¬â€</option>
                           {PENDIDIKAN_OPTIONS.map((p) => (
                             <option key={p} value={p}>{p}</option>
                           ))}
