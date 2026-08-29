@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { full_name, email, phone, username } = body;
+    const { full_name, email, phone, username, foto_url } = body;
 
     if (!full_name) {
       return NextResponse.json(
@@ -75,7 +75,8 @@ export async function POST(request: Request) {
         full_name,
         email: email.toLowerCase().trim(),
         phone: phone || "",
-        username: username ? username.toLowerCase().trim() : null } });
+        username: username ? username.toLowerCase().trim() : null,
+        ...(foto_url !== undefined && { foto_url }) } });
 
     // Update the session cookie with new info
     const newSession = {
@@ -83,7 +84,8 @@ export async function POST(request: Request) {
       full_name: updatedProfile.full_name,
       email: updatedProfile.email,
       phone: updatedProfile.phone,
-      username: updatedProfile.username };
+      username: updatedProfile.username,
+      foto_url: updatedProfile.foto_url };
 
     const cookieStore = await cookies();
     cookieStore.set("app_session", JSON.stringify(newSession), {

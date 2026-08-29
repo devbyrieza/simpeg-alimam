@@ -7,7 +7,7 @@ import {
   Save,
   Loader2,
   CheckCircle2,
-  AlertCircle } from "lucide-react";
+  AlertCircle, Camera } from "lucide-react";
 
 interface UserSession {
   id: string;
@@ -16,6 +16,7 @@ interface UserSession {
   role: string;
   phone?: string;
   username?: string;
+  foto_url?: string;
 }
 
 export default function ProfileSettings({ user }: { user: UserSession }) {
@@ -27,6 +28,7 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
   const [email, setEmail] = useState(user?.email || "");
   const [phone, setPhone] = useState(user?.phone || "");
   const [username, setUsername] = useState(user?.username || "");
+  const [fotoUrl, setFotoUrl] = useState(user?.foto_url || "");
 
   // UI State
   const [loading, setLoading] = useState(false);
@@ -48,6 +50,22 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
     return roleMap[role] || role.replace("_", " ").toUpperCase();
   };
 
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setError("Ukuran foto maksimal 2MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFotoUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -67,7 +85,7 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
       const res = await fetch("/api/profile/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ full_name: fullName, email, phone, username }) });
+        body: JSON.stringify({ full_name: fullName, email, phone, username, foto_url: fotoUrl }) });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Gagal memperbarui profil");
@@ -154,9 +172,24 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
       <div className="bg-white border border-gray-100 rounded-2xl shadow-xs overflow-hidden">
         <div className="p-6 md:p-8 border-b border-gray-100">
           <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center text-primary-600">
-              <User className="w-8 h-8" />
-            </div>
+            
+              <div className="relative w-16 h-16 md:w-20 md:h-20 shrink-0 group">
+                <div className="w-full h-full rounded-full bg-primary-100 border border-primary-200 overflow-hidden flex items-center justify-center text-primary-600 shadow-sm relative">
+                  {fotoUrl ? (
+                    <img src={fotoUrl} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-8 h-8 md:w-10 md:h-10 text-primary-500" />
+                  )}
+                  
+                  {/* Upload Overlay */}
+                  <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                    <Camera className="w-5 h-5 mb-0.5" />
+                    <span className="text-[10px] font-semibold tracking-wider">UBAH</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+                  </label>
+                </div>
+              </div>
+
             <div>
               <h2 className="text-xl font-bold text-gray-900">
                 {fullName || user?.full_name}
