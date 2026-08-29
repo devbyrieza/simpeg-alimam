@@ -67,10 +67,35 @@ export async function POST(request: Request) {
       }
     }
 
-    // Update profile using the ID from the session
-    // In this system, profile.id is stored in session.id for interviewers/admins
+    // Find user profile with multi-tier lookup
+    let userToUpdate = null;
+    if (session.id) {
+      userToUpdate = await prisma.profile.findUnique({
+        where: { id: session.id }
+      }).catch(() => null);
+    }
+    if (!userToUpdate && session.email) {
+      userToUpdate = await prisma.profile.findFirst({
+        where: { email: session.email.toLowerCase().trim() }
+      });
+    }
+    if (!userToUpdate && session.username) {
+      userToUpdate = await prisma.profile.findFirst({
+        where: { username: session.username.toLowerCase().trim() }
+      });
+    }
+    if (!userToUpdate && session.full_name) {
+      userToUpdate = await prisma.profile.findFirst({
+        where: { full_name: session.full_name }
+      });
+    }
+
+    if (!userToUpdate) {
+      return NextResponse.json({ error: "Profil pengguna tidak ditemukan." }, { status: 404 });
+    }
+
     const updatedProfile = await prisma.profile.update({
-      where: { id: session.id },
+      where: { id: userToUpdate.id },
       data: {
         full_name,
         email: email.toLowerCase().trim(),
@@ -81,25 +106,31 @@ export async function POST(request: Request) {
     // Update the session cookie with new info
     const newSession = {
       ...session,
+      id: updatedProfile.id,
       full_name: updatedProfile.full_name,
       email: updatedProfile.email,
       phone: updatedProfile.phone,
       username: updatedProfile.username,
-      foto_url: updatedProfile.foto_url };
+      foto_url: updatedProfile.foto_url
+    };
 
     const cookieStore = await cookies();
+    const maxAge = 60 * 60 * 24 * 90; // 90 days
     cookieStore.set("app_session", JSON.stringify(newSession), {
       path: "/",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7, // 1 week
+      domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN || undefined,
+      maxAge,
+      expires: new Date(Date.now() + maxAge * 1000),
     });
 
     return NextResponse.json({
       success: true,
       message: "Profil Anda berhasil diperbarui.",
-      data: updatedProfile });
+      data: updatedProfile
+    });
   } catch (error: any) {
     console.error("POST profile/update error:", error);
     return NextResponse.json(
