@@ -7,7 +7,7 @@ import {
   Save,
   Loader2,
   CheckCircle2,
-  AlertCircle, Camera } from "lucide-react";
+  AlertCircle, Camera, AlertTriangle } from "lucide-react";
 
 interface UserSession {
   id: string;
@@ -17,6 +17,7 @@ interface UserSession {
   phone?: string;
   username?: string;
   foto_url?: string;
+  is_default_password?: boolean;
 }
 
 export default function ProfileSettings({ user }: { user: UserSession }) {
@@ -36,6 +37,7 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [profileSuccess, setProfileSuccess] = useState(false);
+  const [isDefaultPassword, setIsDefaultPassword] = useState(!!user?.is_default_password);
 
   const formatRoleDisplay = (role?: string) => {
     if (!role) return "-";
@@ -137,6 +139,7 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
       setSuccess(true);
       setNewPassword("");
       setConfirmPassword("");
+      setIsDefaultPassword(false); // Hide the warning banner
 
       // Auto hide success message after 5 seconds
       setTimeout(() => {
@@ -156,9 +159,21 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
           Profil Saya
         </h1>
         <p className="text-gray-500 mt-1">
-          Kelola informasi akun dan pengaturan keamanan Anda.
-        </p>
-      </div>
+            Kelola informasi akun dan pengaturan keamanan Anda.
+          </p>
+        </div>
+
+        {isDefaultPassword && (
+          <div className="p-4 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 flex items-start gap-3 shadow-sm animate-in fade-in slide-in-from-top-2">
+            <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-amber-600" />
+            <div>
+              <h3 className="text-sm font-bold text-amber-900">Perhatian: Keamanan Akun</h3>
+              <p className="text-sm mt-1 leading-relaxed">
+                Anda saat ini masih menggunakan kata sandi bawaan (default). Demi keamanan sistem dan data Anda, Anda <strong>diwajibkan</strong> untuk segera mengganti kata sandi di bawah ini. Anda tidak dapat mengakses menu lain sebelum mengganti kata sandi.
+              </p>
+            </div>
+          </div>
+        )}
 
       {/* Error Alert */}
       {error && (
