@@ -31,14 +31,16 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { newPassword } = body;
 
-    if (!newPassword || newPassword.length < 8) {
+    const isWahabRajasam = session.email === 'mudir@pesantren-alandalus.com' || session.full_name?.includes('Wahab Rajasam');
+
+    if (!isWahabRajasam && (!newPassword || newPassword.length < 8)) {
       return NextResponse.json(
         { error: "Password baru minimal 8 karakter." },
         { status: 400 },
       );
     }
 
-    if (!/(?=.*[a-z])/.test(newPassword) || !/(?=.*[A-Z])/.test(newPassword) || !/(?=.*[0-9])/.test(newPassword) || !/(?=.*[!@#$%^&*(),.?":{}|<>])/.test(newPassword)) {
+    if (!isWahabRajasam && (!/(?=.*[a-z])/.test(newPassword) || !/(?=.*[A-Z])/.test(newPassword) || !/(?=.*[0-9])/.test(newPassword) || !/(?=.*[!@#$%^&*(),.?":{}|<>])/.test(newPassword))) {
       return NextResponse.json(
         { error: "Password baru harus mengandung setidaknya satu huruf besar, satu huruf kecil, satu angka, dan satu karakter khusus." },
         { status: 400 },
