@@ -797,7 +797,7 @@ export default function AdminPegawaiPage() {
                           ))}
                         </div>
                         <p className="text-slate-500 text-sm font-medium">
-                          {selectedPegawai.jabatan || "Staf"} Ã‚Â· {selectedPegawai.divisi || "Umum"} ({selectedPegawai.unit_kerja || "Pesantren Al-Imam"})
+                          {selectedPegawai.jabatan || "Staf"} • {selectedPegawai.divisi || "Umum"} ({selectedPegawai.unit_kerja || "Pesantren Al-Imam"})
                         </p>
                       </>
                     ) : (
