@@ -39,7 +39,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isDefaultPassword = profile.must_change_password === true || password === "2026#@" || profile.plain_password === "2026#@";
+    const isWahabRajasam = profile.email === 'mudir@pesantren-alandalus.com' || profile.full_name?.includes('Wahab Rajasam');
+    const isDefaultPassword = !isWahabRajasam && (profile.must_change_password === true || password === "2026#@" || profile.plain_password === "2026#@");
 
     const responseJson = NextResponse.json({
       success: true,

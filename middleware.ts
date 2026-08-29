@@ -36,7 +36,10 @@ export function middleware(request: NextRequest) {
     sessionData = JSON.parse(sessionCookie.value);
   } catch (e) {}
 
-  if (sessionData && sessionData.is_default_password === true) {
+  // Pengecualian khusus untuk Wahab Rajasam (Mudir)
+  const isWahabRajasam = sessionData && (sessionData.email === "mudir@pesantren-alandalus.com" || sessionData.full_name?.includes("Wahab Rajasam"));
+
+  if (sessionData && sessionData.is_default_password === true && !isWahabRajasam) {
     const exemptedRoles = ["pendaftar", "santri", "wali_santri"];
     if (!exemptedRoles.includes(sessionData.role)) {
       // Allow access to API for changing password and logout

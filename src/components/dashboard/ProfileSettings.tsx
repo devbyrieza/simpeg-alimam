@@ -112,10 +112,7 @@ export default function ProfileSettings({ user }: { user: UserSession }) {
       return;
     }
 
-    if (newPassword.length < 8) {
-      setError("Password baru minimal 8 karakter, mengandung huruf besar, kecil, angka, dan karakter khusus.");
-      return;
-    }
+    
 
     if (newPassword !== confirmPassword) {
       setError("Konfirmasi password tidak cocok dengan password baru.");
