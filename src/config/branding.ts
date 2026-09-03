@@ -1,4 +1,4 @@
-export const BRANDING = {
+﻿export const BRANDING = {
   schoolName: process.env.NEXT_PUBLIC_SCHOOL_NAME || "Pesantren Al Imam Al Islami",
   schoolShortName: process.env.NEXT_PUBLIC_SCHOOL_SHORT_NAME || "Al Imam Al Islami",
   schoolLegalName: process.env.NEXT_PUBLIC_SCHOOL_LEGAL_NAME || "Pesantren Al Imam Managed by Al Andalus IIBS",
@@ -12,7 +12,7 @@ export const BRANDING = {
   logoPath: process.env.NEXT_PUBLIC_LOGO_PATH || "/images/logo-alimam.png",
   faviconPath: process.env.NEXT_PUBLIC_FAVICON_PATH || "/favicon.ico",
   websiteUrl:
-    process.env.NEXT_PUBLIC_WEBSITE_URL || "https://ppdb.pesantren-alimam.com",
+    process.env.NEXT_PUBLIC_WEBSITE_URL || "https://spmb.pesantren-alimam.com",
   dashboardTitle: process.env.NEXT_PUBLIC_DASHBOARD_TITLE || "SIMPEG (Sistem Informasi Manajemen Kepegawaian)",
   address:
     process.env.NEXT_PUBLIC_ADDRESS ||
@@ -26,3 +26,4 @@ export const BRANDING = {
   fbUrl:
     process.env.NEXT_PUBLIC_FB_URL || "https://www.facebook.com/wahab.rajasam/",
   twitterUrl: process.env.NEXT_PUBLIC_TWITTER_URL || "#" };
+
