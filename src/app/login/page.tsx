@@ -79,12 +79,13 @@ export default function LoginPage() {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4wMiIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTAgNjBoNjBNNjAgMGwwIDYwIi8+PC9nPjwvc3ZnPg==')] opacity-70 pointer-events-none" />
 
       {/* Top Navigation Pills (OMI Standard) */}
-      <div className="w-full max-w-md flex items-center justify-between gap-3 mb-5 relative z-10">
+      <div className="w-full max-w-5xl lg:max-w-6xl flex items-center justify-between gap-3 mb-4 relative z-10">
         <a
           href="https://pesantren-alimam.com"
           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-white/95 border border-slate-200/90 shadow-2xs text-xs font-extrabold uppercase tracking-wider text-slate-700 hover:text-[#550000] hover:border-[#550000]/40 transition-all hover:-translate-y-0.5"
         >
-          <span>← Beranda Utama</span>
+          <ArrowRight className="w-3.5 h-3.5 rotate-180" />
+          <span>Beranda Utama</span>
         </a>
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/95 border border-slate-200/90 shadow-2xs text-xs font-bold text-slate-700">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -92,41 +93,89 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Two-Section OMI Card */}
-      <div className="w-full max-w-md rounded-3xl overflow-hidden shadow-xl shadow-slate-900/5 border border-slate-200 bg-white relative z-10">
+      {/* Two-Panel OMI Card (Desktop Split / Mobile Stacked) */}
+      <div className="w-full max-w-5xl lg:max-w-6xl rounded-3xl overflow-hidden shadow-2xl shadow-slate-950/10 border border-slate-200 bg-white grid grid-cols-1 lg:grid-cols-12 relative z-10">
         
-        {/* Section 1: Dark Maroon Gradient Header */}
-        <div className="bg-gradient-to-br from-[#2D0000] via-[#400000] to-[#550000] p-7 text-center text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-36 h-36 bg-[#ddc192]/15 rounded-full blur-2xl pointer-events-none" />
+        {/* Sisi Kiri: Panel Identitas & 2 Bento Unggulan (Desktop: 5 Columns) */}
+        <div className="lg:col-span-5 bg-gradient-to-br from-[#2D0000] via-[#400000] to-[#550000] p-6 sm:p-8 lg:p-10 text-white relative overflow-hidden flex flex-col justify-between">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#ddc192]/10 rounded-full blur-3xl pointer-events-none" />
           
-          <div className="relative z-10 space-y-2.5">
-            <div className="w-16 h-16 bg-white rounded-2xl p-2 mx-auto shadow-md border border-white/20 flex items-center justify-center">
+          <div className="relative z-10 space-y-6">
+            <div className="inline-flex items-center gap-3 bg-white px-3.5 py-2 rounded-2xl shadow-sm">
               <Image
                 src="/images/logo-alimam.png"
                 alt="Logo Al-Imam"
-                width={48}
-                height={48}
-                className="w-12 h-12 object-contain"
+                width={28}
+                height={28}
+                className="w-7 h-7 object-contain"
                 priority
               />
-            </div>
-            <div>
-              <h1 className="text-2xl font-black tracking-tight text-white">
+              <span className="text-xs font-extrabold text-slate-900 tracking-tight">
                 SIMPEG AL-IMAM
-              </h1>
-              <p className="text-xs text-[#ddc192] font-semibold mt-0.5">
-                Sistem Informasi Manajemen Pegawai &amp; SDM
+              </span>
+            </div>
+
+            <div>
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#ddc192] bg-white/10 px-3 py-1 rounded-full border border-white/15 inline-block mb-3">
+                Manajemen SDM &amp; Kepegawaian
+              </span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug">
+                Portal Kepegawaian &amp; SDM
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-200/90 font-normal mt-2 leading-relaxed">
+                Sistem Informasi Manajemen Pegawai terpadu untuk pengelolaan profil asatidzah, penilaian kinerja, dan administrasi pesantren.
               </p>
             </div>
-            <p className="text-[11px] text-slate-300 font-medium tracking-wider uppercase">
-              Pesantren Al-Imam Al-Islami Sukabumi
-            </p>
+
+            {/* 2 Kartu Bento Fitur Unggulan */}
+            <div className="space-y-3 pt-2">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 flex items-center gap-3.5 shadow-sm">
+                <div className="w-11 h-11 rounded-xl bg-[#ddc192]/20 border border-[#ddc192]/30 flex items-center justify-center shrink-0 text-[#ddc192]">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs sm:text-sm font-extrabold text-white">
+                    Manajemen SDM Terpusat
+                  </h4>
+                  <p className="text-[11px] text-slate-300 font-normal">
+                    Database pegawai, berkas &amp; riwayat karir
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 flex items-center gap-3.5 shadow-sm">
+                <div className="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center shrink-0 text-emerald-300">
+                  <ArrowRight className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs sm:text-sm font-extrabold text-white">
+                    Administrasi &amp; Presensi Digital
+                  </h4>
+                  <p className="text-[11px] text-slate-300 font-normal">
+                    Layanan cepat, transparan dan akuntabel
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative z-10 pt-6 mt-6 border-t border-white/10 text-[11px] text-slate-300/80 font-medium flex items-center justify-between">
+            <span>Bagian Kepegawaian &bull; SIMPEG Al-Imam</span>
+            <span className="text-[#ddc192]">&bull; Terintegrasi</span>
           </div>
         </div>
 
-        {/* Section 2: White Body Card */}
-        <div className="p-7 space-y-5 bg-white">
+        {/* Sisi Kanan: White Form Body (Desktop: 7 Columns) */}
+        <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 bg-white space-y-5 flex flex-col justify-center">
           
+          <div>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+              Masuk Portal SIMPEG
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-500 font-normal mt-1 leading-relaxed">
+              Silakan masukkan kredensial akun staf atau asatidzah Anda.
+            </p>
+          </div>
           {/* Info Banner Box */}
           <div className="p-3.5 rounded-2xl bg-[#ddc192]/15 border border-[#ddc192]/40 text-xs text-[#550000] flex items-center gap-2.5">
             <ShieldCheck className="w-4 h-4 text-[#550000] shrink-0" />
@@ -238,9 +287,8 @@ export default function LoginPage() {
       </div>
 
       <p className="text-center text-xs text-slate-400 mt-6 font-medium">
-        &copy; 2026 Pesantren Al-Imam Al-Islami &bull; SIMPEG v1.0
+        &copy; 2026 Pesantren Al-Imam Al-Islami &bull; SIMPEG v2.0
       </p>
-
     </main>
   );
 }
