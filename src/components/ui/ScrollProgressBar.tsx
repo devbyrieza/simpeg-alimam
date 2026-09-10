@@ -1,6 +1,6 @@
-// src/components/ui/ScrollProgressBar.tsx — alimam variant
 "use client";
 
+// src/components/ui/ScrollProgressBar.tsx — alimam variant
 import { useEffect, useState } from "react";
 
 interface ScrollProgressBarProps {

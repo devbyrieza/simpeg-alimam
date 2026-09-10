@@ -1,7 +1,7 @@
-// src/components/ui/InfiniteMarquee.tsx
-// Infinite marquee strip — inspired by cekat.ai social proof strips
 "use client";
 
+// src/components/ui/InfiniteMarquee.tsx
+// Infinite marquee strip — inspired by cekat.ai social proof strips
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
