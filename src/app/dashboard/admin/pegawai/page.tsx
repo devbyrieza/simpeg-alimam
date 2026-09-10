@@ -141,17 +141,7 @@ export default function AdminPegawaiPage() {
     }
   }, [formData, isAddingNew, modalOpen]);
 
-  // Lock body scroll when modal is open to prevent background page scroll leak
-  useEffect(() => {
-    if (modalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [modalOpen]);
+  // Lock body scroll when modal is open to prevent background page scroll leak
 
   const fetchPegawai = async () => {
     try {

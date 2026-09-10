@@ -217,18 +217,6 @@ export default function PendaftarDetailPage() {
     catatan_arab: "" });
   const [savingNilai, setSavingNilai] = useState(false);
 
-  
-  useEffect(() => {
-    if (isEditModalOpen || isNilaiModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isEditModalOpen, isNilaiModalOpen]);
-
   useEffect(() => {
     const fetchSession = async () => {
       try {
