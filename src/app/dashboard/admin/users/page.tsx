@@ -106,6 +106,18 @@ export default function UserManagementPage() {
     jenis_kelamin: "" });
 
   // AUTOSAVE: Load Draft
+  
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isModalOpen]);
+
   useEffect(() => {
     try {
       const draft = localStorage.getItem("users_form_draft");

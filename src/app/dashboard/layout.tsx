@@ -117,7 +117,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Mobile Sidebar Overlay */}
       {isMobileOpen && (
-        <div 
+        <div onWheel={(e) => e.stopPropagation()} data-modal="true" aria-modal="true" role="dialog" 
           className="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm overscroll-contain"
           onClick={closeMobileSidebar}
         />

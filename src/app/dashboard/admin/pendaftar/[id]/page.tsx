@@ -217,6 +217,18 @@ export default function PendaftarDetailPage() {
     catatan_arab: "" });
   const [savingNilai, setSavingNilai] = useState(false);
 
+  
+  useEffect(() => {
+    if (isEditModalOpen || isNilaiModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isEditModalOpen, isNilaiModalOpen]);
+
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -2230,7 +2242,7 @@ export default function PendaftarDetailPage() {
       </div>
       {/* Edit Data Modal */}
       {isEditModalOpen && editFormData && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-start md:items-center pt-10 md:pt-0 pb-20 md:pb-0 justify-center z-50 p-4 overflow-y-auto overflow-x-hidden overscroll-contain custom-scrollbar">
+        <div onWheel={(e) => e.stopPropagation()} data-modal="true" aria-modal="true" role="dialog" className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-start md:items-center pt-10 md:pt-0 pb-20 md:pb-0 justify-center z-50 p-4 overflow-y-auto overflow-x-hidden overscroll-contain custom-scrollbar">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden border border-stone-200">
             {/* Modal Header */}
             <div className="bg-primary-950 p-6 text-white flex items-center justify-between border-b border-primary-900">
@@ -3076,7 +3088,7 @@ export default function PendaftarDetailPage() {
 
       {/* MODAL INPUT NILAI MANUAL (ADMIN SUPER ONLY) */}
       {isNilaiModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overscroll-contain">
+        <div onWheel={(e) => e.stopPropagation()} data-modal="true" aria-modal="true" role="dialog" className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overscroll-contain">
           <div
             className="absolute inset-0 bg-ink-950/60 backdrop-blur-sm"
             onClick={() => setIsNilaiModalOpen(false)}

@@ -672,7 +672,7 @@ export default function AdminPegawaiPage() {
       {/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ DETAIL, ADD & FULL EDIT MODAL (PLATINUM STANDARD) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <AnimatePresence>
         {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain bg-primary-950/60 backdrop-blur-md custom-scrollbar" onClick={closeModal}>
+          <div onWheel={(e) => e.stopPropagation()} data-modal="true" aria-modal="true" role="dialog" className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain bg-primary-950/60 backdrop-blur-md custom-scrollbar" onClick={closeModal}>
             {/* Modal Box */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
