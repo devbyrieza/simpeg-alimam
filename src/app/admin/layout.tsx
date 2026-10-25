@@ -20,7 +20,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
+    <div className="min-h-dvh bg-slate-50 flex flex-col md:flex-row">
       {/* Sidebar Admin */}
       <aside className="w-full md:w-64 bg-slate-900 text-white flex-shrink-0 print:hidden overscroll-contain">
         <div className="p-6 border-b border-slate-800">

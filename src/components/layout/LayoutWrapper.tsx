@@ -21,7 +21,7 @@ export default function LayoutWrapper({
   useScrollRestoration();
 
   return (
-    <div className="relative min-h-screen flex flex-col font-sans">
+    <div className="relative min-h-dvh flex flex-col font-sans">
       <main className="flex-1">
         <PageTransition>{children}</PageTransition>
       </main>

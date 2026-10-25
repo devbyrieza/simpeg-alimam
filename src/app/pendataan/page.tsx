@@ -267,7 +267,7 @@ export default function PendataanPage() {
   // SUCCESS STATE
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-primary-50/30 flex items-center justify-center p-4">
+      <div className="min-h-dvh bg-gradient-to-br from-slate-50 to-primary-50/30 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -306,7 +306,7 @@ export default function PendataanPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-primary-50/20 py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-dvh bg-gradient-to-br from-slate-50 via-white to-primary-50/20 py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Ambient background */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-primary-100/40 rounded-full blur-[150px] pointer-events-none max-w-full" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-slate-200/30 rounded-full blur-[100px] pointer-events-none max-w-full" />

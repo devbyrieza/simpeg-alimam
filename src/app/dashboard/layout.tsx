@@ -103,7 +103,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   );
 
   return (
-    <div className="min-h-screen flex bg-slate-50 flex-col md:flex-row">
+    <div className="min-h-dvh flex bg-slate-50 flex-col md:flex-row">
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between bg-primary-950 p-4 text-white shadow-md z-40 sticky top-0">
         <div className="flex items-center gap-2 font-black text-sm">

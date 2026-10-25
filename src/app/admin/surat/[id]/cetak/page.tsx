@@ -49,7 +49,7 @@ export default function CetakSuratPage({ params }: { params: Promise<{ id: strin
   });
 
   return (
-    <div className="bg-slate-100 min-h-screen pb-12 print:bg-white print:pb-0">
+    <div className="bg-slate-100 min-h-dvh pb-12 print:bg-white print:pb-0">
       
       {/* Control Bar (Hidden on Print) */}
       <div className="sticky top-0 z-50 bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center print:hidden shadow-sm">
