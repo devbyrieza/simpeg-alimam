@@ -773,7 +773,8 @@ export default function VerifikasiDokumenDetailPage() {
                   href={previewDoc.url}
                   target="_blank"
                   className="p-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-white backdrop-blur-md transition-all flex items-center gap-2 text-xs font-bold"
-                  onClick={(e) = rel="noopener noreferrer"> e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}
+                  rel="noopener noreferrer"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Buka Tab Baru
