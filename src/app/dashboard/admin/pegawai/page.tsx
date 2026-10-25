@@ -548,7 +548,7 @@ export default function AdminPegawaiPage() {
 
         {/* Responsive Table Wrapper */}
         <div className="w-full overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600 min-w-[960px]">
+          <table className="w-full text-left text-sm text-slate-600 min-w-[960px] max-w-full">
             <thead className="bg-slate-50 text-slate-800 font-bold border-b border-slate-200">
               <tr>
                 <th className="px-4 py-3.5 whitespace-nowrap w-14 text-center">No</th>

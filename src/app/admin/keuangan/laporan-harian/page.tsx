@@ -122,7 +122,8 @@ export default function LaporanHarianPage() {
         {/* Detail Penjualan */}
         <div>
           <h3 className="text-lg font-black text-slate-900 mb-4">Rincian Transaksi Terakhir</h3>
-          <table className="w-full text-left text-sm border-collapse">
+          <div className="w-full overflow-x-auto">
+<table className="w-full text-left text-sm border-collapse">
             <thead>
               <tr className="bg-slate-900 text-white">
                 <th className="p-3 font-bold rounded-tl-xl">Waktu</th>
@@ -158,6 +159,7 @@ export default function LaporanHarianPage() {
               </tr>
             </tfoot>
           </table>
+</div>
         </div>
 
         {/* Tanda Tangan */}

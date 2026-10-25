@@ -93,7 +93,7 @@ export default function DaftarSuratPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse min-w-[800px] max-w-full">
             <thead>
               <tr className="bg-slate-50 text-slate-500 text-sm font-bold border-b border-slate-200">
                 <th className="px-6 py-4">Nomor & Tanggal</th>

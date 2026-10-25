@@ -93,13 +93,15 @@ export default function CetakSuratPage({ params }: { params: Promise<{ id: strin
           {/* Metadata Surat */}
           <div className="flex justify-between items-start mb-8 text-black text-[15px]">
             <div>
-              <table className="border-none">
+              <div className="w-full overflow-x-auto">
+<table className="border-none">
                 <tbody>
                   <tr><td className="w-24 py-1">Nomor</td><td className="px-2">:</td><td className="font-bold">{surat.nomor_surat}</td></tr>
                   <tr><td className="w-24 py-1">Lampiran</td><td className="px-2">:</td><td>-</td></tr>
                   <tr><td className="w-24 py-1 align-top">Perihal</td><td className="px-2 align-top">:</td><td className="font-bold">{surat.perihal}</td></tr>
                 </tbody>
               </table>
+</div>
             </div>
             <div className="text-right">
               Klaten, {tanggalFormatted}

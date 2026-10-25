@@ -424,7 +424,7 @@ export default function UndanganSeleksiTab() {
             href="/dashboard/pendaftar/kartu-ujian"
             target="_blank"
             className="bg-white/20 hover:bg-white/30 text-white border border-white/50 px-4 py-2 rounded-xl flex items-center gap-2 transition-all font-black backdrop-blur-sm text-sm"
-          >
+           rel="noopener noreferrer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"

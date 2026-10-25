@@ -180,7 +180,8 @@ export default function ExamCardPage() {
               <h3 className="font-bold border-b border-black mb-2 pb-1 uppercase text-sm">
                 Rincian Jadwal Seleksi
               </h3>
-              <table className="w-full border-collapse border border-black text-sm">
+              <div className="w-full overflow-x-auto">
+<table className="w-full border-collapse border border-black text-sm">
                 <thead>
                   <tr className="bg-gray-100">
                     <th className="border border-black p-2 text-left">
@@ -223,6 +224,7 @@ export default function ExamCardPage() {
                   )}
                 </tbody>
               </table>
+</div>
             </div>
 
             {/* Tata Tertib */}

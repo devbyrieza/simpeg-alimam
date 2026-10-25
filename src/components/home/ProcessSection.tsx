@@ -138,13 +138,13 @@ export default function ProcessSection() {
     >
       {/* Background glow */}
       <div
-        className="absolute -top-32 right-0 translate-x-1/3 w-[500px] h-[500px] pointer-events-none"
+        className="absolute -top-32 right-0 translate-x-1/3 w-[500px] h-[500px] pointer-events-none max-w-full"
         style={{
           background:
             "radial-gradient(circle, rgba(254,243,199,0.4) 0%, transparent 65%)" }}
       />
       <div
-        className="absolute -bottom-24 left-0 -translate-x-1/3 w-[400px] h-[400px] pointer-events-none"
+        className="absolute -bottom-24 left-0 -translate-x-1/3 w-[400px] h-[400px] pointer-events-none max-w-full"
         style={{
           background:
             "radial-gradient(circle, rgba(253,242,242,0.4) 0%, transparent 65%)" }}

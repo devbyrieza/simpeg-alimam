@@ -530,7 +530,8 @@ export default function MonitoringJadwalPage() {
                                     <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Penguji Al-Qur'an / Pewawancara</span>
                                 </div>
                                 <div className="p-0">
-                                    <table className="w-full text-left border-collapse">
+                                    <div className="w-full overflow-x-auto">
+<table className="w-full text-left border-collapse">
                                         <thead>
                                             <tr className="bg-slate-50/20">
                                                 <th className="px-7 py-4 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100/50">Santri</th>
@@ -570,6 +571,7 @@ export default function MonitoringJadwalPage() {
                                             ))}
                                         </tbody>
                                     </table>
+</div>
                                 </div>
                             </div>
                         ))}

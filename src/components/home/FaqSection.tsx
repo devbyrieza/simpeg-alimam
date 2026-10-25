@@ -125,7 +125,7 @@ export default function FaqSection() {
     <section id="faq" className="section-std relative overflow-hidden">
       {/* Background glow — gold kiri tengah */}
       <div
-        className="absolute top-1/2 -left-32 -translate-y-1/2 w-[380px] h-[380px] pointer-events-none"
+        className="absolute top-1/2 -left-32 -translate-y-1/2 w-[380px] h-[380px] pointer-events-none max-w-full"
         style={{
           background:
             "radial-gradient(circle, rgba(254,243,199,0.5) 0%, transparent 65%)" }}

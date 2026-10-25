@@ -119,7 +119,7 @@ export default function DashboardPendaftarPage() {
 function HeroBanner({ nama, nomorPendaftaran, lastUpdate }: any) {
   return (
     <div className="relative overflow-hidden rounded-[2.5rem] md:rounded-[3.5rem] bg-linear-to-br from-primary-700 to-primary-900 text-white p-5 md:p-8 shadow-2xl border border-primary-600/50">
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-400/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-400/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2 max-w-full" />
       <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
         <div className="flex-1 space-y-6">
           <div className="flex flex-wrap items-center gap-3">
@@ -281,7 +281,7 @@ function SupportCenter() {
           href="https://wa.me/6281285300800"
           target="_blank"
           className="px-6 md:px-12 py-5 bg-gold-400 text-primary-950 font-black text-sm uppercase tracking-widest rounded-[1.5rem] hover:bg-gold-300 shadow-xl transition-all hover:scale-105 active:scale-95 text-center"
-        >
+         rel="noopener noreferrer">
           Chat WhatsApp Panitia
         </a>
       </div>
